@@ -1,14 +1,62 @@
-import { anacondaDesktopDict, dict as en } from "./en"
+import { dict as en } from "./en"
+
+export const anacondaDesktopDict = {
+  "provider.anaconda.title.connect": "Anaconda Desktop 연결",
+  "provider.anaconda.title.manage": "Anaconda Desktop 관리",
+  "provider.anaconda.status.checking": "Anaconda Desktop 확인 중...",
+  "provider.anaconda.status.opening": "Anaconda Desktop 여는 중...",
+  "provider.anaconda.status.syncing": "공급자 모델 새로 고치는 중...",
+  "provider.anaconda.status.ready": "연결할 준비됨",
+  "provider.anaconda.status.waiting": "Desktop 대기 중",
+  "provider.anaconda.status.attention": "주의 필요",
+  "provider.anaconda.status.unavailable": "사용할 수 없음",
+  "provider.anaconda.state.unsupported": "Anaconda Desktop은 {{platform}}에서 지원되지 않습니다.",
+  "provider.anaconda.state.notInstalled":
+    "이 컴퓨터에 Anaconda Desktop을 설치한 후 여기로 돌아오세요. Kilo는 설치 프로그램을 대신 실행하지 않습니다.",
+  "provider.anaconda.state.notRunning":
+    "Anaconda Desktop을 열고 설정을 완료한 후 로그인한 다음 다시 확인을 선택하세요.",
+  "provider.anaconda.state.invalidConfig":
+    "Anaconda Desktop 설정이 완료되지 않았습니다. Desktop을 열고 설정을 완료한 후 필요하면 다시 시작하세요.",
+  "provider.anaconda.state.signedOut": "Kilo를 연결하기 전에 Anaconda Desktop을 열고 로그인하세요.",
+  "provider.anaconda.state.unauthorized":
+    "Kilo가 Anaconda Desktop에 접근할 수 없습니다. Desktop을 열고 다시 로그인한 후 필요하면 다시 시작하세요.",
+  "provider.anaconda.state.unavailable":
+    "Anaconda Desktop이 아직 응답하지 않습니다. 열어서 애플리케이션이 완전히 시작될 때까지 기다리세요.",
+  "provider.anaconda.state.noModel":
+    "Anaconda Desktop에서 텍스트 생성 모델을 다운로드하세요. 가능하면 도구 호출을 지원하는 모델을 선택한 후 서버를 시작하세요.",
+  "provider.anaconda.state.noServer_one":
+    "다운로드된 텍스트 생성 모델 1개를 사용할 수 있습니다. Anaconda Desktop에서 모델 서버를 시작하세요. 도구 호출을 지원하는 모델을 강력히 권장합니다.",
+  "provider.anaconda.state.noServer_other":
+    "다운로드된 텍스트 생성 모델 {{count}}개를 사용할 수 있습니다. Anaconda Desktop에서 모델 서버를 시작하세요. 도구 호출을 지원하는 모델을 강력히 권장합니다.",
+  "provider.anaconda.state.unhealthy":
+    "활성 추론 서버가 아직 정상이 아닙니다. Anaconda Desktop에서 확인하고 필요하면 서버를 다시 시작하세요.",
+  "provider.anaconda.state.ready":
+    "Kilo가 정상적인 로컬 텍스트 생성 서버를 찾았으며 현재 연결 설정을 가져올 수 있습니다.",
+  "provider.anaconda.server": "활성 추론 서버",
+  "provider.anaconda.context": "컨텍스트 창",
+  "provider.anaconda.contextValue": "{{count}} 토큰",
+  "provider.anaconda.tools": "도구 호출",
+  "provider.anaconda.tools.supported": "지원됨",
+  "provider.anaconda.tools.unsupported": "사용 안 함",
+  "provider.anaconda.tools.unknown": "알 수 없음",
+  "provider.anaconda.warning.title": "도구 지원이 제한적입니다",
+  "provider.anaconda.warning.description":
+    "이 서버는 도구 호출을 확인하지 않습니다. 코딩 에이전트 작업이 실패하거나 사용할 수 없을 수 있습니다. 이러한 제한을 감수하는 경우에만 계속하세요.",
+  "provider.anaconda.action.download": "Anaconda Desktop 다운로드",
+  "provider.anaconda.action.open": "Anaconda Desktop 열기",
+  "provider.anaconda.action.checkAgain": "다시 확인",
+  "provider.anaconda.action.continue": "계속하기",
+  "provider.anaconda.action.manage": "관리 / 새로 고침",
+  "provider.anaconda.toast.refreshed.title": "Anaconda Desktop 새로 고침됨",
+  "provider.anaconda.toast.refreshed.description": "활성 로컬 서버와 모델이 Kilo에서 최신 상태입니다.",
+  "settings.providers.note.anacondaDesktop": "Anaconda Desktop이 로컬에서 제공하는 모델을 실행합니다.",
+  "settings.providers.tag.local": "로컬",
+} as const
 
 type Keys = keyof typeof en
 
 export const dict = {
   ...anacondaDesktopDict,
-  "provider.anaconda.action.checkAgain": "다시 확인",
-  "provider.anaconda.state.noServer_one":
-    "다운로드된 텍스트 생성 모델 1개를 사용할 수 있습니다. Anaconda Desktop에서 모델 서버를 시작하세요. 도구 호출을 지원하는 모델을 강력히 권장합니다.",
-  "provider.anaconda.state.noServer_other":
-    "다운로드된 텍스트 생성 모델 {{count}}개를 사용할 수 있습니다. Anaconda Desktop에서 모델 서버를 시작하세요. 도구 호출을 지원하는 모델을 강력히 권장합니다.",
   "command.category.suggested": "추천",
   "command.category.view": "보기",
   "command.category.project": "프로젝트",
@@ -92,7 +140,14 @@ export const dict = {
   "revert.banner.count_other": "{{count}}개 메시지 되돌림",
   "revert.banner.redo": "다시 실행",
   "revert.banner.redo.all": "모두 다시 실행",
-  "revert.banner.hint": "새 메시지를 보내 이를 영구적으로 만드세요",
+  "revert.banner.hint": "You can redo these changes until you send a new message",
+  "revert.banner.workspace.snapshotsDisabled":
+    "대화를 되돌렸습니다. 스냅샷이 비활성화되어 있어 파일 변경 사항은 복원되지 않았습니다.",
+  "revert.banner.workspace.unavailable":
+    "대화를 되돌렸습니다. 사용 가능한 파일 체크포인트가 없어 작업 공간 변경 사항은 복원되지 않았습니다.",
+  "revert.banner.workspace.legacy":
+    "대화가 되돌려졌습니다. 이 이전 되돌리기에서는 작업 영역 복원 상태를 확인할 수 없습니다.",
+  "revert.banner.workspace.enableSnapshots": "스냅샷 활성화",
   "revert.disabled.agentBusy": "에이전트가 완료될 때까지 기다리세요",
   "command.session.compact": "세션 압축",
   "command.session.compact.description": "컨텍스트 크기를 줄이기 위해 세션 요약",
@@ -103,6 +158,30 @@ export const dict = {
   "command.session.unshare": "세션 공유 중지",
   "command.session.unshare.description": "이 세션 공유 중지",
   "command.session.export": "세션 기록 내보내기",
+
+  "agentRequirements.skill.installed": "설치됨",
+  "agentRequirements.skill.checkFailed": "스킬 확인에 실패했습니다",
+  "agentRequirements.skill.missing": "설치되지 않음",
+  "agentRequirements.mcp.connected": "연결됨",
+  "agentRequirements.mcp.checkFailed": "MCP 확인에 실패했습니다",
+  "agentRequirements.mcp.missing": "연결되지 않음",
+  "agentRequirements.extension.installed": "설치됨",
+  "agentRequirements.extension.checkFailed": "VS Code 확장 확인에 실패했습니다",
+  "agentRequirements.extension.missing": "설치되지 않음",
+  "agentRequirements.extension.description": "VS Code에서 누락된 확장을 설치하세요.",
+  "agentRequirements.group.skills": "스킬",
+  "agentRequirements.group.mcps": "MCP",
+  "agentRequirements.group.extensions": "VS Code 확장",
+  "agentRequirements.blocked.title": "{{agent}} 에이전트 필수 조건",
+  "agentRequirements.blocked.description": "이 에이전트를 실행하려면 다음 도구가 필요합니다.",
+  "agentRequirements.prompt.blocked": "이 에이전트를 사용하려면 먼저 필요한 확인을 완료하세요",
+  "agentRequirements.action.openMarketplace": "Marketplace 열기",
+  "agentRequirements.error.unknownAgent": "선택한 에이전트를 찾을 수 없습니다.",
+  "agentRequirements.error.malformedDeclaration": "이 에이전트의 요구 사항 선언이 올바르지 않습니다.",
+  "agentRequirements.error.discoveryFailed": "Kilo가 사용 가능한 스킬을 확인하지 못했습니다.",
+  "agentRequirements.error.mcpStatusFailed": "Kilo가 MCP 서버 상태를 확인하지 못했습니다.",
+  "agentRequirements.error.scopeMismatch": "이 에이전트 요구 사항 확인은 더 이상 활성 상태가 아닙니다.",
+  "agentRequirements.error.requestFailed": "Kilo가 에이전트 요구 사항을 확인하지 못했습니다.",
 
   "palette.search.placeholder": "파일, 명령어 및 세션 검색",
   "palette.empty": "결과 없음",
@@ -280,6 +359,7 @@ export const dict = {
   "prompt.context.includeActiveFile": "활성 파일 포함",
   "prompt.context.removeActiveFile": "컨텍스트에서 활성 파일 제거",
   "prompt.context.removeFile": "컨텍스트에서 파일 제거",
+  "prompt.thinking.tooltip": "추론 강도",
   "prompt.action.attachFile": "파일 첨부",
   "prompt.attachment.remove": "첨부 파일 제거",
   "prompt.action.send": "전송",
@@ -314,6 +394,7 @@ export const dict = {
     "클릭하면 파일 시스템 쓰기를 제한합니다. 샌드박스 설정에 따라 네트워크 액세스는 계속 허용됩니다.",
 
   "speechToText.tooltip.start": "Kilo Gateway로 음성 입력 시작",
+  "speechToText.tooltip.starting": "마이크를 시작하는 중... 잠시 후 말씀해 주세요.",
   "speechToText.tooltip.stop": "음성 캡처 중지",
   "speechToText.tooltip.transcribing": "변환 중... 취소하려면 클릭하세요.",
   "speechToText.tooltip.error": "음성 입력에 실패했습니다. 지우려면 클릭하세요.",
@@ -556,7 +637,7 @@ export const dict = {
   "ui.permission.toolLabel.grepSearch": "Grep 검색",
   "ui.permission.toolLabel.webSearch": "웹 검색",
   "ui.permission.toolLabel.list": "목록",
-  "ui.permission.toolLabel.externalDirectory": "외부 디렉토리 읽기",
+  "ui.permission.toolLabel.externalDirectory": "외부 디렉터리에 액세스",
   "ui.permission.toolLabel.webFetch": "웹 가져오기",
   "ui.permission.toolLabel.task": "작업",
   "ui.permission.toolLabel.skill": "스킬",
@@ -567,6 +648,16 @@ export const dict = {
   "ui.permission.toolLabel.codeSearch": "코드 검색",
   "ui.permission.toggleWrap": "줄 바꿈 전환",
   "ui.permission.copyCommand": "복사",
+  "ui.approval.auto": "자동 승인됨",
+  "ui.approval.manual": "사용자가 승인함",
+  "ui.approval.rule": "`{{permission}}` 규칙 `{{pattern}}`과(와) 일치",
+  "ui.approval.source.agent": "{{agent}} 에이전트에 의해",
+  "ui.approval.source.agent.default": "에이전트에 의해",
+  "ui.approval.source.global": "전역 설정에 의해",
+  "ui.approval.source.project": "프로젝트 설정에 의해",
+  "ui.approval.source.yolo": "자동 승인(YOLO) 모드에 의해",
+  "ui.approval.source.session": "세션 자동 승인 규칙에 의해",
+  "ui.approval.source.default": "기본값으로",
   "notification.question.title": "질문",
   "notification.question.description": "{{projectName}}의 {{sessionTitle}}에서 질문이 있습니다",
   "notification.action.goToSession": "세션으로 이동",
@@ -874,6 +965,7 @@ export const dict = {
   "provider.custom.models.name.label": "이름",
   "provider.custom.models.name.placeholder": "표시 이름",
   "provider.custom.models.reasoning.label": "추론",
+  "provider.custom.models.modalities.image": "이미지",
   "provider.custom.models.variants.label": "변형",
   "provider.custom.models.variants.add": "변형 추가",
   "provider.custom.models.variants.remove": "변형 제거",
@@ -1029,8 +1121,14 @@ export const dict = {
   "session.showHistory": "기록 보기",
   "session.search.placeholder": "세션 검색...",
   "session.empty": "아직 세션이 없습니다. +를 클릭하여 새 대화를 시작하세요.",
+  "session.tabs.switcher.open": "열린 탭 표시",
+  "session.tabs.switcher.search": "열린 탭 검색...",
+  "session.tabs.switcher.current": "현재",
+  "session.tabs.switcher.pending": "새 항목",
+  "session.tabs.switcher.busy": "작업 중",
   "session.tab.local": "로컬",
   "session.tab.cloud": "클라우드",
+  "session.tab.worktree": "작업 트리",
   "session.cloud.repoOnly": "이 저장소만",
   "session.cloud.import": "클라우드에서 가져오기",
   "feedback.button": "피드백 & 지원",
@@ -1118,6 +1216,8 @@ export const dict = {
 
   "common.retry": "재시도",
   "common.refresh": "새로고침",
+  "common.reload": "새로고침",
+  "common.reloadDescription": "디스크에서 구성, 스킬, 에이전트 및 명령을 새로고침합니다",
 
   "profile.title": "프로필",
   "profile.notLoggedIn": "로그인하지 않음",
@@ -1125,6 +1225,10 @@ export const dict = {
   "profile.balance.title": "잔액",
   "profile.balance.refresh": "잔액 새로고침",
   "profile.action.dashboard": "대시보드",
+  "profile.action.topUp": "충전",
+  "profile.pass.subscribe": "Kilo Pass를 구독하여 크레딧을 추가하고 보너스를 받으세요",
+  "profile.pass.bonus": "보너스",
+  "profile.pass.renews": "갱신",
   "profile.action.logout": "로그아웃",
 
   "settings.section.configuration": "구성",
@@ -1173,6 +1277,10 @@ export const dict = {
   "settings.indexing.providerField.description": "공급자별 연결 설정.",
   "settings.indexing.qdrantApiKey.description": "Qdrant 인스턴스에 대한 선택적 API 키입니다.",
   "settings.indexing.qdrantApiKey.placeholder": "선택적 API 키",
+  "settings.indexing.fileExtensions.title": "파일 확장자",
+  "settings.indexing.fileExtensions.description":
+    "쉼표로 구분된 허용 목록입니다. 기본 제공 기본값을 사용하려면 비워 두세요.",
+  "settings.indexing.fileExtensions.invalid": "잘못된 확장자: {{extension}}",
   "settings.indexing.qdrantApiKey.title": "Qdrant API 키",
   "settings.indexing.qdrantUrl.description": "Qdrant 인스턴스의 서버 URL입니다.",
   "settings.indexing.qdrantUrl.title": "Qdrant URL",
@@ -1198,9 +1306,14 @@ export const dict = {
   "session.outcome.unknown": "모델의 종료 이유 없이 턴이 종료되었습니다",
   "session.outcome.filtered": "콘텐츠 필터로 인해 제공자가 이 응답을 중단했습니다.",
   "session.outcome.unexpected": "응답이 예기치 않게 종료되었으며 불완전할 수 있습니다.",
+  "session.outcome.generationId": "생성 ID: {{id}}",
   "session.outcome.interrupted": "턴이 중단되었습니다",
   "session.outcome.error": "턴이 실패했습니다",
   "session.outcome.finish": "종료 이유: {{reason}}",
+  "session.costAlert.header": "세션 비용 알림",
+  "session.costAlert.continue": "계속",
+  "session.costAlert.question": "이 세션이 세션별 알림 기준 {{limit}}을 방금 넘었고 비용은 {{cost}}입니다. 계속할까요?",
+  "session.costAlert.stop": "중지",
 
   "ui.sessionTurn.cancel": "취소",
   "ui.sessionTurn.status.thinking": "생각 중...",
@@ -1328,6 +1441,12 @@ export const dict = {
   "settings.experimental.batch.description": "여러 도구 호출의 배치 처리 활성화",
   "settings.experimental.codebaseSearch.title": "코드베이스 검색",
   "settings.experimental.codebaseSearch.description": "코드베이스 전체에서 AI 기반 자연어 검색 활성화",
+  "settings.experimental.imageGeneration.title": "이미지 생성",
+  "settings.experimental.imageGeneration.description": "AI 이미지 생성 활성화",
+  "settings.experimental.imageGenerationModel.title": "이미지 모델",
+  "settings.experimental.imageGenerationModel.description": "이미지 생성 모델",
+  "settings.experimental.imageGenerationModel.placeholder": "기본값 (Auto Router)",
+
   "settings.experimental.speechToText.title": "음성 텍스트 변환",
   "settings.experimental.speechToText.description":
     "Kilo Gateway를 통해 Kilo 계정을 사용하여 프롬프트 필드에서 음성 입력을 활성화합니다.",
@@ -1343,7 +1462,20 @@ export const dict = {
   "settings.sandboxing.title": "샌드박스",
   "settings.sandboxing.network.title": "네트워크 액세스 제한",
   "settings.sandboxing.network.description":
-    "모델이 실행한 명령과 HTTP 도구의 아웃바운드 네트워크 액세스를 차단합니다. 로컬 MCP 서버와 플러그인 훅에는 이 제한이 적용되지 않습니다. 공급자 및 모델 추론 트래픽은 계속 사용할 수 있습니다.",
+    "모델에서 시작된 명령 및 HTTP 도구의 직접적인 아웃바운드 액세스를 차단합니다. 제한이 적용되는 동안 로컬 및 원격 MCP 도구를 사용할 수 없습니다. 공급자 트래픽과 신뢰할 수 있는 플러그인 후크는 이 제한의 적용 대상이 아닙니다.",
+
+  "settings.sandboxing.allowedHosts.title": "허용된 네트워크 대상",
+  "settings.sandboxing.allowedHosts.description":
+    "샌드박스 처리된 HTTP 및 HTTPS 프록시 트래픽의 DNS 호스트 및 포트 대상입니다. GitHub CLI 및 HTTPS Git에는 일반적으로 github.com:443 및 api.github.com:443가 필요합니다. 변경 사항은 새 세션에 적용됩니다.",
+  "settings.sandboxing.writablePaths.title": "추가 쓰기 가능 경로",
+  "settings.sandboxing.writablePaths.description":
+    "샌드박스에서 쓰기를 허용하는 추가 파일시스템 경로(예: /tmp, /var/log). 샌드박스가 활성화되면 기본 쓰기 가능 경로와 병합됩니다.",
+  "settings.experimental.swePruner.title": "SWE-Pruner",
+  "settings.experimental.swePruner.description":
+    "SWE-Pruner 활성화: 에이전트가 제공한 초점 질문에 따라 작업 맥락을 고려하여 읽기, 검색 및 셸 도구의 대용량 출력을 프루닝합니다",
+  "settings.experimental.swePrunerModel.title": "SWE-Pruner 모델",
+  "settings.experimental.swePrunerModel.description":
+    "도구 출력을 정리하는 데 사용하는 모델. 기본값은 구성된 소형 모델입니다",
   "settings.experimental.mcpTimeout.title": "MCP 타임아웃 (ms)",
   "settings.experimental.mcpTimeout.description": "MCP 서버 요청의 타임아웃 시간 (밀리초)",
   "settings.experimental.remote.title": "Remote 제어",
@@ -1368,11 +1500,14 @@ export const dict = {
   "settings.agentBehaviour.prompt.title": "사용자 정의 프롬프트",
   "settings.agentBehaviour.prompt.description": "이 에이전트의 추가 시스템 프롬프트",
   "settings.agentBehaviour.temperature.title": "온도",
-  "settings.agentBehaviour.temperature.description": "샘플링 온도 (0-2)",
+  "settings.agentBehaviour.temperature.description":
+    "AI 응답의 무작위성을 조절합니다(0–2). 낮은 값(예: 0.2)은 집중되고 일관된 출력을 생성합니다. 높은 값(예: 1.0)은 더 다양하고 창의적인 응답을 생성합니다. 모델 기본값을 사용하려면 비워 두세요.",
   "settings.agentBehaviour.topP.title": "Top P",
-  "settings.agentBehaviour.topP.description": "핵 샘플링 매개변수 (0-1)",
+  "settings.agentBehaviour.topP.description":
+    "핵 샘플링 임계값입니다(0–1). 누적 확률이 P에 도달하는 가장 작은 토큰 집합으로 선택지를 제한합니다. 낮은 값은 출력을 더 집중되게 하고, 높은 값은 더 많은 다양성을 허용합니다. 모델 기본값을 사용하려면 비워 두세요.",
   "settings.agentBehaviour.maxSteps.title": "최대 단계",
-  "settings.agentBehaviour.maxSteps.description": "최대 에이전트 반복 횟수",
+  "settings.agentBehaviour.maxSteps.description":
+    "에이전트의 최대 단계 수입니다. 한도에 도달하면 에이전트는 도구 사용을 중단하고 최종 응답을 제공하라는 지시를 받습니다. 복잡한 다단계 작업에는 값을 높이고, 응답을 더 짧고 예측 가능하게 유지하려면 낮추세요.",
   "settings.agentBehaviour.hidden.title": "숨김",
   "settings.agentBehaviour.hidden.description": "채팅 입력의 모드 전환기에서 이 에이전트를 숨기기",
   "settings.agentBehaviour.disable.title": "비활성화됨",
@@ -1473,12 +1608,15 @@ export const dict = {
     "구성된 사용자 정의 명령이 없습니다. opencode.json에 명령을 추가하면 여기에 표시됩니다.",
   "settings.agentBehaviour.workflows.detail.description": "설명",
   "settings.agentBehaviour.workflows.detail.template": "템플릿",
-  "settings.experimental.sandbox.title": "샌드박스",
-  "settings.experimental.sandbox.description":
+  "settings.sandboxing.enabled.title": "샌드박스",
+  "settings.sandboxing.enabled.description":
     "에이전트 셸 명령을 프로젝트 및 Kilo 상태 디렉터리에 대한 쓰기를 제한하는 OS 수준의 샌드박스 내에서 실행",
 
   "settings.autoApprove.description":
     "도구 실행 허용 방식을 정의합니다. 대부분의 도구 기본값은 '허용'입니다. doom_loop 및 external_directory의 기본값은 '확인'입니다.",
+  "settings.autoApprove.maxCost.title": "세션 비용 알림",
+  "settings.autoApprove.maxCost.description":
+    "세션 지출이 이 USD 금액을 초과한 뒤 계속하기 전에 알립니다. 정수 달러 금액을 사용하세요. 비활성화하려면 비워 두세요.",
   "settings.autoApprove.level.allow": "허용",
   "settings.autoApprove.level.ask": "확인",
   "settings.autoApprove.level.deny": "거부",
@@ -1510,6 +1648,7 @@ export const dict = {
   "settings.checkpoints.enable.description": "파일 편집 전 체크포인트를 생성하여 이전 상태를 복원할 수 있습니다",
   "settings.context.autoCompaction.title": "자동 압축",
   "settings.context.autoCompaction.description": "컨텍스트가 한도에 도달하기 전에 자동으로 압축",
+  "settings.context.compaction.title": "압축",
   "settings.context.compactionLimit.title": "자동 압축 한도",
   "settings.context.compactionLimit.description":
     "컨텍스트가 모델 창의 이 비율에 도달하면 압축합니다. 안전 버퍼만 사용하려면 비워 두세요.",
@@ -1517,6 +1656,24 @@ export const dict = {
   "settings.context.prune.description": "압축 중 이전 도구 출력 제거",
   "settings.context.watcherPatterns": "파일 감시자 무시 패턴",
   "settings.context.watcherPatterns.description": "감시자가 무시해야 할 파일의 글로브 패턴",
+
+  "settings.context.memory.title": "메모리",
+  "settings.context.memory.project.title": "프로젝트 메모리",
+  "settings.context.memory.autoSave.title": "프로젝트 메모리 자동 저장",
+  "settings.context.memory.autoSave.description":
+    "메모리가 활성화되면 완료된 턴에서 지속적인 프로젝트 사실을 자동으로 저장합니다.",
+  "settings.context.memory.storage.title": "Storage",
+  "settings.context.memory.status.notLoaded": "로드되지 않음",
+  "settings.context.memory.status.disabled": "비활성화됨",
+  "settings.context.memory.status.enabledTokens": "Enabled - ~{{tokens}} stored tokens",
+  "settings.context.memory.storage.path": "{{path}}",
+  "settings.context.memory.storage.enable": "Enable memory to create project memory files.",
+  "settings.context.memory.inspect": "검사",
+  "chat.memory.project.disabled": "프로젝트 메모리 비활성화됨",
+  "chat.memory.project.empty": "This project doesn't have any memory yet. It will start showing after you use Kilo.",
+  "chat.memory.command.failed": "메모리 명령 실패",
+  "chat.memory.updated": "Memory updated",
+  "chat.memory.rebuild": "Memory index rebuilt",
 
   "settings.commitMessage.title": "Commit Message",
   "settings.commitMessage.override.title": "사용자 지정 prompt 사용",
@@ -1528,6 +1685,10 @@ export const dict = {
   "settings.commitMessage.prompt.placeholder":
     "예: 스페인어로 conventional commits 형식을 따라 commit messages를 생성해줘. 오직 commit message만 반환할 것.",
 
+  "settings.commitMessage.language.sync": "UI 언어와 동기화",
+  "settings.commitMessage.language.title": "언어",
+  "settings.commitMessage.language.description": "AI 생성된 커밋 메시지에 사용할 언어를 선택하십시오.:",
+
   "settings.display.username.title": "사용자 이름",
   "settings.display.username.description": "대화에 표시되는 사용자 정의 사용자 이름",
   "settings.display.fontSize.title": "글꼴 크기",
@@ -1535,6 +1696,9 @@ export const dict = {
   "settings.display.reasoningAutoCollapse.title": "추론 자동 접기",
   "settings.display.reasoningAutoCollapse.description":
     "에이전트가 추론 작성을 마친 뒤 추론 블록을 자동으로 접습니다. 수동으로 접기 전까지 추론을 펼친 상태로 두려면 끄세요.",
+  "settings.display.shiftTabCycle.title": "Shift+Tab으로 추론 강도 전환",
+  "settings.display.shiftTabCycle.description":
+    "프롬프트 입력란에서 Shift+Tab을 눌러 다음 추론 강도 수준으로 전환합니다. Shift+Tab을 키보드 포커스 탐색에 사용하려면 비활성화하세요.",
   "settings.display.terminalCommand.title": "Terminal Command Blocks",
   "settings.display.terminalCommand.description": "Choose whether terminal command blocks start expanded or collapsed.",
   "settings.display.terminalCommand.expanded": "Expanded",
@@ -1543,6 +1707,15 @@ export const dict = {
   "settings.display.codeEdit.description": "코드 편집 블록과 차이점 블록을 처음부터 펼칠지 접을지 선택합니다.",
   "settings.display.codeEdit.expanded": "펼침",
   "settings.display.codeEdit.collapsed": "접힘",
+
+  "settings.display.tokenThroughput.title": "Show Token Throughput",
+  "settings.display.tokenThroughput.description":
+    "Display the text-generation rate (tokens/sec) on the latest assistant message and in the task header. Hidden by default to keep the chat uncluttered.",
+
+  "chat.throughput.tooltip":
+    "Average {{speed}} tokens/s for this turn. Includes output and reasoning tokens; excludes tool execution and waiting time.",
+  "chat.throughput.tooltip.missing": "Throughput metrics unavailable for this turn.",
+
   "settings.providers.defaultModel.title": "기본 모델",
   "settings.providers.defaultModel.description": "대화의 기본 모델",
   "settings.providers.smallModel.title": "소형 모델",
@@ -1696,4 +1869,15 @@ export const dict = {
   "diffViewer.baseBranch.loading": "브랜치 로딩 중…",
   "diffViewer.baseBranch.none": "—",
   "plan.exit.ready": "계획이 준비되었습니다:",
+  "chat.search.placeholder": "채팅 검색…",
+  "chat.search.toggle": "채팅 검색",
+  "chat.search.matchCase": "대/소문자 구분",
+  "chat.search.matchWholeWord": "단어 단위로 검색",
+  "chat.search.useRegex": "정규식 사용",
+  "chat.search.previousMatch": "이전 검색 결과",
+  "chat.search.nextMatch": "다음 검색 결과",
+  "chat.search.close": "검색 닫기",
+  "chat.search.invalidRegex": "정규식이 잘못되었습니다",
+  "chat.search.noResults": "검색 결과 없음",
+  "chat.search.searchingHistory": "이전 메시지를 검색하는 중…",
 }

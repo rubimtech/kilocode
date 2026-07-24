@@ -1,12 +1,57 @@
-import { anacondaDesktopDict } from "./en"
-
-export const dict = {
-  ...anacondaDesktopDict,
-  "provider.anaconda.action.checkAgain": "ตรวจสอบอีกครั้ง",
+export const anacondaDesktopDict = {
+  "provider.anaconda.title.connect": "เชื่อมต่อ Anaconda Desktop",
+  "provider.anaconda.title.manage": "จัดการ Anaconda Desktop",
+  "provider.anaconda.status.checking": "กำลังตรวจสอบ Anaconda Desktop...",
+  "provider.anaconda.status.opening": "กำลังเปิด Anaconda Desktop...",
+  "provider.anaconda.status.syncing": "กำลังรีเฟรชโมเดลของผู้ให้บริการ...",
+  "provider.anaconda.status.ready": "พร้อมเชื่อมต่อ",
+  "provider.anaconda.status.waiting": "กำลังรอ Desktop",
+  "provider.anaconda.status.attention": "ต้องการการดำเนินการ",
+  "provider.anaconda.status.unavailable": "ไม่พร้อมใช้งาน",
+  "provider.anaconda.state.unsupported": "Anaconda Desktop ไม่รองรับบน {{platform}}",
+  "provider.anaconda.state.notInstalled":
+    "ติดตั้ง Anaconda Desktop บนเครื่องนี้ แล้วกลับมาที่นี่ Kilo จะไม่เรียกใช้ตัวติดตั้งให้คุณ",
+  "provider.anaconda.state.notRunning":
+    "เปิด Anaconda Desktop ตั้งค่าให้เสร็จและลงชื่อเข้าใช้ แล้วเลือกตรวจสอบอีกครั้ง",
+  "provider.anaconda.state.invalidConfig":
+    "การตั้งค่า Anaconda Desktop ยังไม่สมบูรณ์ เปิด Desktop ตั้งค่าให้เสร็จ และรีสตาร์ทหากจำเป็น",
+  "provider.anaconda.state.signedOut": "เปิด Anaconda Desktop และลงชื่อเข้าใช้ก่อนเชื่อมต่อ Kilo",
+  "provider.anaconda.state.unauthorized":
+    "Kilo ไม่สามารถเข้าถึง Anaconda Desktop ได้ เปิด Desktop ลงชื่อเข้าใช้อีกครั้ง และรีสตาร์ทหากจำเป็น",
+  "provider.anaconda.state.unavailable": "Anaconda Desktop ยังไม่ตอบสนอง เปิดและรอให้แอปพลิเคชันเริ่มทำงานเสร็จ",
+  "provider.anaconda.state.noModel":
+    "ใน Anaconda Desktop ดาวน์โหลดโมเดลสร้างข้อความ เลือกโมเดลที่รองรับการเรียกใช้เครื่องมือเมื่อเป็นไปได้ แล้วเริ่มเซิร์ฟเวอร์ของโมเดลนั้น",
   "provider.anaconda.state.noServer_one":
     "มีโมเดลสร้างข้อความที่ดาวน์โหลดไว้แล้วพร้อมใช้งานอยู่ 1 โมเดล โปรดเริ่มเซิร์ฟเวอร์โมเดลใน Anaconda Desktop ขอแนะนำอย่างยิ่งให้ใช้โมเดลที่รองรับการเรียกใช้เครื่องมือ",
   "provider.anaconda.state.noServer_other":
     "มีโมเดลสร้างข้อความที่ดาวน์โหลดไว้แล้วพร้อมใช้งานอยู่ {{count}} โมเดล โปรดเริ่มเซิร์ฟเวอร์โมเดลใน Anaconda Desktop ขอแนะนำอย่างยิ่งให้ใช้โมเดลที่รองรับการเรียกใช้เครื่องมือ",
+  "provider.anaconda.state.unhealthy":
+    "เซิร์ฟเวอร์การอนุมานที่ใช้งานอยู่ยังไม่พร้อมใช้งาน ตรวจสอบใน Anaconda Desktop และรีสตาร์ทเซิร์ฟเวอร์หากจำเป็น",
+  "provider.anaconda.state.ready":
+    "Kilo พบเซิร์ฟเวอร์สร้างข้อความในเครื่องที่พร้อมใช้งาน และสามารถนำเข้าการตั้งค่าการเชื่อมต่อปัจจุบันได้",
+  "provider.anaconda.server": "เซิร์ฟเวอร์การอนุมานที่ใช้งานอยู่",
+  "provider.anaconda.context": "หน้าต่างบริบท",
+  "provider.anaconda.contextValue": "{{count}} โทเค็น",
+  "provider.anaconda.tools": "การเรียกใช้เครื่องมือ",
+  "provider.anaconda.tools.supported": "รองรับ",
+  "provider.anaconda.tools.unsupported": "ไม่ได้เปิดใช้งาน",
+  "provider.anaconda.tools.unknown": "ไม่ทราบ",
+  "provider.anaconda.warning.title": "การรองรับเครื่องมือมีข้อจำกัด",
+  "provider.anaconda.warning.description":
+    "เซิร์ฟเวอร์นี้ไม่ยืนยันการเรียกใช้เครื่องมือ การทำงานของเอเจนต์เขียนโค้ดอาจล้มเหลวหรือไม่พร้อมใช้งาน ดำเนินการต่อเฉพาะเมื่อคุณยอมรับข้อจำกัดเหล่านี้",
+  "provider.anaconda.action.download": "ดาวน์โหลด Anaconda Desktop",
+  "provider.anaconda.action.open": "เปิด Anaconda Desktop",
+  "provider.anaconda.action.checkAgain": "ตรวจสอบอีกครั้ง",
+  "provider.anaconda.action.continue": "ดำเนินการต่อ",
+  "provider.anaconda.action.manage": "จัดการ / รีเฟรช",
+  "provider.anaconda.toast.refreshed.title": "รีเฟรช Anaconda Desktop แล้ว",
+  "provider.anaconda.toast.refreshed.description": "เซิร์ฟเวอร์ในเครื่องและโมเดลที่ใช้งานอยู่เป็นปัจจุบันใน Kilo แล้ว",
+  "settings.providers.note.anacondaDesktop": "เรียกใช้โมเดลที่ให้บริการในเครื่องโดย Anaconda Desktop",
+  "settings.providers.tag.local": "ในเครื่อง",
+} as const
+
+export const dict = {
+  ...anacondaDesktopDict,
   "command.category.suggested": "แนะนำ",
   "command.category.view": "มุมมอง",
   "command.category.project": "โปรเจกต์",
@@ -90,7 +135,14 @@ export const dict = {
   "revert.banner.count_other": "ย้อนกลับ {{count}} ข้อความแล้ว",
   "revert.banner.redo": "ทำซ้ำ",
   "revert.banner.redo.all": "ทำซ้ำทั้งหมด",
-  "revert.banner.hint": "ส่งข้อความใหม่เพื่อทำให้การเปลี่ยนแปลงนี้ถาวร",
+  "revert.banner.hint": "You can redo these changes until you send a new message",
+  "revert.banner.workspace.snapshotsDisabled":
+    "ย้อนกลับการสนทนาแล้ว ไม่ได้กู้คืนการเปลี่ยนแปลงไฟล์เนื่องจากปิดใช้งานสแนปชอตอยู่",
+  "revert.banner.workspace.unavailable":
+    "ย้อนกลับการสนทนาแล้ว ไม่มีจุดตรวจสอบไฟล์ จึงไม่ได้กู้คืนการเปลี่ยนแปลงในพื้นที่ทำงาน",
+  "revert.banner.workspace.legacy":
+    "ย้อนกลับการสนทนาแล้ว ไม่ทราบสถานะการกู้คืนพื้นที่ทำงานสำหรับการย้อนกลับก่อนหน้านี้",
+  "revert.banner.workspace.enableSnapshots": "เปิดใช้งานสแนปชอต",
   "revert.disabled.agentBusy": "รอให้เอเจนต์ทำงานเสร็จ",
   "command.session.compact": "บีบอัดเซสชัน",
   "command.session.compact.description": "สรุปเซสชันเพื่อลดขนาดบริบท",
@@ -101,6 +153,30 @@ export const dict = {
   "command.session.unshare": "ยกเลิกการแชร์เซสชัน",
   "command.session.unshare.description": "หยุดการแชร์เซสชันนี้",
   "command.session.export": "ส่งออกบันทึกเซสชัน",
+
+  "agentRequirements.skill.installed": "ติดตั้งแล้ว",
+  "agentRequirements.skill.checkFailed": "การตรวจสอบสกิลล้มเหลว",
+  "agentRequirements.skill.missing": "ยังไม่ได้ติดตั้ง",
+  "agentRequirements.mcp.connected": "เชื่อมต่อแล้ว",
+  "agentRequirements.mcp.checkFailed": "การตรวจสอบ MCP ล้มเหลว",
+  "agentRequirements.mcp.missing": "ยังไม่ได้เชื่อมต่อ",
+  "agentRequirements.extension.installed": "ติดตั้งแล้ว",
+  "agentRequirements.extension.checkFailed": "การตรวจสอบส่วนขยาย VS Code ล้มเหลว",
+  "agentRequirements.extension.missing": "ยังไม่ได้ติดตั้ง",
+  "agentRequirements.extension.description": "ติดตั้งส่วนขยายที่ขาดหายใน VS Code",
+  "agentRequirements.group.skills": "สกิล",
+  "agentRequirements.group.mcps": "MCP",
+  "agentRequirements.group.extensions": "ส่วนขยาย VS Code",
+  "agentRequirements.blocked.title": "ข้อกำหนดเบื้องต้นของเอเจนต์ {{agent}}",
+  "agentRequirements.blocked.description": "เอเจนต์นี้ต้องใช้เครื่องมือต่อไปนี้ก่อนจึงจะทำงานได้",
+  "agentRequirements.prompt.blocked": "ทำการตรวจสอบที่จำเป็นให้เสร็จก่อนเพื่อใช้เอเจนต์นี้",
+  "agentRequirements.action.openMarketplace": "เปิด Marketplace",
+  "agentRequirements.error.unknownAgent": "ไม่พบเอเจนต์ที่เลือก",
+  "agentRequirements.error.malformedDeclaration": "เอเจนต์นี้มีการประกาศข้อกำหนดที่ไม่ถูกต้อง",
+  "agentRequirements.error.discoveryFailed": "Kilo ไม่สามารถตรวจสอบสกิลที่มีอยู่ได้",
+  "agentRequirements.error.mcpStatusFailed": "Kilo ไม่สามารถตรวจสอบสถานะเซิร์ฟเวอร์ MCP ได้",
+  "agentRequirements.error.scopeMismatch": "การตรวจสอบข้อกำหนดของเอเจนต์นี้ไม่ทำงานอีกต่อไป",
+  "agentRequirements.error.requestFailed": "Kilo ไม่สามารถตรวจสอบข้อกำหนดของเอเจนต์ได้",
 
   "palette.search.placeholder": "ค้นหาไฟล์ คำสั่ง และเซสชัน",
   "palette.empty": "ไม่พบผลลัพธ์",
@@ -280,6 +356,7 @@ export const dict = {
   "prompt.context.includeActiveFile": "รวมไฟล์ที่ใช้งานอยู่",
   "prompt.context.removeActiveFile": "เอาไฟล์ที่ใช้งานอยู่ออกจากบริบท",
   "prompt.context.removeFile": "เอาไฟล์ออกจากบริบท",
+  "prompt.thinking.tooltip": "ความพยายามในการให้เหตุผล",
   "prompt.action.attachFile": "แนบไฟล์",
   "prompt.attachment.remove": "เอาไฟล์แนบออก",
   "prompt.action.send": "ส่ง",
@@ -315,6 +392,7 @@ export const dict = {
     "คลิกเพื่อจำกัดการเขียนในระบบไฟล์ การตั้งค่า sandbox ของคุณยังคงอนุญาตให้เข้าถึงเครือข่าย",
 
   "speechToText.tooltip.start": "เริ่มการป้อนข้อมูลด้วยเสียงด้วย Kilo Gateway",
+  "speechToText.tooltip.starting": "กำลังเริ่มไมโครโฟน... โปรดรอก่อนพูด",
   "speechToText.tooltip.stop": "หยุดจับเสียง",
   "speechToText.tooltip.transcribing": "กำลังถอดเสียง... คลิกเพื่อยกเลิก",
   "speechToText.tooltip.error": "การป้อนข้อมูลด้วยเสียงล้มเหลว คลิกเพื่อล้าง",
@@ -557,7 +635,7 @@ export const dict = {
   "ui.permission.toolLabel.grepSearch": "ค้นหา Grep",
   "ui.permission.toolLabel.webSearch": "ค้นหาเว็บ",
   "ui.permission.toolLabel.list": "รายการ",
-  "ui.permission.toolLabel.externalDirectory": "อ่านไดเรกทอรีภายนอก",
+  "ui.permission.toolLabel.externalDirectory": "อนุญาตให้เข้าถึงโฟลเดอร์ภายนอก",
   "ui.permission.toolLabel.webFetch": "ดึงข้อมูลเว็บ",
   "ui.permission.toolLabel.task": "งาน",
   "ui.permission.toolLabel.skill": "ทักษะ",
@@ -568,6 +646,16 @@ export const dict = {
   "ui.permission.toolLabel.codeSearch": "ค้นหาโค้ด",
   "ui.permission.toggleWrap": "สลับการตัดคำ",
   "ui.permission.copyCommand": "คัดลอก",
+  "ui.approval.auto": "อนุมัติอัตโนมัติ",
+  "ui.approval.manual": "คุณเป็นผู้อนุมัติ",
+  "ui.approval.rule": "ตรงกับกฎ `{{permission}}` `{{pattern}}`",
+  "ui.approval.source.agent": "โดยเอเจนต์ {{agent}}",
+  "ui.approval.source.agent.default": "โดยเอเจนต์",
+  "ui.approval.source.global": "โดยการตั้งค่าส่วนกลาง",
+  "ui.approval.source.project": "โดยการตั้งค่าโปรเจกต์",
+  "ui.approval.source.yolo": "โดยโหมดอนุมัติอัตโนมัติ (YOLO)",
+  "ui.approval.source.session": "โดยกฎอนุมัติอัตโนมัติของเซสชัน",
+  "ui.approval.source.default": "ตามค่าเริ่มต้น",
   "notification.question.title": "คำถาม",
   "notification.question.description": "{{sessionTitle}} ใน {{projectName}} มีคำถาม",
   "notification.action.goToSession": "ไปที่เซสชัน",
@@ -841,6 +929,10 @@ export const dict = {
   "settings.indexing.qdrantApiKey.title": "คีย์ API Qdrant",
   "settings.indexing.qdrantApiKey.description": "คีย์ API เสริมสำหรับอินสแตนซ์ Qdrant",
   "settings.indexing.qdrantApiKey.placeholder": "คีย์ API เสริม",
+  "settings.indexing.fileExtensions.title": "นามสกุลไฟล์",
+  "settings.indexing.fileExtensions.description":
+    "รายการที่อนุญาตคั่นด้วยเครื่องหมายจุลภาค ปล่อยว่างไว้เพื่อใช้ค่าเริ่มต้นที่มีมาให้",
+  "settings.indexing.fileExtensions.invalid": "นามสกุลไฟล์ไม่ถูกต้อง: {{extension}}",
   "settings.indexing.providerField.description": "การตั้งค่าการเชื่อมต่อเฉพาะผู้ให้บริการ",
   "settings.indexing.status.title": "สถานะ",
   "settings.indexing.tuning.description": "พารามิเตอร์การค้นหาขั้นสูงและการประมวลผลแบทช์",
@@ -912,6 +1004,7 @@ export const dict = {
   "provider.custom.models.name.label": "ชื่อ",
   "provider.custom.models.name.placeholder": "ชื่อที่แสดง",
   "provider.custom.models.reasoning.label": "การใช้เหตุผล",
+  "provider.custom.models.modalities.image": "รูปภาพ",
   "provider.custom.models.variants.label": "รูปแบบ",
   "provider.custom.models.variants.add": "เพิ่มรูปแบบ",
   "provider.custom.models.variants.remove": "ลบรูปแบบ",
@@ -1068,8 +1161,14 @@ export const dict = {
   "session.showHistory": "แสดงประวัติ",
   "session.search.placeholder": "ค้นหาเซสชัน...",
   "session.empty": "ยังไม่มีเซสชัน คลิก + เพื่อเริ่มการสนทนาใหม่",
+  "session.tabs.switcher.open": "แสดงแท็บที่เปิดอยู่",
+  "session.tabs.switcher.search": "ค้นหาแท็บที่เปิดอยู่...",
+  "session.tabs.switcher.current": "ปัจจุบัน",
+  "session.tabs.switcher.pending": "ใหม่",
+  "session.tabs.switcher.busy": "กำลังทำงาน",
   "session.tab.local": "ในเครื่อง",
   "session.tab.cloud": "คลาวด์",
+  "session.tab.worktree": "เวิร์กทรี Git",
   "session.cloud.repoOnly": "เฉพาะรีโพซิทอรีนี้",
   "session.cloud.import": "นำเข้าจากคลาวด์",
   "feedback.button": "ข้อเสนอแนะและการสนับสนุน",
@@ -1157,6 +1256,8 @@ export const dict = {
 
   "common.retry": "ลองอีกครั้ง",
   "common.refresh": "รีเฟรช",
+  "common.reload": "โหลดใหม่",
+  "common.reloadDescription": "โหลดการตั้งค่า ทักษะ เอเจนต์ และคำสั่งจากดิสก์ใหม่",
 
   "profile.title": "โปรไฟล์",
   "profile.notLoggedIn": "ยังไม่ได้เข้าสู่ระบบ",
@@ -1164,6 +1265,10 @@ export const dict = {
   "profile.balance.title": "ยอดคงเหลือ",
   "profile.balance.refresh": "รีเฟรชยอดคงเหลือ",
   "profile.action.dashboard": "แดชบอร์ด",
+  "profile.action.topUp": "เติมเงิน",
+  "profile.pass.subscribe": "รับ Kilo Pass เพื่อเพิ่มเครดิตและรับโบนัส",
+  "profile.pass.bonus": "โบนัส",
+  "profile.pass.renews": "ต่ออายุ",
   "profile.action.logout": "ออกจากระบบ",
 
   "settings.section.configuration": "การกำหนดค่า",
@@ -1197,9 +1302,15 @@ export const dict = {
   "session.outcome.unknown": "เทิร์นสิ้นสุดโดยไม่มีเหตุผลการเสร็จสิ้นของโมเดล",
   "session.outcome.filtered": "ผู้ให้บริการหยุดการตอบกลับนี้เนื่องจากตัวกรองเนื้อหา",
   "session.outcome.unexpected": "การตอบกลับสิ้นสุดลงโดยไม่คาดคิดและอาจไม่สมบูรณ์",
+  "session.outcome.generationId": "รหัสการสร้าง: {{id}}",
   "session.outcome.interrupted": "เทิร์นถูกขัดจังหวะ",
   "session.outcome.error": "เทิร์นล้มเหลว",
   "session.outcome.finish": "เหตุผลการเสร็จสิ้น: {{reason}}",
+  "session.costAlert.header": "การแจ้งเตือนค่าใช้จ่ายของเซสชัน",
+  "session.costAlert.continue": "ดำเนินการต่อ",
+  "session.costAlert.question":
+    "เซสชันนี้เพิ่งเกินเกณฑ์แจ้งเตือนต่อเซสชันของคุณที่ {{limit}} และมีค่าใช้จ่าย {{cost}} ต้องการดำเนินการต่อหรือไม่?",
+  "session.costAlert.stop": "หยุด",
 
   "ui.sessionTurn.cancel": "ยกเลิก",
   "ui.sessionTurn.status.thinking": "กำลังคิด...",
@@ -1326,6 +1437,12 @@ export const dict = {
   "settings.experimental.batch.description": "เปิดใช้งานการประมวลผลแบทช์ของการเรียกเครื่องมือ",
   "settings.experimental.codebaseSearch.title": "ค้นหาโค้ดเบส",
   "settings.experimental.codebaseSearch.description": "เปิดใช้งานการค้นหาด้วยภาษาธรรมชาติโดย AI ทั่วทั้งโค้ดเบส",
+  "settings.experimental.imageGeneration.title": "การสร้างภาพ",
+  "settings.experimental.imageGeneration.description": "เปิดใช้งานการสร้างภาพด้วย AI",
+  "settings.experimental.imageGenerationModel.title": "โมเดลภาพ",
+  "settings.experimental.imageGenerationModel.description": "โมเดลการสร้างภาพ",
+  "settings.experimental.imageGenerationModel.placeholder": "ค่าเริ่มต้น (Auto Router)",
+
   "settings.experimental.speechToText.title": "แปลงเสียงเป็นข้อความ",
   "settings.experimental.speechToText.description":
     "เปิดใช้งานการป้อนข้อมูลด้วยเสียงในช่องพรอมต์โดยใช้บัญชี Kilo ของคุณผ่าน Kilo Gateway",
@@ -1341,7 +1458,20 @@ export const dict = {
   "settings.sandboxing.title": "การทำงานในแซนด์บ็อกซ์",
   "settings.sandboxing.network.title": "จำกัดการเข้าถึงเครือข่าย",
   "settings.sandboxing.network.description":
-    "บล็อกการเข้าถึงเครือข่ายขาออกจากคำสั่งที่มาจากโมเดลและเครื่องมือ HTTP เซิร์ฟเวอร์ MCP ภายในเครื่องและฮุกของปลั๊กอินทำงานอยู่นอกข้อจำกัดนี้ การรับส่งข้อมูลสำหรับการอนุมานของผู้ให้บริการและโมเดลยังคงใช้งานได้",
+    "บล็อกการเข้าถึงขาออกโดยตรงจากคำสั่งที่เริ่มต้นโดยโมเดลและเครื่องมือ HTTP เครื่องมือ MCP ทั้งในเครื่องและระยะไกลจะใช้งานไม่ได้ในขณะที่มีการจำกัดนี้ การรับส่งข้อมูลของผู้ให้บริการและฮุกของปลั๊กอินที่เชื่อถือได้จะไม่อยู่ภายใต้ข้อจำกัดนี้",
+
+  "settings.sandboxing.allowedHosts.title": "ปลายทางเครือข่ายที่อนุญาต",
+  "settings.sandboxing.allowedHosts.description":
+    "โฮสต์ DNS และพอร์ตปลายทางสำหรับทราฟฟิกพร็อกซี HTTP และ HTTPS ในแซนด์บ็อกซ์ GitHub CLI และ HTTPS Git มักต้องใช้ github.com:443 และ api.github.com:443 การเปลี่ยนแปลงจะมีผลกับเซสชันใหม่",
+  "settings.sandboxing.writablePaths.title": "เส้นทางที่เขียนได้เพิ่มเติม",
+  "settings.sandboxing.writablePaths.description":
+    "เส้นทางระบบไฟล์เพิ่มเติมที่แซนด์บ็อกซ์อนุญาตให้เขียนได้ (เช่น /tmp, /var/log) จะถูกรวมเข้ากับเส้นทางที่เขียนได้เริ่มต้นเมื่อแซนด์บ็อกซ์เปิดใช้งาน",
+  "settings.experimental.swePruner.title": "SWE-Pruner",
+  "settings.experimental.swePruner.description":
+    "เปิดใช้ SWE-Pruner: ตัดทอนผลลัพธ์ขนาดใหญ่ของเครื่องมืออ่าน ค้นหา และเชลล์โดยคำนึงถึงงานและใช้คำถามโฟกัสที่เอเจนต์ระบุเป็นแนวทาง",
+  "settings.experimental.swePrunerModel.title": "โมเดล SWE-Pruner",
+  "settings.experimental.swePrunerModel.description":
+    "โมเดลที่ใช้ตัดทอนผลลัพธ์ของเครื่องมือ ค่าเริ่มต้นคือโมเดลขนาดเล็กที่กำหนดไว้",
   "settings.experimental.mcpTimeout.title": "หมดเวลา MCP (มิลลิวินาที)",
   "settings.experimental.mcpTimeout.description": "หมดเวลาสำหรับคำขอเซิร์ฟเวอร์ MCP เป็นมิลลิวินาที",
   "settings.experimental.remote.title": "การควบคุม Remote",
@@ -1366,11 +1496,14 @@ export const dict = {
   "settings.agentBehaviour.prompt.title": "พรอมต์กำหนดเอง",
   "settings.agentBehaviour.prompt.description": "พรอมต์ระบบเพิ่มเติมสำหรับเอเจนต์นี้",
   "settings.agentBehaviour.temperature.title": "อุณหภูมิ",
-  "settings.agentBehaviour.temperature.description": "อุณหภูมิการสุ่มตัวอย่าง (0-2)",
+  "settings.agentBehaviour.temperature.description":
+    "ควบคุมระดับความสุ่มของคำตอบจาก AI (0–2) ค่าที่ต่ำกว่า (เช่น 0.2) จะให้ผลลัพธ์ที่ตรงประเด็นและสม่ำเสมอ ส่วนค่าที่สูงกว่า (เช่น 1.0) จะให้คำตอบที่หลากหลายและสร้างสรรค์มากขึ้น เว้นว่างไว้เพื่อใช้ค่าเริ่มต้นของโมเดล",
   "settings.agentBehaviour.topP.title": "Top P",
-  "settings.agentBehaviour.topP.description": "พารามิเตอร์ nucleus sampling (0-1)",
+  "settings.agentBehaviour.topP.description":
+    "เกณฑ์การสุ่มแบบ nucleus (0–1) จำกัดตัวเลือกโทเค็นไว้ที่ชุดที่เล็กที่สุดซึ่งมีความน่าจะเป็นสะสมถึง P ค่าที่ต่ำกว่าจะทำให้ผลลัพธ์ตรงประเด็นมากขึ้น ส่วนค่าที่สูงกว่าจะเพิ่มความหลากหลาย เว้นว่างไว้เพื่อใช้ค่าเริ่มต้นของโมเดล",
   "settings.agentBehaviour.maxSteps.title": "ขั้นตอนสูงสุด",
-  "settings.agentBehaviour.maxSteps.description": "จำนวนรอบเอเจนต์สูงสุด",
+  "settings.agentBehaviour.maxSteps.description":
+    "จำนวนขั้นตอนสูงสุดของเอเจนต์ เมื่อถึงขีดจำกัด เอเจนต์จะได้รับคำสั่งให้หยุดใช้เครื่องมือและให้คำตอบสุดท้าย เพิ่มค่านี้สำหรับงานหลายขั้นตอนที่ซับซ้อน หรือลดค่าเพื่อให้คำตอบสั้นลงและคาดเดาได้มากขึ้น",
   "settings.agentBehaviour.hidden.title": "ซ่อน",
   "settings.agentBehaviour.hidden.description": "ซ่อนเอเจนต์นี้จากตัวสลับโหมดในช่องป้อนแชท",
   "settings.agentBehaviour.disable.title": "ปิดใช้งาน",
@@ -1472,12 +1605,15 @@ export const dict = {
     "ไม่มีคำสั่งแบบกำหนดเองที่กำหนดค่าไว้ เพิ่มคำสั่งใน opencode.json เพื่อดูที่นี่",
   "settings.agentBehaviour.workflows.detail.description": "คำอธิบาย",
   "settings.agentBehaviour.workflows.detail.template": "เทมเพลต",
-  "settings.experimental.sandbox.title": "Sandbox",
-  "settings.experimental.sandbox.description":
+  "settings.sandboxing.enabled.title": "Sandbox",
+  "settings.sandboxing.enabled.description":
     "เรียกใช้คำสั่ง shell ของ agent ใน sandbox ระดับระบบปฏิบัติการที่จำกัดการเขียนไปยังโฟลเดอร์สถานะของโปรเจ็กต์และ Kilo",
 
   "settings.autoApprove.description":
     "กำหนดวิธีอนุญาตการทำงานของเครื่องมือ โดยค่าเริ่มต้นเครื่องมือส่วนใหญ่คืออนุญาต ส่วน doom_loop และ external_directory ค่าเริ่มต้นคือถาม",
+  "settings.autoApprove.maxCost.title": "การแจ้งเตือนค่าใช้จ่ายของเซสชัน",
+  "settings.autoApprove.maxCost.description":
+    "แจ้งเตือนก่อนดำเนินเซสชันต่อหลังจากค่าใช้จ่ายเกินจำนวน USD นี้ ใช้จำนวนดอลลาร์เต็ม; เว้นว่างไว้เพื่อปิดใช้งาน",
   "settings.autoApprove.level.allow": "อนุญาต",
   "settings.autoApprove.level.ask": "ถาม",
   "settings.autoApprove.level.deny": "ปฏิเสธ",
@@ -1510,6 +1646,7 @@ export const dict = {
   "settings.checkpoints.enable.description": "สร้างจุดตรวจก่อนแก้ไขไฟล์",
   "settings.context.autoCompaction.title": "การบีบอัดอัตโนมัติ",
   "settings.context.autoCompaction.description": "บีบอัดบริบทอัตโนมัติก่อนถึงขีดจำกัด",
+  "settings.context.compaction.title": "การบีบอัด",
   "settings.context.compactionLimit.title": "ขีดจำกัดการบีบอัดอัตโนมัติ",
   "settings.context.compactionLimit.description":
     "บีบอัดเมื่อบริบทถึงเปอร์เซ็นต์นี้ของหน้าต่างโมเดล เว้นว่างไว้เพื่อใช้เฉพาะบัฟเฟอร์ความปลอดภัย",
@@ -1517,6 +1654,24 @@ export const dict = {
   "settings.context.prune.description": "ลบผลลัพธ์เครื่องมือเก่าระหว่างการบีบอัด",
   "settings.context.watcherPatterns": "รูปแบบการละเว้นตัวเฝ้าดูไฟล์",
   "settings.context.watcherPatterns.description": "รูปแบบ glob สำหรับไฟล์ที่ตัวเฝ้าดูควรละเว้น",
+
+  "settings.context.memory.title": "ความจำ",
+  "settings.context.memory.project.title": "ความจำของโปรเจกต์",
+  "settings.context.memory.autoSave.title": "บันทึกความจำของโปรเจกต์อัตโนมัติ",
+  "settings.context.memory.autoSave.description":
+    "บันทึกข้อเท็จจริงถาวรของโปรเจกต์จากรอบที่เสร็จแล้วโดยอัตโนมัติเมื่อเปิดใช้ความจำ",
+  "settings.context.memory.storage.title": "Storage",
+  "settings.context.memory.status.notLoaded": "ยังไม่ได้โหลด",
+  "settings.context.memory.status.disabled": "ปิดใช้งาน",
+  "settings.context.memory.status.enabledTokens": "Enabled - ~{{tokens}} stored tokens",
+  "settings.context.memory.storage.path": "{{path}}",
+  "settings.context.memory.storage.enable": "Enable memory to create project memory files.",
+  "settings.context.memory.inspect": "ตรวจสอบ",
+  "chat.memory.project.disabled": "ปิดใช้ความจำของโปรเจกต์แล้ว",
+  "chat.memory.project.empty": "This project doesn't have any memory yet. It will start showing after you use Kilo.",
+  "chat.memory.command.failed": "คำสั่งความจำล้มเหลว",
+  "chat.memory.updated": "Memory updated",
+  "chat.memory.rebuild": "Memory index rebuilt",
 
   "settings.commitMessage.title": "Commit Message",
   "settings.commitMessage.override.title": "ใช้ prompt แบบกำหนดเอง",
@@ -1528,6 +1683,10 @@ export const dict = {
   "settings.commitMessage.prompt.placeholder":
     "เช่น สร้าง commit messages เป็นภาษาสเปนตามรูปแบบ conventional commits คืนค่าเฉพาะ commit message เท่านั้น",
 
+  "settings.commitMessage.language.sync": "ซิงค์กับภาษา UI",
+  "settings.commitMessage.language.title": "ภาษา",
+  "settings.commitMessage.language.description": "เลือกภาษาใดที่จะใช้สําหรับข้อความ commit ที่สร้างโดย AI:",
+
   "settings.display.username.title": "ชื่อผู้ใช้",
   "settings.display.username.description": "ชื่อผู้ใช้กำหนดเองในบทสนทนา",
   "settings.display.fontSize.title": "ขนาดฟอนต์",
@@ -1535,6 +1694,9 @@ export const dict = {
   "settings.display.reasoningAutoCollapse.title": "ยุบเหตุผลอัตโนมัติ",
   "settings.display.reasoningAutoCollapse.description":
     "ยุบ block เหตุผลหลังจากเอเจนต์เขียนเสร็จ ปิดไว้เพื่อให้เหตุผลยังคงขยายอยู่ เว้นแต่คุณจะยุบเอง",
+  "settings.display.shiftTabCycle.title": "สลับระดับความพยายามในการให้เหตุผลด้วย Shift+Tab",
+  "settings.display.shiftTabCycle.description":
+    "กด Shift+Tab ในช่องป้อนพรอมต์เพื่อสลับไปยังระดับความพยายามในการให้เหตุผลถัดไป ปิดใช้งานเพื่อคง Shift+Tab ไว้สำหรับการนำทางโฟกัสด้วยแป้นพิมพ์",
   "settings.display.terminalCommand.title": "Terminal Command Blocks",
   "settings.display.terminalCommand.description": "Choose whether terminal command blocks start expanded or collapsed.",
   "settings.display.terminalCommand.expanded": "Expanded",
@@ -1543,6 +1705,15 @@ export const dict = {
   "settings.display.codeEdit.description": "เลือกว่าบล็อกการแก้ไขโค้ดและบล็อกแสดงความแตกต่างจะเริ่มต้นแบบขยายหรือยุบ",
   "settings.display.codeEdit.expanded": "ขยาย",
   "settings.display.codeEdit.collapsed": "ยุบ",
+
+  "settings.display.tokenThroughput.title": "Show Token Throughput",
+  "settings.display.tokenThroughput.description":
+    "Display the text-generation rate (tokens/sec) on the latest assistant message and in the task header. Hidden by default to keep the chat uncluttered.",
+
+  "chat.throughput.tooltip":
+    "Average {{speed}} tokens/s for this turn. Includes output and reasoning tokens; excludes tool execution and waiting time.",
+  "chat.throughput.tooltip.missing": "Throughput metrics unavailable for this turn.",
+
   "settings.providers.defaultModel.title": "โมเดลเริ่มต้น",
   "settings.providers.defaultModel.description": "โมเดลหลักสำหรับบทสนทนา",
   "settings.providers.smallModel.title": "โมเดลขนาดเล็ก",
@@ -1696,4 +1867,15 @@ export const dict = {
   "diffViewer.baseBranch.loading": "Loading branches…",
   "diffViewer.baseBranch.none": "—",
   "plan.exit.ready": "แผนพร้อมแล้ว:",
+  "chat.search.placeholder": "ค้นหาในแชท…",
+  "chat.search.toggle": "ค้นหาในแชท",
+  "chat.search.matchCase": "ตรงตามตัวพิมพ์ใหญ่-เล็ก",
+  "chat.search.matchWholeWord": "ตรงทั้งคำ",
+  "chat.search.useRegex": "ใช้นิพจน์ทั่วไป",
+  "chat.search.previousMatch": "รายการที่ตรงกันก่อนหน้า",
+  "chat.search.nextMatch": "รายการที่ตรงกันถัดไป",
+  "chat.search.close": "ปิดการค้นหา",
+  "chat.search.invalidRegex": "นิพจน์ทั่วไปไม่ถูกต้อง",
+  "chat.search.noResults": "ไม่มีผลลัพธ์",
+  "chat.search.searchingHistory": "กำลังค้นหาข้อความก่อนหน้า…",
 }

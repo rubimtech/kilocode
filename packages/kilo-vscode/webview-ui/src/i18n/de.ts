@@ -1,14 +1,64 @@
-import { anacondaDesktopDict, dict as en } from "./en"
+import { dict as en } from "./en"
 
 type Keys = keyof typeof en
 
-export const dict = {
-  ...anacondaDesktopDict,
-  "provider.anaconda.action.checkAgain": "Erneut prüfen",
+export const anacondaDesktopDict = {
+  "provider.anaconda.title.connect": "Anaconda Desktop verbinden",
+  "provider.anaconda.title.manage": "Anaconda Desktop verwalten",
+  "provider.anaconda.status.checking": "Anaconda Desktop wird geprüft...",
+  "provider.anaconda.status.opening": "Anaconda Desktop wird geöffnet...",
+  "provider.anaconda.status.syncing": "Anbietermodelle werden aktualisiert...",
+  "provider.anaconda.status.ready": "Bereit zum Verbinden",
+  "provider.anaconda.status.waiting": "Warten auf Desktop",
+  "provider.anaconda.status.attention": "Erfordert Aufmerksamkeit",
+  "provider.anaconda.status.unavailable": "Nicht verfügbar",
+  "provider.anaconda.state.unsupported": "Anaconda Desktop wird unter {{platform}} nicht unterstützt.",
+  "provider.anaconda.state.notInstalled":
+    "Installieren Sie Anaconda Desktop auf diesem Computer und kehren Sie dann hierher zurück. Kilo führt das Installationsprogramm nicht für Sie aus.",
+  "provider.anaconda.state.notRunning":
+    "Öffnen Sie Anaconda Desktop, schließen Sie die Einrichtung ab und melden Sie sich an. Wählen Sie dann Erneut prüfen.",
+  "provider.anaconda.state.invalidConfig":
+    "Die Einrichtung von Anaconda Desktop ist unvollständig. Öffnen Sie Desktop, schließen Sie die Einrichtung ab und starten Sie es bei Bedarf neu.",
+  "provider.anaconda.state.signedOut": "Öffnen Sie Anaconda Desktop und melden Sie sich an, bevor Sie Kilo verbinden.",
+  "provider.anaconda.state.unauthorized":
+    "Kilo konnte nicht auf Anaconda Desktop zugreifen. Öffnen Sie Desktop, melden Sie sich erneut an und starten Sie es bei Bedarf neu.",
+  "provider.anaconda.state.unavailable":
+    "Anaconda Desktop antwortet noch nicht. Öffnen Sie es und warten Sie, bis die Anwendung vollständig gestartet ist.",
+  "provider.anaconda.state.noModel":
+    "Laden Sie in Anaconda Desktop ein Textgenerierungsmodell herunter. Wählen Sie nach Möglichkeit eines mit Unterstützung für Tool-Aufrufe und starten Sie dann dessen Server.",
   "provider.anaconda.state.noServer_one":
     "1 heruntergeladenes Textgenerierungsmodell ist verfügbar. Starten Sie in Anaconda Desktop einen Modellserver. Modelle mit Unterstützung für Tool-Aufrufe werden dringend empfohlen.",
   "provider.anaconda.state.noServer_other":
     "{{count}} heruntergeladene Textgenerierungsmodelle sind verfügbar. Starten Sie in Anaconda Desktop einen Modellserver. Modelle mit Unterstützung für Tool-Aufrufe werden dringend empfohlen.",
+  "provider.anaconda.state.unhealthy":
+    "Der aktive Inferenzserver ist noch nicht funktionsfähig. Überprüfen Sie ihn in Anaconda Desktop und starten Sie den Server bei Bedarf neu.",
+  "provider.anaconda.state.ready":
+    "Kilo hat einen funktionsfähigen lokalen Textgenerierungsserver gefunden und kann dessen aktuelle Verbindungseinstellungen importieren.",
+  "provider.anaconda.server": "Aktiver Inferenzserver",
+  "provider.anaconda.context": "Kontextfenster",
+  "provider.anaconda.contextValue": "{{count}} Token",
+  "provider.anaconda.tools": "Tool-Aufrufe",
+  "provider.anaconda.tools.supported": "Unterstützt",
+  "provider.anaconda.tools.unsupported": "Nicht aktiviert",
+  "provider.anaconda.tools.unknown": "Unbekannt",
+  "provider.anaconda.warning.title": "Tool-Unterstützung ist eingeschränkt",
+  "provider.anaconda.warning.description":
+    "Dieser Server bestätigt keine Tool-Aufrufe. Aktionen des Coding-Agenten können fehlschlagen oder nicht verfügbar sein. Fahren Sie nur fort, wenn Sie diese Einschränkungen akzeptieren.",
+  "provider.anaconda.action.download": "Anaconda Desktop herunterladen",
+  "provider.anaconda.action.open": "Anaconda Desktop öffnen",
+  "provider.anaconda.action.checkAgain": "Erneut prüfen",
+  "provider.anaconda.action.continue": "Trotzdem fortfahren",
+  "provider.anaconda.action.manage": "Verwalten / Aktualisieren",
+  "provider.anaconda.toast.refreshed.title": "Anaconda Desktop aktualisiert",
+  "provider.anaconda.toast.refreshed.description":
+    "Der aktive lokale Server und die Modelle sind in Kilo auf dem neuesten Stand.",
+  "settings.providers.note.anacondaDesktop":
+    "Führen Sie ein Modell aus, das lokal von Anaconda Desktop bereitgestellt wird.",
+  "settings.providers.tag.local": "Lokal",
+} as const
+
+export const dict = {
+  ...anacondaDesktopDict,
   "command.category.suggested": "Vorgeschlagen",
   "command.category.view": "Ansicht",
   "command.category.project": "Projekt",
@@ -92,7 +142,14 @@ export const dict = {
   "revert.banner.count_other": "{{count}} Nachrichten zurückgesetzt",
   "revert.banner.redo": "Wiederholen",
   "revert.banner.redo.all": "Alle wiederholen",
-  "revert.banner.hint": "Sende eine neue Nachricht, um dies dauerhaft zu machen",
+  "revert.banner.hint": "You can redo these changes until you send a new message",
+  "revert.banner.workspace.snapshotsDisabled":
+    "Unterhaltung zurückgesetzt. Dateiänderungen wurden nicht wiederhergestellt, weil Snapshots deaktiviert sind.",
+  "revert.banner.workspace.unavailable":
+    "Unterhaltung zurückgesetzt. Es war kein Dateiwiederherstellungspunkt verfügbar, daher wurden Änderungen im Arbeitsbereich nicht wiederhergestellt.",
+  "revert.banner.workspace.legacy":
+    "Unterhaltung zurückgesetzt. Der Status der Arbeitsbereichswiederherstellung ist für dieses frühere Zurücksetzen nicht verfügbar.",
+  "revert.banner.workspace.enableSnapshots": "Snapshots aktivieren",
   "revert.disabled.agentBusy": "Warten bis der Agent fertig ist",
   "command.session.compact": "Sitzung komprimieren",
   "command.session.compact.description": "Sitzung zusammenfassen, um die Kontextgröße zu reduzieren",
@@ -103,6 +160,31 @@ export const dict = {
   "command.session.unshare": "Teilen der Sitzung aufheben",
   "command.session.unshare.description": "Teilen dieser Sitzung beenden",
   "command.session.export": "Sitzungsprotokoll exportieren",
+
+  "agentRequirements.skill.installed": "Installiert",
+  "agentRequirements.skill.checkFailed": "Die Skill-Prüfung ist fehlgeschlagen",
+  "agentRequirements.skill.missing": "Nicht installiert",
+  "agentRequirements.mcp.connected": "Verbunden",
+  "agentRequirements.mcp.checkFailed": "Die MCP-Prüfung ist fehlgeschlagen",
+  "agentRequirements.mcp.missing": "Nicht verbunden",
+  "agentRequirements.extension.installed": "Installiert",
+  "agentRequirements.extension.checkFailed": "Die Prüfung der VS Code-Erweiterung ist fehlgeschlagen",
+  "agentRequirements.extension.missing": "Nicht installiert",
+  "agentRequirements.extension.description": "Installiere die fehlenden Erweiterungen in VS Code.",
+  "agentRequirements.group.skills": "Skills",
+  "agentRequirements.group.mcps": "MCPs",
+  "agentRequirements.group.extensions": "VS Code-Erweiterungen",
+  "agentRequirements.blocked.title": "Voraussetzungen für den Agenten {{agent}}",
+  "agentRequirements.blocked.description":
+    "Dieser Agent benötigt die folgenden Werkzeuge, bevor er ausgeführt werden kann.",
+  "agentRequirements.prompt.blocked": "Schließe zuerst die erforderlichen Prüfungen ab, um diesen Agenten zu verwenden",
+  "agentRequirements.action.openMarketplace": "Marketplace öffnen",
+  "agentRequirements.error.unknownAgent": "Der ausgewählte Agent wurde nicht gefunden.",
+  "agentRequirements.error.malformedDeclaration": "Dieser Agent hat eine ungültige Anforderungsdeklaration.",
+  "agentRequirements.error.discoveryFailed": "Kilo konnte die verfügbaren Skills nicht prüfen.",
+  "agentRequirements.error.mcpStatusFailed": "Kilo konnte den MCP-Serverstatus nicht prüfen.",
+  "agentRequirements.error.scopeMismatch": "Diese Prüfung der Agentenanforderungen ist nicht mehr aktiv.",
+  "agentRequirements.error.requestFailed": "Kilo konnte die Agentenanforderungen nicht prüfen.",
 
   "palette.search.placeholder": "Dateien, Befehle und Sitzungen durchsuchen",
   "palette.empty": "Keine Ergebnisse gefunden",
@@ -282,6 +364,7 @@ export const dict = {
   "prompt.context.includeActiveFile": "Aktive Datei einbeziehen",
   "prompt.context.removeActiveFile": "Aktive Datei aus dem Kontext entfernen",
   "prompt.context.removeFile": "Datei aus dem Kontext entfernen",
+  "prompt.thinking.tooltip": "Reasoning-Aufwand",
   "prompt.action.attachFile": "Datei anhängen",
   "prompt.attachment.remove": "Anhang entfernen",
   "prompt.action.send": "Senden",
@@ -320,6 +403,7 @@ export const dict = {
     "Klicken, um Schreibvorgänge im Dateisystem einzuschränken. Der Netzwerkzugriff bleibt gemäß deinen Sandbox-Einstellungen erlaubt.",
 
   "speechToText.tooltip.start": "Spracheingabe mit Kilo Gateway starten",
+  "speechToText.tooltip.starting": "Mikrofon wird gestartet... Bitte noch nicht sprechen.",
   "speechToText.tooltip.stop": "Audioerfassung beenden",
   "speechToText.tooltip.transcribing": "Transkribieren... Zum Abbrechen klicken.",
   "speechToText.tooltip.error": "Spracheingabe fehlgeschlagen. Zum Löschen klicken.",
@@ -567,7 +651,7 @@ export const dict = {
   "ui.permission.toolLabel.grepSearch": "Grep-Suche",
   "ui.permission.toolLabel.webSearch": "Websuche",
   "ui.permission.toolLabel.list": "Auflisten",
-  "ui.permission.toolLabel.externalDirectory": "Externes Verzeichnis lesen",
+  "ui.permission.toolLabel.externalDirectory": "Zugriff auf externen Ordner erlauben",
   "ui.permission.toolLabel.webFetch": "Web-Abruf",
   "ui.permission.toolLabel.task": "Aufgabe",
   "ui.permission.toolLabel.skill": "Fähigkeit",
@@ -578,6 +662,16 @@ export const dict = {
   "ui.permission.toolLabel.codeSearch": "Code-Suche",
   "ui.permission.toggleWrap": "Zeilenumbruch umschalten",
   "ui.permission.copyCommand": "Kopieren",
+  "ui.approval.auto": "Automatisch genehmigt",
+  "ui.approval.manual": "Von dir genehmigt",
+  "ui.approval.rule": "entsprach Regel `{{permission}}` `{{pattern}}`",
+  "ui.approval.source.agent": "durch den {{agent}}-Agenten",
+  "ui.approval.source.agent.default": "durch den Agenten",
+  "ui.approval.source.global": "durch deine globale Konfiguration",
+  "ui.approval.source.project": "durch die Projektkonfiguration",
+  "ui.approval.source.yolo": "durch den Auto-Genehmigungsmodus (YOLO)",
+  "ui.approval.source.session": "durch eine Sitzungs-Auto-Genehmigungsregel",
+  "ui.approval.source.default": "standardmäßig",
   "notification.question.title": "Frage",
   "notification.question.description": "{{sessionTitle}} in {{projectName}} hat eine Frage",
   "notification.action.goToSession": "Zur Sitzung gehen",
@@ -856,6 +950,10 @@ export const dict = {
   "settings.indexing.providerField.description": "Anbieterspezifische Verbindungseinstellung.",
   "settings.indexing.qdrantApiKey.description": "Optionaler API-Schlüssel für die Qdrant-Instanz.",
   "settings.indexing.qdrantApiKey.placeholder": "Optionaler API-Schlüssel",
+  "settings.indexing.fileExtensions.title": "Dateierweiterungen",
+  "settings.indexing.fileExtensions.description":
+    "Durch Kommas getrennte Zulassungsliste. Leer lassen, um die integrierten Standardwerte zu verwenden.",
+  "settings.indexing.fileExtensions.invalid": "Ungültige Erweiterung: {{extension}}",
   "settings.indexing.qdrantApiKey.title": "Qdrant API-Schlüssel",
   "settings.indexing.qdrantUrl.description": "Server-URL für die Qdrant-Instanz.",
   "settings.indexing.qdrantUrl.title": "Qdrant URL",
@@ -934,6 +1032,7 @@ export const dict = {
   "provider.custom.models.name.label": "Name",
   "provider.custom.models.name.placeholder": "Anzeigename",
   "provider.custom.models.reasoning.label": "Schlussfolgerung",
+  "provider.custom.models.modalities.image": "Bild",
   "provider.custom.models.variants.label": "Varianten",
   "provider.custom.models.variants.add": "Variante hinzufügen",
   "provider.custom.models.variants.remove": "Variante entfernen",
@@ -1093,8 +1192,14 @@ export const dict = {
   "session.showHistory": "Verlauf anzeigen",
   "session.search.placeholder": "Sitzungen suchen...",
   "session.empty": "Noch keine Sitzungen. Klicke + um eine neue Unterhaltung zu starten.",
+  "session.tabs.switcher.open": "Offene Tabs anzeigen",
+  "session.tabs.switcher.search": "Offene Tabs suchen...",
+  "session.tabs.switcher.current": "Aktuell",
+  "session.tabs.switcher.pending": "Neu",
+  "session.tabs.switcher.busy": "In Arbeit",
   "session.tab.local": "Lokal",
   "session.tab.cloud": "Cloud",
+  "session.tab.worktree": "Arbeitsbaum",
   "session.cloud.repoOnly": "Nur dieses Repository",
   "session.cloud.import": "Aus der Cloud importieren",
   "feedback.button": "Feedback & Support",
@@ -1184,6 +1289,8 @@ export const dict = {
 
   "common.retry": "Erneut versuchen",
   "common.refresh": "Aktualisieren",
+  "common.reload": "Neu laden",
+  "common.reloadDescription": "Konfiguration, Skills, Agents und Befehle vom Datenträger neu laden",
 
   "profile.title": "Profil",
   "profile.notLoggedIn": "Nicht angemeldet",
@@ -1191,6 +1298,10 @@ export const dict = {
   "profile.balance.title": "Guthaben",
   "profile.balance.refresh": "Guthaben aktualisieren",
   "profile.action.dashboard": "Dashboard",
+  "profile.action.topUp": "Aufladen",
+  "profile.pass.subscribe": "Hol dir Kilo Pass, um Guthaben hinzuzufügen und Boni zu verdienen",
+  "profile.pass.bonus": "Bonus",
+  "profile.pass.renews": "Verlängert sich",
   "profile.action.logout": "Abmelden",
 
   "settings.section.configuration": "Konfiguration",
@@ -1225,9 +1336,15 @@ export const dict = {
   "session.outcome.unknown": "Zug ohne Modell-Abschlussgrund beendet",
   "session.outcome.filtered": "Der Anbieter hat diese Antwort aufgrund eines Inhaltsfilters gestoppt.",
   "session.outcome.unexpected": "Die Antwort wurde unerwartet beendet und ist möglicherweise unvollständig.",
+  "session.outcome.generationId": "Generierungs-ID: {{id}}",
   "session.outcome.interrupted": "Zug unterbrochen",
   "session.outcome.error": "Zug fehlgeschlagen",
   "session.outcome.finish": "Abschlussgrund: {{reason}}",
+  "session.costAlert.header": "Sitzungskostenwarnung",
+  "session.costAlert.continue": "Fortfahren",
+  "session.costAlert.question":
+    "Diese Sitzung hat gerade deinen Warnschwellenwert pro Sitzung von {{limit}} überschritten und kostet {{cost}}. Weitermachen?",
+  "session.costAlert.stop": "Stopp",
 
   "ui.sessionTurn.cancel": "Abbrechen",
   "ui.sessionTurn.status.thinking": "Denke nach...",
@@ -1365,6 +1482,12 @@ export const dict = {
   "settings.experimental.codebaseSearch.title": "Codebase-Suche",
   "settings.experimental.codebaseSearch.description":
     "KI-gestützte Suche in natürlicher Sprache über die gesamte Codebasis aktivieren",
+  "settings.experimental.imageGeneration.title": "Bildgenerierung",
+  "settings.experimental.imageGeneration.description": "KI-Bildgenerierung aktivieren",
+  "settings.experimental.imageGenerationModel.title": "Bildmodell",
+  "settings.experimental.imageGenerationModel.description": "Bildgenerierungsmodell",
+  "settings.experimental.imageGenerationModel.placeholder": "Standard (Auto Router)",
+
   "settings.experimental.speechToText.title": "Sprache zu Text",
   "settings.experimental.speechToText.description":
     "Aktivieren Sie die Spracheingabe in Prompt-Feldern mit Ihrem Kilo-Konto über Kilo Gateway.",
@@ -1382,7 +1505,20 @@ export const dict = {
   "settings.sandboxing.title": "Sandbox",
   "settings.sandboxing.network.title": "Netzwerkzugriff einschränken",
   "settings.sandboxing.network.description":
-    "Blockiert den ausgehenden Netzwerkzugriff für vom Modell initiierte Befehle und HTTP-Tools. Lokale MCP-Server und Plugin-Hooks sind von dieser Einschränkung ausgenommen. Anbieter- und Modellinferenzdatenverkehr bleibt verfügbar.",
+    "Blockiert den direkten ausgehenden Zugriff durch vom Modell initiierte Befehle und HTTP-Tools. Lokale und entfernte MCP-Tools sind während der Einschränkung nicht verfügbar. Provider-Datenverkehr und vertrauenswürdige Plugin-Hooks bleiben von dieser Einschränkung ausgenommen.",
+
+  "settings.sandboxing.allowedHosts.title": "Zulässige Netzwerkziele",
+  "settings.sandboxing.allowedHosts.description":
+    "DNS-Host- und Portziele für Sandbox-HTTP- und HTTPS-Proxy-Datenverkehr. GitHub CLI und HTTPS Git benötigen üblicherweise github.com:443 und api.github.com:443. Änderungen gelten für neue Sitzungen.",
+  "settings.sandboxing.writablePaths.title": "Zusätzliche schreibbare Pfade",
+  "settings.sandboxing.writablePaths.description":
+    "Zusätzliche Dateisystempfade, in die die Sandbox Schreibvorgänge erlaubt (z. B. /tmp, /var/log). Diese werden mit den Standard-Schreibpfaden zusammengeführt, wenn die Sandbox aktiv ist.",
+  "settings.experimental.swePruner.title": "SWE-Pruner",
+  "settings.experimental.swePruner.description":
+    "SWE-Pruner aktivieren: aufgabenbewusstes Kürzen großer Ausgaben der Lese-, Such- und Shell-Werkzeuge, gesteuert durch eine vom Agenten bereitgestellte Fokusfrage",
+  "settings.experimental.swePrunerModel.title": "SWE-Pruner-Modell",
+  "settings.experimental.swePrunerModel.description":
+    "Modell zum Kürzen von Tool-Ausgaben; standardmäßig das konfigurierte Small Model",
   "settings.experimental.mcpTimeout.title": "MCP-Zeitlimit (ms)",
   "settings.experimental.mcpTimeout.description": "Zeitlimit für MCP-Server-Anfragen in Millisekunden",
   "settings.experimental.remote.title": "Remote-Steuerung",
@@ -1407,11 +1543,14 @@ export const dict = {
   "settings.agentBehaviour.prompt.title": "Benutzerdefinierter Prompt",
   "settings.agentBehaviour.prompt.description": "Zusätzlicher System-Prompt für diesen Agent",
   "settings.agentBehaviour.temperature.title": "Temperatur",
-  "settings.agentBehaviour.temperature.description": "Sampling-Temperatur (0-2)",
+  "settings.agentBehaviour.temperature.description":
+    "Steuert, wie zufällig KI-Antworten ausfallen (0–2). Niedrigere Werte (z. B. 0.2) erzeugen fokussierte, konsistente Ergebnisse. Höhere Werte (z. B. 1.0) erzeugen abwechslungsreichere, kreativere Antworten. Leer lassen, um den Standardwert des Modells zu verwenden.",
   "settings.agentBehaviour.topP.title": "Top P",
-  "settings.agentBehaviour.topP.description": "Nucleus-Sampling-Parameter (0-1)",
+  "settings.agentBehaviour.topP.description":
+    "Schwellenwert für Nucleus-Sampling (0–1). Beschränkt die Token-Auswahl auf die kleinste Menge, deren kumulierte Wahrscheinlichkeit P erreicht. Niedrigere Werte machen die Ausgabe fokussierter; höhere Werte ermöglichen mehr Vielfalt. Leer lassen, um den Standardwert des Modells zu verwenden.",
   "settings.agentBehaviour.maxSteps.title": "Max. Schritte",
-  "settings.agentBehaviour.maxSteps.description": "Maximale Agent-Iterationen",
+  "settings.agentBehaviour.maxSteps.description":
+    "Maximale Anzahl von Agentenschritten. Beim Erreichen des Limits wird der Agent angewiesen, keine Werkzeuge mehr zu verwenden und eine abschließende Antwort zu geben. Für komplexe mehrstufige Aufgaben erhöhen; für kürzere und besser vorhersehbare Antworten verringern.",
   "settings.agentBehaviour.hidden.title": "Versteckt",
   "settings.agentBehaviour.hidden.description": "Diesen Agent im Modus-Umschalter der Chat-Eingabe ausblenden",
   "settings.agentBehaviour.disable.title": "Deaktiviert",
@@ -1518,12 +1657,15 @@ export const dict = {
     "Keine benutzerdefinierten Befehle konfiguriert. Fügen Sie Befehle zu opencode.json hinzu, um sie hier zu sehen.",
   "settings.agentBehaviour.workflows.detail.description": "Beschreibung",
   "settings.agentBehaviour.workflows.detail.template": "Vorlage",
-  "settings.experimental.sandbox.title": "Sandbox",
-  "settings.experimental.sandbox.description":
+  "settings.sandboxing.enabled.title": "Sandbox",
+  "settings.sandboxing.enabled.description":
     "Shell-Befehle des Agenten in einer Sandbox auf Betriebssystemebene ausführen, die Schreibvorgänge auf die Projekt- und Kilo-Statusverzeichnisse beschränkt",
 
   "settings.autoApprove.description":
     "Legen Sie fest, wie Tools ausgeführt werden dürfen. Die meisten Tools sind standardmäßig auf Zulassen eingestellt. doom_loop und external_directory sind standardmäßig auf Fragen eingestellt.",
+  "settings.autoApprove.maxCost.title": "Sitzungskostenwarnung",
+  "settings.autoApprove.maxCost.description":
+    "Vor dem Fortsetzen einer Sitzung warnen, wenn ihre Kosten diesen USD-Betrag überschreiten. Ganze Dollarbeträge verwenden; zum Deaktivieren leer lassen.",
   "settings.autoApprove.level.allow": "Erlauben",
   "settings.autoApprove.level.ask": "Fragen",
   "settings.autoApprove.level.deny": "Ablehnen",
@@ -1563,6 +1705,7 @@ export const dict = {
     "Prüfpunkte vor Dateibearbeitungen erstellen, um vorherige Zustände wiederherstellen zu können",
   "settings.context.autoCompaction.title": "Automatische Komprimierung",
   "settings.context.autoCompaction.description": "Kontext automatisch komprimieren, bevor er das Limit erreicht",
+  "settings.context.compaction.title": "Komprimierung",
   "settings.context.compactionLimit.title": "Limit für automatische Komprimierung",
   "settings.context.compactionLimit.description":
     "Komprimieren, wenn der Kontext diesen Prozentsatz des Modellfensters erreicht. Leer lassen, um nur den Sicherheitspuffer zu verwenden.",
@@ -1570,6 +1713,24 @@ export const dict = {
   "settings.context.prune.description": "Alte Werkzeugausgaben während der Komprimierung entfernen",
   "settings.context.watcherPatterns": "Datei-Watcher-Ignorierungsmuster",
   "settings.context.watcherPatterns.description": "Glob-Muster für Dateien, die der Watcher ignorieren soll",
+
+  "settings.context.memory.title": "Speicher",
+  "settings.context.memory.project.title": "Projektspeicher",
+  "settings.context.memory.autoSave.title": "Projektspeicher automatisch speichern",
+  "settings.context.memory.autoSave.description":
+    "Dauerhafte Projektfakten aus abgeschlossenen Durchläufen automatisch speichern, wenn Speicher aktiviert ist.",
+  "settings.context.memory.storage.title": "Storage",
+  "settings.context.memory.status.notLoaded": "Nicht geladen",
+  "settings.context.memory.status.disabled": "Deaktiviert",
+  "settings.context.memory.status.enabledTokens": "Enabled - ~{{tokens}} stored tokens",
+  "settings.context.memory.storage.path": "{{path}}",
+  "settings.context.memory.storage.enable": "Enable memory to create project memory files.",
+  "settings.context.memory.inspect": "Prüfen",
+  "chat.memory.project.disabled": "Projektspeicher deaktiviert",
+  "chat.memory.project.empty": "This project doesn't have any memory yet. It will start showing after you use Kilo.",
+  "chat.memory.command.failed": "Speicherbefehl fehlgeschlagen",
+  "chat.memory.updated": "Memory updated",
+  "chat.memory.rebuild": "Memory index rebuilt",
 
   "settings.commitMessage.title": "Commit Message",
   "settings.commitMessage.override.title": "Benutzerdefinierten prompt verwenden",
@@ -1581,6 +1742,11 @@ export const dict = {
   "settings.commitMessage.prompt.placeholder":
     "z. B. Generiere commit messages auf Spanisch nach dem conventional commits Format. Gib NUR die commit message zurück.",
 
+  "settings.commitMessage.language.sync": "Synchronisieren mit Benutzeroberflächensprache",
+  "settings.commitMessage.language.title": "Sprache",
+  "settings.commitMessage.language.description":
+    "Wählen Sie, welche Sprache für KI-generierte Commit-Nachrichten verwendet werden soll:",
+
   "settings.display.username.title": "Benutzername",
   "settings.display.username.description": "Benutzerdefinierter Benutzername in Gesprächen",
   "settings.display.fontSize.title": "Schriftgröße",
@@ -1588,6 +1754,9 @@ export const dict = {
   "settings.display.reasoningAutoCollapse.title": "Reasoning automatisch einklappen",
   "settings.display.reasoningAutoCollapse.description":
     "Klappt Reasoning-Blöcke ein, nachdem der Agent sie fertig geschrieben hat. Deaktiviert lassen, damit Reasoning erweitert bleibt, sofern du es nicht manuell einklappst.",
+  "settings.display.shiftTabCycle.title": "Reasoning-Aufwand mit Shift+Tab durchlaufen",
+  "settings.display.shiftTabCycle.description":
+    "Drücken Sie Shift+Tab in einem Prompt-Eingabefeld, um zur nächsten Stufe des Reasoning-Aufwands zu wechseln. Deaktivieren Sie dies, um Shift+Tab für die Tastaturfokusnavigation beizubehalten.",
   "settings.display.terminalCommand.title": "Terminal Command Blocks",
   "settings.display.terminalCommand.description": "Choose whether terminal command blocks start expanded or collapsed.",
   "settings.display.terminalCommand.expanded": "Expanded",
@@ -1597,6 +1766,15 @@ export const dict = {
     "Wählen Sie, ob Blöcke mit Codebearbeitungen und Unterschieden anfangs aus- oder eingeklappt sind.",
   "settings.display.codeEdit.expanded": "Ausgeklappt",
   "settings.display.codeEdit.collapsed": "Eingeklappt",
+
+  "settings.display.tokenThroughput.title": "Show Token Throughput",
+  "settings.display.tokenThroughput.description":
+    "Display the text-generation rate (tokens/sec) on the latest assistant message and in the task header. Hidden by default to keep the chat uncluttered.",
+
+  "chat.throughput.tooltip":
+    "Average {{speed}} tokens/s for this turn. Includes output and reasoning tokens; excludes tool execution and waiting time.",
+  "chat.throughput.tooltip.missing": "Throughput metrics unavailable for this turn.",
+
   "settings.providers.defaultModel.title": "Standardmodell",
   "settings.providers.defaultModel.description": "Primäres Modell für Gespräche",
   "settings.providers.smallModel.title": "Kleines Modell",
@@ -1754,4 +1932,15 @@ export const dict = {
   "diffViewer.baseBranch.loading": "Branches werden geladen…",
   "diffViewer.baseBranch.none": "—",
   "plan.exit.ready": "Plan ist bereit:",
+  "chat.search.placeholder": "Chat durchsuchen…",
+  "chat.search.toggle": "Chat durchsuchen",
+  "chat.search.matchCase": "Groß-/Kleinschreibung beachten",
+  "chat.search.matchWholeWord": "Ganzes Wort suchen",
+  "chat.search.useRegex": "Regulären Ausdruck verwenden",
+  "chat.search.previousMatch": "Vorheriger Treffer",
+  "chat.search.nextMatch": "Nächster Treffer",
+  "chat.search.close": "Suche schließen",
+  "chat.search.invalidRegex": "Ungültiger regulärer Ausdruck",
+  "chat.search.noResults": "Keine Ergebnisse",
+  "chat.search.searchingHistory": "Frühere Nachrichten werden durchsucht…",
 } satisfies Partial<Record<Keys, string>>

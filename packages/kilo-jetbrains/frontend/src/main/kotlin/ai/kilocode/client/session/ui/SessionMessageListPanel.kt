@@ -1,5 +1,6 @@
 package ai.kilocode.client.session.ui
 
+import ai.kilocode.client.session.SessionFileOpener
 import ai.kilocode.client.session.model.SessionModel
 import ai.kilocode.client.session.model.SessionModelEvent
 import ai.kilocode.client.session.model.SessionState
@@ -17,7 +18,7 @@ import ai.kilocode.client.session.views.TurnView
 import ai.kilocode.client.session.views.base.PartView
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.util.Disposer
-import com.intellij.util.ui.JBUI
+import java.awt.Insets
 import javax.swing.JComponent
 
 /**
@@ -51,19 +52,22 @@ class SessionMessageListPanel(
     private val question: QuestionView? = null,
     private val permission: PermissionView? = null,
     private val login: LoginRequiredView? = null,
-    private val openFile: (String) -> Unit,
+    private val openFile: SessionFileOpener,
     private val openUrl: (String) -> Unit = {},
     private val selection: SessionSelection? = null,
     private val openAttachment: (String, FileAttachment) -> Unit = { _, item -> ai.kilocode.client.session.views.AttachmentView.openDefault(item, openFile, openUrl) },
     private val repo: String? = null,
     private val resize: ((JComponent, () -> Unit) -> Unit)? = null,
+    private val revert: ((String) -> Unit)? = null,
+    private val cancelRevert: (() -> Unit)? = null,
+    private val banner: RevertBanner? = null,
 ) : SessionLayoutPanel(
-    JBUI.scale(SessionUiStyle.SessionLayout.GAP),
-    JBUI.insets(
-        SessionUiStyle.SessionLayout.InnerInsets.top,
-        SessionUiStyle.SessionLayout.InnerInsets.left,
-        SessionUiStyle.SessionLayout.InnerInsets.bottom,
-        SessionUiStyle.SessionLayout.InnerInsets.right + SessionUiStyle.SessionLayout.TRANSCRIPT_SCROLLBAR_PADDING,
+    SessionUiStyle.SessionLayout.GAP,
+    Insets(
+        SessionUiStyle.SessionLayout.INNER_TOP,
+        SessionUiStyle.SessionLayout.INNER_HORIZONTAL,
+        SessionUiStyle.SessionLayout.INNER_BOTTOM,
+        SessionUiStyle.SessionLayout.INNER_HORIZONTAL,
     ),
 ), Disposable, SessionEditorStyleTarget {
 
@@ -73,14 +77,17 @@ class SessionMessageListPanel(
     private var style = SessionEditorStyle.current()
     private var hiddenTool: ToolCallRef? = null
     private var hovered: PartView? = null
+    private var revertingMessage: String? = null
+
+    var onHover: ((PartView, Boolean) -> Unit)? = null
 
     /** Progress footer — always the last child inside the scroll. */
     val progress = ProgressPanel(model, parent)
 
     init {
         isOpaque = true
-        background = SessionUiStyle.Transcript.bgColor()
         Disposer.register(parent, this)
+        applyStyle(style)
 
         model.addListener(parent) { event ->
             when (event) {
@@ -89,34 +96,37 @@ class SessionMessageListPanel(
                 is SessionModelEvent.TurnRemoved -> onTurnRemoved(event.id)
 
                 is SessionModelEvent.ContentAdded -> {
-                    msgToView[event.messageId]?.upsertPart(event.content)
-                    msgToTurn[event.messageId]?.syncCopyToolbars()
-                    refresh()
+                    if (msgToView[event.messageId]?.upsertPartChanged(event.content) == true) {
+                        onContentChanged(event.messageId)
+                    }
                 }
 
                 is SessionModelEvent.ContentUpdated -> {
-                    msgToView[event.messageId]?.upsertPart(event.content)
-                    msgToTurn[event.messageId]?.syncCopyToolbars()
-                    refresh()
+                    if (msgToView[event.messageId]?.upsertPartChanged(event.content) == true) {
+                        onContentChanged(event.messageId)
+                    }
                 }
 
                 is SessionModelEvent.ContentRemoved -> {
-                    msgToView[event.messageId]?.removePart(event.contentId)
-                    msgToTurn[event.messageId]?.syncCopyToolbars()
-                    refresh()
+                    if (msgToView[event.messageId]?.removePartChanged(event.contentId) == true) {
+                        onContentChanged(event.messageId)
+                    }
                 }
 
                 is SessionModelEvent.ContentDelta -> {
                     if (event.created) return@addListener
+                    if (event.delta.isEmpty()) return@addListener
                     val handled = msgToView[event.messageId]?.appendDelta(event.contentId, event.delta) == true
                     if (handled) {
                         msgToTurn[event.messageId]?.syncCopyToolbars()
+                        forgetTurn(event.messageId)
                         return@addListener
                     }
                     val content = model.content(event.messageId, event.contentId)
                     if (content != null) {
-                        msgToView[event.messageId]?.upsertPart(content)
-                        msgToTurn[event.messageId]?.syncCopyToolbars()
+                        if (msgToView[event.messageId]?.upsertPartChanged(content) == true) {
+                            onContentChanged(event.messageId)
+                        }
                     }
                 }
 
@@ -125,7 +135,16 @@ class SessionMessageListPanel(
 
                 is SessionModelEvent.StateChanged -> {
                     syncActive(event.state)
+                    syncSettled(event.state)
+                    syncReverted()
+                    syncReverting(event.state)
                     anchorFooter()
+                    refresh()
+                }
+
+                is SessionModelEvent.RevertChanged -> {
+                    syncReverted()
+                    banner?.update()
                     refresh()
                 }
 
@@ -133,11 +152,15 @@ class SessionMessageListPanel(
                 is SessionModelEvent.MessageAdded,
                 is SessionModelEvent.MessageUpdated,
                 is SessionModelEvent.MessageRemoved,
-                is SessionModelEvent.DiffUpdated,
                 is SessionModelEvent.TodosUpdated,
                 is SessionModelEvent.SessionUpdated,
                 is SessionModelEvent.HeaderUpdated,
                 is SessionModelEvent.Compacted -> Unit
+
+                is SessionModelEvent.DiffUpdated -> {
+                    banner?.update()
+                    refresh()
+                }
             }
         }
 
@@ -193,7 +216,7 @@ class SessionMessageListPanel(
     // ------ private event handlers ------
 
     private fun onTurnAdded(turn: ai.kilocode.client.session.model.Turn) {
-        val tv = TurnView(turn.id, openFile, style, openUrl, selection, openAttachment, resize, repo, ::hover)
+        val tv = TurnView(turn.id, openFile, style, openUrl, selection, openAttachment, resize, repo, ::hover, revert)
         turnViews[turn.id] = tv
         for (msgId in turn.messageIds) {
             val msg = model.message(msgId) ?: continue
@@ -201,7 +224,9 @@ class SessionMessageListPanel(
             register(msgId, tv, mv)
         }
         tv.syncCopyToolbars()
+        syncReverted()
         add(tv)
+        syncSettled()
         anchorFooter()
         refresh()
     }
@@ -214,8 +239,7 @@ class SessionMessageListPanel(
         // Remove messages no longer in this turn
         for (id in prev) {
             if (id !in next) {
-                tv.removeMessage(id)
-                unregister(id)
+                if (tv.removeMessageChanged(id)) unregister(id)
             }
         }
 
@@ -227,6 +251,8 @@ class SessionMessageListPanel(
             register(id, tv, mv)
         }
         tv.syncCopyToolbars()
+        syncReverted()
+        syncSettled()
 
         refresh()
     }
@@ -236,6 +262,7 @@ class SessionMessageListPanel(
         for (msgId in tv.messageIds()) unregister(msgId)
         remove(tv)
         Disposer.dispose(tv)
+        syncSettled()
         anchorFooter()
         refresh()
     }
@@ -252,7 +279,7 @@ class SessionMessageListPanel(
         removeAll()
 
         for (turn in model.turns()) {
-            val tv = TurnView(turn.id, openFile, style, openUrl, selection, openAttachment, resize, repo, ::hover)
+            val tv = TurnView(turn.id, openFile, style, openUrl, selection, openAttachment, resize, repo, ::hover, revert)
             turnViews[turn.id] = tv
             for (msgId in turn.messageIds) {
                 val msg = model.message(msgId) ?: continue
@@ -264,8 +291,21 @@ class SessionMessageListPanel(
         }
 
         syncActive(model.state)
+        syncSettled(model.state)
+        syncReverted()
+        syncReverting(model.state)
+        banner?.update()
         anchorFooter()
         refresh()
+    }
+
+    private fun syncReverted() {
+        for ((id, view) in msgToView) {
+            view.isVisible = !model.isRevertedMessage(id)
+        }
+        for (view in turnViews.values) {
+            view.isVisible = view.messageIds().any { msgToView[it]?.isVisible == true }
+        }
     }
 
     private fun clear() {
@@ -277,8 +317,12 @@ class SessionMessageListPanel(
         turnViews.clear()
         msgToTurn.clear()
         msgToView.clear()
+        revertingMessage = null
         removeAll()
         syncActive(model.state)
+        syncSettled(model.state)
+        syncReverting(model.state)
+        banner?.update()
         anchorFooter()
         refresh()
     }
@@ -317,11 +361,31 @@ class SessionMessageListPanel(
         }
     }
 
+    private fun syncReverting(state: SessionState) {
+        val current = revertingMessage
+        val rollback = state as? SessionState.Reverting
+        if (rollback?.kind == SessionState.Reverting.Kind.ROLLBACK && rollback.message != null) {
+            if (current != null && current != rollback.message) msgToView[current]?.setReverting(false, "", {})
+            val view = msgToView[rollback.message]
+            view?.setReverting(true, rollback.text) { cancelRevert?.invoke() }
+            revertingMessage = if (view == null) null else rollback.message
+        } else {
+            if (current != null) msgToView[current]?.setReverting(false, "", {})
+            revertingMessage = null
+        }
+        banner?.setReverting(state)
+    }
+
     /** Fan out the hidden question tool ref to all registered [MessageView]s. */
     private fun setHiddenQuestionTool(ref: ToolCallRef?) {
         if (hiddenTool == ref) return
         hiddenTool = ref
         for (mv in msgToView.values) mv.setHiddenQuestionTool(ref)
+    }
+
+    private fun syncSettled(state: SessionState = model.state) {
+        val active = if (state.isBusy()) turnViews.values.lastOrNull() else null
+        for (view in turnViews.values) view.setSettled(view !== active)
     }
 
     /**
@@ -336,10 +400,12 @@ class SessionMessageListPanel(
         if (question != null) remove(question)
         if (permission != null) remove(permission)
         if (login != null) remove(login)
+        if (banner != null) remove(banner)
         remove(progress)
         if (question != null) add(question)
         if (permission != null) add(permission)
         if (login != null) add(login)
+        if (banner != null) add(banner)
         add(progress)
     }
 
@@ -350,6 +416,7 @@ class SessionMessageListPanel(
     }
 
     private fun unregister(msgId: String) {
+        if (revertingMessage == msgId) revertingMessage = null
         msgToTurn.remove(msgId)
         msgToView.remove(msgId)
     }
@@ -359,36 +426,63 @@ class SessionMessageListPanel(
         repaint()
     }
 
+    /**
+     * Handle a content mutation that changed an already-rendered message: sync the turn's copy
+     * toolbars, forget its cached height, then relayout. [forgetTurn] is essential when the update
+     * lands on a settled turn — a settled [TurnView] is its own validate root, so `RepaintManager`
+     * re-validates it independently and its `isValid` flag no longer signals the height change to
+     * [SessionLayout]'s measurement cache.
+     */
+    private fun onContentChanged(messageId: String) {
+        msgToTurn[messageId]?.syncCopyToolbars()
+        forgetTurn(messageId)
+        refresh()
+    }
+
+    /** Drop [SessionLayout]'s cached height for the turn holding [messageId] after its content changes. */
+    private fun forgetTurn(messageId: String) {
+        val tv = msgToTurn[messageId] ?: return
+        (layout as? SessionLayout)?.forget(tv)
+    }
+
     private fun hover(view: PartView, value: Boolean) {
         if (value) {
             val prev = hovered
             if (prev === view) return
             hovered = view
             prev?.setHovered(false)
+            onHover?.invoke(view, true)
             return
         }
-        if (hovered === view) hovered = null
+        if (hovered !== view) return
+        hovered = null
+        onHover?.invoke(view, false)
     }
 
     private fun clearHover() {
         val view = hovered ?: return
         hovered = null
         view.setHovered(false)
+        onHover?.invoke(view, false)
     }
 
     override fun applyStyle(style: SessionEditorStyle) {
         this.style = style
-        background = SessionUiStyle.Transcript.bgColor()
+        background = style.editorBackground
         for (view in turnViews.values) view.applyStyle(style)
         question?.applyStyle(style)
         permission?.applyStyle(style)
         login?.applyStyle(style)
+        banner?.applyStyle(style)
         progress.applyStyle(style)
         refresh()
     }
 
     override fun dispose() {
         clearHover()
+        question?.hideView()
+        permission?.hideView()
+        login?.hideView()
         turnViews.values.forEach {
             remove(it)
             Disposer.dispose(it)
@@ -396,6 +490,8 @@ class SessionMessageListPanel(
         turnViews.clear()
         msgToTurn.clear()
         msgToView.clear()
+        revertingMessage = null
+        onHover = null
         removeAll()
     }
 }

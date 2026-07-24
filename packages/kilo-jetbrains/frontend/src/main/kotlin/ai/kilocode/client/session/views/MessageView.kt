@@ -1,19 +1,27 @@
 package ai.kilocode.client.session.views
 
+import ai.kilocode.client.session.SessionFileOpener
+import ai.kilocode.client.session.model.Compaction
 import ai.kilocode.client.session.model.Content
 import ai.kilocode.client.session.model.FileAttachment
 import ai.kilocode.client.session.model.Message
 import ai.kilocode.client.session.model.Reasoning
 import ai.kilocode.client.session.model.StepFinish
+import ai.kilocode.client.session.model.Text
 import ai.kilocode.client.session.model.Tool
 import ai.kilocode.client.session.model.ToolCallRef
 import ai.kilocode.client.session.model.ToolExecState
+import ai.kilocode.client.session.ui.RevertProgress
 import ai.kilocode.client.session.ui.SessionView
 import ai.kilocode.client.session.ui.style.SessionEditorStyle
+import ai.kilocode.client.session.ui.selection.SessionCopyTarget
 import ai.kilocode.client.session.ui.selection.SessionSelection
 import ai.kilocode.client.session.ui.style.SessionEditorStyleTarget
 import ai.kilocode.client.session.views.base.PartView
 import ai.kilocode.client.session.ui.style.SessionUiStyle
+import ai.kilocode.client.ui.layout.HAlign
+import ai.kilocode.client.ui.layout.VAlign
+import ai.kilocode.client.ui.layout.align
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.util.Disposer
 import com.intellij.util.concurrency.annotations.RequiresEdt
@@ -23,9 +31,6 @@ import java.awt.Point
 import java.awt.Graphics
 import java.awt.Graphics2D
 import java.awt.RenderingHints
-import java.awt.event.MouseAdapter
-import java.awt.event.MouseEvent
-import java.awt.Container
 import javax.swing.JComponent
 import javax.swing.JPanel
 import javax.swing.SwingUtilities
@@ -43,7 +48,7 @@ import javax.swing.SwingUtilities
  */
 class MessageView(
     val msg: Message,
-    private val openFile: (String) -> Unit,
+    private val openFile: SessionFileOpener,
     private var style: SessionEditorStyle = SessionEditorStyle.current(),
     private val openUrl: (String) -> Unit = {},
     private val selection: SessionSelection? = null,
@@ -51,16 +56,22 @@ class MessageView(
     private val resize: ((JComponent, () -> Unit) -> Unit)? = null,
     private val repo: String? = null,
     private val hover: ((PartView, Boolean) -> Unit)? = null,
+    private val revert: ((String) -> Unit)? = null,
 ) : ai.kilocode.client.session.ui.SessionLayoutPanel(
-    JBUI.scale(SessionUiStyle.SessionLayout.GAP),
+    SessionUiStyle.SessionLayout.GAP,
 ), Disposable, SessionEditorStyleTarget, SessionView {
-
-    constructor(msg: Message, openFile: (String) -> Unit) : this(msg, openFile, SessionEditorStyle.current())
 
     val role: String get() = msg.info.role
 
     override val sessionViewKind: SessionView.Kind
-        get() = if (role == SessionUiStyle.View.Message.USER_ROLE) SessionView.Kind.UserPrompt else SessionView.Kind.Default
+        get() = if (role == SessionUiStyle.View.Message.USER_ROLE && !compaction) {
+            SessionView.Kind.UserPrompt
+        } else {
+            SessionView.Kind.Default
+        }
+
+    private val compaction: Boolean
+        get() = role == SessionUiStyle.View.Message.USER_ROLE && msg.parts.values.any { it is Compaction }
 
     private val parts = LinkedHashMap<String, PartView>()
     // Adjacent reasoning parts render through the first ReasoningView. aliases maps each
@@ -72,24 +83,12 @@ class MessageView(
     private var hidden: ToolCallRef? = null
     private var prompt: PromptView? = null
     private var promptBox: JPanel? = null
-    private var promptToolbar: MessageToolbar? = null
-    private var promptHover = false
+    private var wrap: PromptWrap? = null
 
     init {
         isOpaque = false
         if (msg.info.role == SessionUiStyle.View.Message.USER_ROLE) background = style.editorScheme.defaultBackground
         border = assistantBorder()
-        if (msg.info.role == SessionUiStyle.View.Message.USER_ROLE) {
-            addMouseListener(object : MouseAdapter() {
-                override fun mouseEntered(e: MouseEvent) {
-                    setPromptHovered(true)
-                }
-
-                override fun mouseExited(e: MouseEvent) {
-                    setPromptHovered(false)
-                }
-            })
-        }
 
         // Populate content that already exists (e.g. after loadHistory)
         for ((_, content) in msg.parts) {
@@ -112,7 +111,12 @@ class MessageView(
     /** Add or update the renderer for [content]. */
     @RequiresEdt
     fun upsertPart(content: Content) {
-        if (content is StepFinish) return
+        upsertPartChanged(content)
+    }
+
+    @RequiresEdt
+    fun upsertPartChanged(content: Content): Boolean {
+        if (content is StepFinish) return false
         if (isHidden(content)) {
             if (isPromptMention(content)) syncPromptMentions()
             // Remove any stale view for this content so it disappears when suppressed
@@ -124,7 +128,7 @@ class MessageView(
                     stale.remove(content.id)
                     if (!stale.isEmpty()) {
                         refresh()
-                        return
+                        return true
                     }
                     attachments = null
                 }
@@ -133,14 +137,15 @@ class MessageView(
                 Disposer.dispose(stale)
                 syncBorder()
                 refresh()
+                return true
             }
-            return
+            return false
         }
         val id = aliases[content.id]
         if (id != null && content is Reasoning) {
-            updateAlias(content, id)
+            if (!updateAlias(content, id)) return false
             refresh()
-            return
+            return true
         }
         if (id != null) {
             aliases.remove(content.id)
@@ -151,20 +156,24 @@ class MessageView(
             if (existing is PromptAttachmentView && content is FileAttachment) {
                 existing.upsert(content)
                 refresh()
-                return
+                return true
             }
             if (ViewFactory.shouldReplace(existing, content)) {
                 replacePart(content, existing)
-                return
+                return true
+            }
+            if (content is Text && existing is TextView && existing !is PromptView && existing.markdown() == content.content.toString()) {
+                return false
             }
             existing.update(content)
             syncPromptToolbar()
             refresh()
-            return
+            return true
         }
         addPart(content)
         syncBorder()
         refresh()
+        return true
     }
 
     @RequiresEdt
@@ -205,14 +214,15 @@ class MessageView(
     }
 
     @RequiresEdt
-    private fun updateAlias(content: Reasoning, id: String) {
-        val view = parts[id] as? ReasoningView ?: return
+    private fun updateAlias(content: Reasoning, id: String): Boolean {
+        val view = parts[id] as? ReasoningView ?: return false
         val prev = sources[content.id].orEmpty()
         val next = content.content.toString()
         val delta = if (next.startsWith(prev)) next.removePrefix(prev) else next
         sources[content.id] = next
-        if (delta.isEmpty()) return
+        if (delta.isEmpty()) return false
         view.update(merged(view, content, delta))
+        return true
     }
 
     private fun merged(view: ReasoningView, content: Reasoning, delta: String) = Reasoning(view.contentId).also {
@@ -244,16 +254,21 @@ class MessageView(
     /** Remove the renderer for [contentId] if present. */
     @RequiresEdt
     fun removePart(contentId: String) {
+        removePartChanged(contentId)
+    }
+
+    @RequiresEdt
+    fun removePartChanged(contentId: String): Boolean {
         if (aliases.remove(contentId) != null) {
             sources.remove(contentId)
-            return
+            return true
         }
-        val view = parts.remove(contentId) ?: return
+        val view = parts.remove(contentId) ?: return false
         if (view is PromptAttachmentView) {
             view.remove(contentId)
             if (!view.isEmpty()) {
                 refresh()
-                return
+                return true
             }
             attachments = null
         }
@@ -264,6 +279,7 @@ class MessageView(
         Disposer.dispose(view)
         syncBorder()
         refresh()
+        return true
     }
 
     /**
@@ -299,8 +315,7 @@ class MessageView(
         attachments = null
         prompt = null
         promptBox = null
-        promptToolbar = null
-        promptHover = false
+        wrap = null
         for ((_, content) in msg.parts) {
             if (content is StepFinish) continue
             if (isHidden(content)) continue
@@ -338,6 +353,7 @@ class MessageView(
     /** Append a streaming delta to the renderer for [contentId]. */
     @RequiresEdt
     fun appendDelta(contentId: String, delta: String): Boolean {
+        if (delta.isEmpty()) return false
         val id = aliases[contentId]
         if (id != null) sources[contentId] = sources[contentId].orEmpty() + delta
         val part = parts[id ?: contentId] ?: return false
@@ -373,18 +389,21 @@ class MessageView(
     fun dump(): String = parts.values.joinToString(", ") { it.dumpLabel() }
 
     @RequiresEdt
-    fun setPromptHovered(value: Boolean) {
+    fun promptToolbarActive() = promptToolbar?.active() == true
+
+    @RequiresEdt
+    fun setReverting(active: Boolean, text: String, onCancel: () -> Unit) {
         if (role != SessionUiStyle.View.Message.USER_ROLE) return
-        if (promptHover == value) return
-        promptHover = value
-        syncPromptToolbar()
+        wrap?.setReverting(active, text, onCancel)
     }
 
-    @RequiresEdt
-    fun paintsPromptToolbar() = promptToolbar?.paints() == true
+    private val promptToolbar: MessageToolbar?
+        get() = wrap?.bar
 
     @RequiresEdt
-    fun promptToolbarAlignment() = promptToolbar?.alignment()
+    private fun syncPromptToolbar() {
+        promptToolbar?.setActive(prompt?.copyMarkdown(trim = false)?.isNotEmpty() == true)
+    }
 
     @RequiresEdt
     override fun applyStyle(style: SessionEditorStyle) {
@@ -406,13 +425,12 @@ class MessageView(
         sources.clear()
         prompt = null
         promptBox = null
-        promptToolbar = null
-        promptHover = false
+        wrap = null
         hidden = null
     }
 
     override fun paintComponent(g: Graphics) {
-        if (msg.info.role != SessionUiStyle.View.Message.USER_ROLE) {
+        if (msg.info.role != SessionUiStyle.View.Message.USER_ROLE || compaction) {
             super.paintComponent(g)
             return
         }
@@ -458,58 +476,65 @@ class MessageView(
     }
 
     @RequiresEdt
-    private fun syncPromptToolbar() {
-        promptToolbar?.paint(promptHover)
-    }
-
-    @RequiresEdt
     private fun wrapPrompt(view: PartView): JComponent {
         if (role != SessionUiStyle.View.Message.USER_ROLE) return view
         if (view !is PromptView) return view
         prompt = view
-        val bar = promptToolbar ?: MessageToolbar(BorderLayout.LINE_END) { prompt?.copyMarkdown(trim = false) }.also { promptToolbar = it }
         val box = JPanel(BorderLayout()).also {
             it.isOpaque = false
             it.add(view, BorderLayout.CENTER)
             promptBox = it
         }
-        bar.paint(false)
-        return JPanel(BorderLayout()).also {
-            it.isOpaque = false
-            it.add(box, BorderLayout.CENTER)
-            it.add(bar, BorderLayout.SOUTH)
-            installPromptHover(it)
+        val node = PromptWrap(box)
+        wrap = node
+        node.bar.setActive(true)
+        return node
+    }
+
+    private inner class PromptWrap(
+        private val box: JPanel,
+    ) : JPanel(BorderLayout()), SessionCopyTarget {
+        val bar = MessageToolbar(
+            { prompt?.copyMarkdown(trim = false) },
+            revert?.let { fn -> { fn(msg.info.id) } },
+        )
+        private val placeholder = bar.placeholder()
+        private var progress: RevertProgress? = null
+        private var reverting = false
+
+        override val copyAnchor: JComponent get() = placeholder
+        override val copyToolbar: JComponent? get() = if (reverting) null else bar
+
+        init {
+            isOpaque = false
+            add(box, BorderLayout.CENTER)
+            add(placeholder.align(HAlign.RIGHT, VAlign.TOP), BorderLayout.SOUTH)
         }
-    }
 
-    @RequiresEdt
-    private fun installPromptHover(root: JComponent) {
-        val mouse = object : MouseAdapter() {
-            override fun mouseEntered(e: MouseEvent) {
-                setPromptHovered(true)
+        override fun copyText(): String? = prompt?.copyMarkdown(trim = false)
+
+        @RequiresEdt
+        fun setReverting(active: Boolean, text: String, onCancel: () -> Unit) {
+            if (active) {
+                val node = progress ?: RevertProgress(onCancel).also {
+                    it.applyStyle(style)
+                    progress = it
+                }
+                node.setText(text)
+                if (reverting) return
+                reverting = true
+                remove((layout as BorderLayout).getLayoutComponent(BorderLayout.SOUTH))
+                add(node.align(HAlign.LEFT, VAlign.TOP), BorderLayout.SOUTH)
+                revalidate()
+                repaint()
+                return
             }
-
-            override fun mouseExited(e: MouseEvent) {
-                val point = root.mousePosition
-                if (point != null && root.contains(point)) return
-                if (inside(root, e)) return
-                setPromptHovered(false)
-            }
-        }
-        visit(root) { it.addMouseListener(mouse) }
-    }
-
-    @RequiresEdt
-    private fun inside(root: JComponent, e: MouseEvent): Boolean {
-        val point = SwingUtilities.convertPoint(e.component, e.point, root)
-        return root.contains(point)
-    }
-
-    @RequiresEdt
-    private fun visit(root: Container, fn: (JComponent) -> Unit) {
-        if (root is JComponent) fn(root)
-        for (child in root.components) {
-            if (child is Container) visit(child, fn)
+            if (!reverting) return
+            reverting = false
+            remove((layout as BorderLayout).getLayoutComponent(BorderLayout.SOUTH))
+            add(placeholder.align(HAlign.RIGHT, VAlign.TOP), BorderLayout.SOUTH)
+            revalidate()
+            repaint()
         }
     }
 

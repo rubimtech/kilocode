@@ -48,6 +48,65 @@ object UiStyle {
         fun arc() = JBUI.scale(8)
     }
 
+    /** Filled badge styles shared across JetBrains UI surfaces. */
+    object Badge {
+        interface Style {
+            fun bg(): Color
+
+            fun fg(): Color
+        }
+
+        object Primary : Style {
+            override fun bg(): Color = JBColor.namedColor(
+                "Kilo.History.activityBadgeBackground",
+                JBUI.CurrentTheme.Link.Foreground.ENABLED,
+            )
+
+            override fun fg(): Color = JBColor.namedColor(
+                "Kilo.History.activityBadgeForeground",
+                Color.WHITE,
+            )
+        }
+
+        object Secondary : Style {
+            override fun bg(): Color = JBColor.lazy {
+                UIManager.getColor("Badge.background")
+                    ?: UIManager.getColor("Label.infoBackground")
+                    ?: Colors.blend(Colors.contentBackground(), Colors.fg(), 0.16f)
+            }
+
+            override fun fg(): Color = JBColor.lazy {
+                UIManager.getColor("Badge.foreground")
+                    ?: UIManager.getColor("Label.infoForeground")
+                    ?: UIUtil.getLabelForeground()
+            }
+        }
+
+        object Highlight : Style {
+            override fun bg(): Color = JBColor.namedColor(
+                "Kilo.ModelPicker.freeBadgeBackground",
+                JBColor(0x95D6AC, 0x7FCA99),
+            )
+
+            override fun fg(): Color = JBColor.namedColor(
+                "Kilo.ModelPicker.freeBadgeForeground",
+                JBColor.WHITE,
+            )
+        }
+
+        object Alert : Style {
+            override fun bg(): Color = JBColor.namedColor(
+                "Kilo.History.runningBadgeBackground",
+                JBColor(0xF5C542, 0x7A5A00),
+            )
+
+            override fun fg(): Color = JBColor.namedColor(
+                "Kilo.History.runningBadgeForeground",
+                JBColor(Color.BLACK, Color.WHITE),
+            )
+        }
+    }
+
     /** Theme-aware colors and color math used by multiple UI surfaces. */
     object Colors {
         fun bg(): Color = UIUtil.getPanelBackground()
@@ -74,36 +133,6 @@ object UiStyle {
                 ?: UIUtil.getPanelBackground()
         }
 
-        /** Filled badge surface using platform badge/info colors with a soft theme-derived fallback. */
-        fun badgeBg(): Color = JBColor.lazy {
-            UIManager.getColor("Badge.background")
-                ?: UIManager.getColor("Label.infoBackground")
-                ?: blend(contentBackground(), fg(), 0.16f)
-        }
-
-        /** Filled badge text color paired with [badgeBg]. */
-        fun badgeFg(): Color = JBColor(Color.BLACK, UIUtil.getLabelForeground())
-
-        fun runningBadgeBg(): Color = JBColor.namedColor(
-            "Kilo.History.runningBadgeBackground",
-            JBColor(0xF5C542, 0x7A5A00),
-        )
-
-        fun runningBadgeFg(): Color = JBColor.namedColor(
-            "Kilo.History.runningBadgeForeground",
-            JBColor(Color.BLACK, Color.WHITE),
-        )
-
-        fun activityBadgeBg(): Color = JBColor.namedColor(
-            "Kilo.History.activityBadgeBackground",
-            JBUI.CurrentTheme.Link.Foreground.ENABLED,
-        )
-
-        fun activityBadgeFg(): Color = JBColor.namedColor(
-            "Kilo.History.activityBadgeForeground",
-            Color.WHITE,
-        )
-
         /** Border color shared across contained panels. */
         fun contentBorder(): Color = JBColor.namedColor("Component.borderColor", JBColor.border())
 
@@ -118,6 +147,16 @@ object UiStyle {
         )
 
         fun errorLabelForeground(): Color = JBColor.namedColor("Label.errorForeground", UIUtil.getErrorForeground())
+
+        fun addedForeground(): Color = JBColor.namedColor(
+            "Kilo.DiffStat.addedForeground",
+            JBColor(Color(0x1f, 0x9d, 0x66), Color(0x35, 0xd4, 0x9a)),
+        )
+
+        fun removedForeground(): Color = JBColor.namedColor(
+            "Kilo.DiffStat.removedForeground",
+            JBColor(Color(0xdb, 0x58, 0x66), Color(0xff, 0x6b, 0x7a)),
+        )
 
         fun warningLabelForeground(): Color = JBColor.lazy {
             UIManager.getColor("Component.warningFocusColor")

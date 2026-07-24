@@ -1,14 +1,59 @@
-import { anacondaDesktopDict, dict as en } from "./en"
+import { dict as en } from "./en"
 
 type Keys = keyof typeof en
 
-export const dict = {
-  ...anacondaDesktopDict,
-  "provider.anaconda.action.checkAgain": "再次檢查",
+export const anacondaDesktopDict = {
+  "provider.anaconda.title.connect": "連接 Anaconda Desktop",
+  "provider.anaconda.title.manage": "管理 Anaconda Desktop",
+  "provider.anaconda.status.checking": "正在檢查 Anaconda Desktop...",
+  "provider.anaconda.status.opening": "正在開啟 Anaconda Desktop...",
+  "provider.anaconda.status.syncing": "正在重新整理供應商模型...",
+  "provider.anaconda.status.ready": "已準備好連接",
+  "provider.anaconda.status.waiting": "正在等待 Desktop",
+  "provider.anaconda.status.attention": "需要注意",
+  "provider.anaconda.status.unavailable": "無法使用",
+  "provider.anaconda.state.unsupported": "Anaconda Desktop 不支援 {{platform}}。",
+  "provider.anaconda.state.notInstalled":
+    "請在此機器上安裝 Anaconda Desktop，然後返回此處。Kilo 不會為您執行安裝程式。",
+  "provider.anaconda.state.notRunning": "請開啟 Anaconda Desktop，完成設定並登入，然後選擇再次檢查。",
+  "provider.anaconda.state.invalidConfig":
+    "Anaconda Desktop 設定尚未完成。請開啟 Desktop，完成設定，並在需要時重新啟動它。",
+  "provider.anaconda.state.signedOut": "請開啟 Anaconda Desktop 並登入，然後再連接 Kilo。",
+  "provider.anaconda.state.unauthorized":
+    "Kilo 無法存取 Anaconda Desktop。請開啟 Desktop，重新登入，並在需要時重新啟動它。",
+  "provider.anaconda.state.unavailable": "Anaconda Desktop 尚未回應。請開啟它並等待應用程式完成啟動。",
+  "provider.anaconda.state.noModel":
+    "請在 Anaconda Desktop 中下載一個文字生成模型。可能的話請選擇支援工具呼叫的模型，然後啟動其伺服器。",
   "provider.anaconda.state.noServer_one":
     "有 1 個已下載的文字生成模型可用。請在 Anaconda Desktop 中啟動一個模型伺服器。強烈建議使用支援工具呼叫的模型。",
   "provider.anaconda.state.noServer_other":
     "有 {{count}} 個已下載的文字生成模型可用。請在 Anaconda Desktop 中啟動一個模型伺服器。強烈建議使用支援工具呼叫的模型。",
+  "provider.anaconda.state.unhealthy":
+    "使用中的推論伺服器尚未正常運作。請在 Anaconda Desktop 中檢查它，並在需要時重新啟動伺服器。",
+  "provider.anaconda.state.ready": "Kilo 找到了一個正常運作的本機文字生成伺服器，並可匯入其目前的連接設定。",
+  "provider.anaconda.server": "使用中的推論伺服器",
+  "provider.anaconda.context": "上下文視窗",
+  "provider.anaconda.contextValue": "{{count}} 個權杖",
+  "provider.anaconda.tools": "工具呼叫",
+  "provider.anaconda.tools.supported": "支援",
+  "provider.anaconda.tools.unsupported": "未啟用",
+  "provider.anaconda.tools.unknown": "未知",
+  "provider.anaconda.warning.title": "工具支援有限",
+  "provider.anaconda.warning.description":
+    "此伺服器未確認支援工具呼叫。編碼代理程式的動作可能會失敗或無法使用。只有在您接受這些限制的情況下才繼續。",
+  "provider.anaconda.action.download": "下載 Anaconda Desktop",
+  "provider.anaconda.action.open": "開啟 Anaconda Desktop",
+  "provider.anaconda.action.checkAgain": "再次檢查",
+  "provider.anaconda.action.continue": "仍要繼續",
+  "provider.anaconda.action.manage": "管理 / 重新整理",
+  "provider.anaconda.toast.refreshed.title": "Anaconda Desktop 已重新整理",
+  "provider.anaconda.toast.refreshed.description": "使用中的本機伺服器與模型在 Kilo 中已是最新狀態。",
+  "settings.providers.note.anacondaDesktop": "執行由 Anaconda Desktop 在本機提供的模型。",
+  "settings.providers.tag.local": "本機",
+} as const
+
+export const dict = {
+  ...anacondaDesktopDict,
   "command.category.suggested": "建議",
   "command.category.view": "檢視",
   "command.category.project": "專案",
@@ -92,7 +137,11 @@ export const dict = {
   "revert.banner.count_other": "已還原 {{count}} 則訊息",
   "revert.banner.redo": "重做",
   "revert.banner.redo.all": "全部重做",
-  "revert.banner.hint": "傳送新訊息以使此變更永久生效",
+  "revert.banner.hint": "You can redo these changes until you send a new message",
+  "revert.banner.workspace.snapshotsDisabled": "工作階段已還原。由於快照已停用，未還原檔案變更。",
+  "revert.banner.workspace.unavailable": "工作階段已還原。沒有可用的檔案檢查點，因此未還原工作區變更。",
+  "revert.banner.workspace.legacy": "工作階段已還原。此次先前還原的工作區復原狀態無法取得。",
+  "revert.banner.workspace.enableSnapshots": "啟用快照",
   "revert.disabled.agentBusy": "等待 Agent 完成",
   "command.session.compact": "精簡工作階段",
   "command.session.compact.description": "總結工作階段以減少上下文大小",
@@ -103,6 +152,30 @@ export const dict = {
   "command.session.unshare": "取消分享工作階段",
   "command.session.unshare.description": "停止分享此工作階段",
   "command.session.export": "匯出會話紀錄",
+
+  "agentRequirements.skill.installed": "已安裝",
+  "agentRequirements.skill.checkFailed": "技能檢查失敗",
+  "agentRequirements.skill.missing": "未安裝",
+  "agentRequirements.mcp.connected": "已連線",
+  "agentRequirements.mcp.checkFailed": "MCP 檢查失敗",
+  "agentRequirements.mcp.missing": "未連線",
+  "agentRequirements.extension.installed": "已安裝",
+  "agentRequirements.extension.checkFailed": "VS Code 擴充功能檢查失敗",
+  "agentRequirements.extension.missing": "未安裝",
+  "agentRequirements.extension.description": "在 VS Code 中安裝缺少的擴充功能。",
+  "agentRequirements.group.skills": "技能",
+  "agentRequirements.group.mcps": "MCP",
+  "agentRequirements.group.extensions": "VS Code 擴充功能",
+  "agentRequirements.blocked.title": "{{agent}} 代理前置需求",
+  "agentRequirements.blocked.description": "此代理需要以下工具後才能執行。",
+  "agentRequirements.prompt.blocked": "請先完成必要檢查，才能使用此代理",
+  "agentRequirements.action.openMarketplace": "開啟 Marketplace",
+  "agentRequirements.error.unknownAgent": "找不到所選代理。",
+  "agentRequirements.error.malformedDeclaration": "此代理的需求宣告無效。",
+  "agentRequirements.error.discoveryFailed": "Kilo 無法檢查可用技能。",
+  "agentRequirements.error.mcpStatusFailed": "Kilo 無法檢查 MCP 伺服器狀態。",
+  "agentRequirements.error.scopeMismatch": "此代理需求檢查已不再有效。",
+  "agentRequirements.error.requestFailed": "Kilo 無法檢查代理需求。",
 
   "palette.search.placeholder": "搜尋檔案、命令和工作階段",
   "palette.empty": "找不到結果",
@@ -277,6 +350,7 @@ export const dict = {
   "prompt.context.includeActiveFile": "包含作用中檔案",
   "prompt.context.removeActiveFile": "從上下文移除目前檔案",
   "prompt.context.removeFile": "從上下文移除檔案",
+  "prompt.thinking.tooltip": "推理強度",
   "prompt.action.attachFile": "附加檔案",
   "prompt.attachment.remove": "移除附件",
   "prompt.action.send": "傳送",
@@ -308,6 +382,7 @@ export const dict = {
   "prompt.action.sandbox.description.disabledNetworkAllowed": "點擊以限制檔案系統寫入。沙盒設定仍允許網路存取。",
 
   "speechToText.tooltip.start": "使用 Kilo Gateway 開始語音輸入",
+  "speechToText.tooltip.starting": "正在啟動麥克風... 請稍後再說。",
   "speechToText.tooltip.stop": "停止擷取音訊",
   "speechToText.tooltip.transcribing": "正在轉錄... 點擊取消。",
   "speechToText.tooltip.error": "語音輸入失敗。點擊清除。",
@@ -546,7 +621,7 @@ export const dict = {
   "ui.permission.toolLabel.grepSearch": "Grep搜尋",
   "ui.permission.toolLabel.webSearch": "Web搜尋",
   "ui.permission.toolLabel.list": "列出",
-  "ui.permission.toolLabel.externalDirectory": "讀取外部目錄",
+  "ui.permission.toolLabel.externalDirectory": "存取外部目錄",
   "ui.permission.toolLabel.webFetch": "Web取得",
   "ui.permission.toolLabel.task": "任務",
   "ui.permission.toolLabel.skill": "技能",
@@ -557,6 +632,16 @@ export const dict = {
   "ui.permission.toolLabel.codeSearch": "程式碼搜尋",
   "ui.permission.toggleWrap": "切換自動換行",
   "ui.permission.copyCommand": "複製",
+  "ui.approval.auto": "已自動核准",
+  "ui.approval.manual": "由你核准",
+  "ui.approval.rule": "符合 `{{permission}}` 規則 `{{pattern}}`",
+  "ui.approval.source.agent": "由 {{agent}} 代理",
+  "ui.approval.source.agent.default": "由代理",
+  "ui.approval.source.global": "由你的全域設定",
+  "ui.approval.source.project": "由專案設定",
+  "ui.approval.source.yolo": "由自動核准（YOLO）模式",
+  "ui.approval.source.session": "由工作階段自動核准規則",
+  "ui.approval.source.default": "預設",
   "notification.question.title": "問題",
   "notification.question.description": "{{sessionTitle}}（{{projectName}}）有一個問題",
   "notification.action.goToSession": "前往工作階段",
@@ -858,6 +943,7 @@ export const dict = {
   "provider.custom.models.name.label": "名稱",
   "provider.custom.models.name.placeholder": "顯示名稱",
   "provider.custom.models.reasoning.label": "推理",
+  "provider.custom.models.modalities.image": "圖片",
   "provider.custom.models.variants.label": "變體",
   "provider.custom.models.variants.add": "新增變體",
   "provider.custom.models.variants.remove": "移除變體",
@@ -1012,8 +1098,14 @@ export const dict = {
   "session.showHistory": "顯示歷史",
   "session.search.placeholder": "搜尋工作階段...",
   "session.empty": "尚無工作階段。點選 + 以開始新的對話。",
+  "session.tabs.switcher.open": "顯示開啟的分頁",
+  "session.tabs.switcher.search": "搜尋開啟的分頁...",
+  "session.tabs.switcher.current": "目前",
+  "session.tabs.switcher.pending": "新增",
+  "session.tabs.switcher.busy": "工作中",
   "session.tab.local": "本機",
   "session.tab.cloud": "雲端",
+  "session.tab.worktree": "工作樹",
   "session.cloud.repoOnly": "僅此儲存庫",
   "session.cloud.import": "從雲端匯入",
   "feedback.button": "意見回饋與支援",
@@ -1101,6 +1193,8 @@ export const dict = {
 
   "common.retry": "重試",
   "common.refresh": "重新整理",
+  "common.reload": "重新載入",
+  "common.reloadDescription": "重新載入磁碟上的設定、技能、智慧代理和命令",
 
   "profile.title": "個人資料",
   "profile.notLoggedIn": "尚未登入",
@@ -1108,6 +1202,10 @@ export const dict = {
   "profile.balance.title": "餘額",
   "profile.balance.refresh": "重新整理餘額",
   "profile.action.dashboard": "控制面板",
+  "profile.action.topUp": "儲值",
+  "profile.pass.subscribe": "訂閱 Kilo Pass 以新增額度並賺取獎勵",
+  "profile.pass.bonus": "獎勵",
+  "profile.pass.renews": "續訂",
   "profile.action.logout": "登出",
 
   "settings.section.configuration": "設定",
@@ -1141,9 +1239,14 @@ export const dict = {
   "session.outcome.unknown": "回合已結束，模型未提供結束原因",
   "session.outcome.filtered": "提供商因為內容過濾器停止了此回應。",
   "session.outcome.unexpected": "回應意外結束，可能不完整。",
+  "session.outcome.generationId": "生成 ID：{{id}}",
   "session.outcome.interrupted": "回合已中斷",
   "session.outcome.error": "回合失敗",
   "session.outcome.finish": "結束原因：{{reason}}",
+  "session.costAlert.header": "工作階段費用提醒",
+  "session.costAlert.continue": "繼續",
+  "session.costAlert.question": "此工作階段剛剛超過每工作階段提醒門檻 {{limit}}，目前費用為 {{cost}}。是否繼續？",
+  "session.costAlert.stop": "停止",
 
   "ui.sessionTurn.cancel": "取消",
   "ui.sessionTurn.status.thinking": "思考中...",
@@ -1267,6 +1370,12 @@ export const dict = {
   "settings.experimental.batch.description": "啟用多個工具呼叫的批次處理",
   "settings.experimental.codebaseSearch.title": "程式碼庫搜尋",
   "settings.experimental.codebaseSearch.description": "啟用 AI 驅動的自然語言程式碼庫搜尋",
+  "settings.experimental.imageGeneration.title": "圖像生成",
+  "settings.experimental.imageGeneration.description": "啟用 AI 圖像生成",
+  "settings.experimental.imageGenerationModel.title": "圖像模型",
+  "settings.experimental.imageGenerationModel.description": "圖像生成模型",
+  "settings.experimental.imageGenerationModel.placeholder": "預設 (Auto Router)",
+
   "settings.experimental.speechToText.title": "語音轉文字",
   "settings.experimental.speechToText.description": "透過 Kilo Gateway 使用您的 Kilo 帳戶在提示詞欄位中啟用語音輸入。",
   "settings.models.speechToText.disabledDescription":
@@ -1280,7 +1389,19 @@ export const dict = {
   "settings.sandboxing.title": "沙盒",
   "settings.sandboxing.network.title": "限制網路存取",
   "settings.sandboxing.network.description":
-    "封鎖模型發起的命令和 HTTP 工具的對外網路存取。本機 MCP 伺服器和外掛程式鉤子不受此限制。供應商與模型推論流量仍然可用。",
+    "阻止由模型發起的命令和 HTTP 工具直接進行對外存取。受限時，本機和遠端 MCP 工具均無法使用。提供者流量和受信任的外掛程式掛鉤不受此限制。",
+
+  "settings.sandboxing.allowedHosts.title": "允許的網路目的地",
+  "settings.sandboxing.allowedHosts.description":
+    "適用於沙盒 HTTP 和 HTTPS Proxy 流量的 DNS 主機與連接埠目標。GitHub CLI 和 HTTPS Git 通常需要 github.com:443 和 api.github.com:443。變更將套用至新工作階段。",
+  "settings.sandboxing.writablePaths.title": "額外可寫路徑",
+  "settings.sandboxing.writablePaths.description":
+    "沙盒允許寫入的額外檔案系統路徑（例如 /tmp、/var/log）。沙盒啟用後，這些路徑會與預設可寫路徑合併。",
+  "settings.experimental.swePruner.title": "SWE-Pruner",
+  "settings.experimental.swePruner.description":
+    "啟用 SWE-Pruner：根據智能體提供的聚焦問題，對讀取、搜尋與 shell 工具的大型輸出進行任務感知裁剪",
+  "settings.experimental.swePrunerModel.title": "SWE-Pruner 模型",
+  "settings.experimental.swePrunerModel.description": "用於裁剪工具輸出的模型;預設為已設定的小模型",
   "settings.experimental.mcpTimeout.title": "MCP 逾時（毫秒）",
   "settings.experimental.mcpTimeout.description": "MCP 伺服器請求的逾時時間（毫秒）",
   "settings.experimental.remote.title": "Remote 控制",
@@ -1304,11 +1425,14 @@ export const dict = {
   "settings.agentBehaviour.prompt.title": "自訂提示詞",
   "settings.agentBehaviour.prompt.description": "此 Agent 的附加系統提示詞",
   "settings.agentBehaviour.temperature.title": "溫度",
-  "settings.agentBehaviour.temperature.description": "取樣溫度（0-2）",
+  "settings.agentBehaviour.temperature.description":
+    "控制 AI 回應的隨機程度（0–2）。較低的值（例如 0.2）會產生更聚焦、更一致的輸出。較高的值（例如 1.0）會產生更多樣、更有創意的回應。留空則使用模型預設值。",
   "settings.agentBehaviour.topP.title": "Top P",
-  "settings.agentBehaviour.topP.description": "核取樣參數（0-1）",
+  "settings.agentBehaviour.topP.description":
+    "核取樣閾值（0–1）。將候選詞元限制為累積機率達到 P 的最小集合。較低的值會讓輸出更聚焦；較高的值則允許更多樣性。留空則使用模型預設值。",
   "settings.agentBehaviour.maxSteps.title": "最大步數",
-  "settings.agentBehaviour.maxSteps.description": "最大 Agent 迭代次數",
+  "settings.agentBehaviour.maxSteps.description":
+    "Agent 的最大步驟數。達到上限後，Agent 會收到指示，停止使用工具並提供最終回應。對於複雜的多步驟工作可提高此值；降低此值可讓回應更短且更容易預測。",
   "settings.agentBehaviour.hidden.title": "隱藏",
   "settings.agentBehaviour.hidden.description": "在聊天輸入的模式切換器中隱藏此 Agent",
   "settings.agentBehaviour.disable.title": "已停用",
@@ -1403,12 +1527,15 @@ export const dict = {
   "settings.agentBehaviour.workflows.empty": "未設定自訂命令。將命令新增至 opencode.json 即可在此處看到。",
   "settings.agentBehaviour.workflows.detail.description": "描述",
   "settings.agentBehaviour.workflows.detail.template": "範本",
-  "settings.experimental.sandbox.title": "沙盒",
-  "settings.experimental.sandbox.description":
+  "settings.sandboxing.enabled.title": "沙盒",
+  "settings.sandboxing.enabled.description":
     "在作業系統層級沙盒中執行代理 shell 指令，將寫入限制在專案和 Kilo 狀態目錄內",
 
   "settings.autoApprove.description":
     "定義工具的執行權限。大多數工具預設為允許。doom_loop 與 external_directory 預設為詢問。",
+  "settings.autoApprove.maxCost.title": "工作階段費用提醒",
+  "settings.autoApprove.maxCost.description":
+    "當工作階段花費超過此美元金額後，在繼續前提醒。請使用整數美元；留空則停用。",
   "settings.autoApprove.level.allow": "允許",
   "settings.autoApprove.level.ask": "詢問",
   "settings.autoApprove.level.deny": "拒絕",
@@ -1437,12 +1564,30 @@ export const dict = {
   "settings.checkpoints.enable.description": "在檔案編輯前建立檢查點，以便恢復之前的狀態",
   "settings.context.autoCompaction.title": "自動壓縮",
   "settings.context.autoCompaction.description": "在上下文達到限制前自動壓縮",
+  "settings.context.compaction.title": "壓縮",
   "settings.context.compactionLimit.title": "自動壓縮限制",
   "settings.context.compactionLimit.description": "當上下文達到模型視窗的此百分比時進行壓縮。留空則僅使用安全緩衝區。",
   "settings.context.prune.title": "修剪舊輸出",
   "settings.context.prune.description": "壓縮期間移除舊的工具輸出",
   "settings.context.watcherPatterns": "檔案監視器忽略模式",
   "settings.context.watcherPatterns.description": "監視器應忽略的檔案的 glob 模式",
+
+  "settings.context.memory.title": "記憶",
+  "settings.context.memory.project.title": "專案記憶",
+  "settings.context.memory.autoSave.title": "自動儲存專案記憶",
+  "settings.context.memory.autoSave.description": "啟用記憶時，自動從已完成回合儲存持久專案事實。",
+  "settings.context.memory.storage.title": "Storage",
+  "settings.context.memory.status.notLoaded": "未載入",
+  "settings.context.memory.status.disabled": "已停用",
+  "settings.context.memory.status.enabledTokens": "Enabled - ~{{tokens}} stored tokens",
+  "settings.context.memory.storage.path": "{{path}}",
+  "settings.context.memory.storage.enable": "Enable memory to create project memory files.",
+  "settings.context.memory.inspect": "檢查",
+  "chat.memory.project.disabled": "專案記憶已停用",
+  "chat.memory.project.empty": "This project doesn't have any memory yet. It will start showing after you use Kilo.",
+  "chat.memory.command.failed": "記憶命令失敗",
+  "chat.memory.updated": "Memory updated",
+  "chat.memory.rebuild": "Memory index rebuilt",
 
   "settings.commitMessage.title": "Commit Message",
   "settings.commitMessage.override.title": "使用自訂 prompt",
@@ -1454,6 +1599,10 @@ export const dict = {
   "settings.commitMessage.prompt.placeholder":
     "例如：按照 conventional commits 格式用西班牙語產生 commit messages。只回傳 commit message。",
 
+  "settings.commitMessage.language.sync": "跟隨介面語言",
+  "settings.commitMessage.language.title": "語言",
+  "settings.commitMessage.language.description": "選擇用於 AI 產生 commit message 的語言：",
+
   "settings.display.username.title": "使用者名稱",
   "settings.display.username.description": "對話中顯示的自訂使用者名稱",
   "settings.display.fontSize.title": "字體大小",
@@ -1461,6 +1610,9 @@ export const dict = {
   "settings.display.reasoningAutoCollapse.title": "自動收合推理",
   "settings.display.reasoningAutoCollapse.description":
     "在代理寫完推理後收合推理區塊。保持關閉可讓推理保持展開，除非你手動收合它。",
+  "settings.display.shiftTabCycle.title": "使用 Shift+Tab 切換推理強度",
+  "settings.display.shiftTabCycle.description":
+    "在提示輸入框中按 Shift+Tab 可切換至下一個推理強度等級。停用此選項可保留 Shift+Tab 用於鍵盤焦點導覽。",
   "settings.display.terminalCommand.title": "Terminal Command Blocks",
   "settings.display.terminalCommand.description": "Choose whether terminal command blocks start expanded or collapsed.",
   "settings.display.terminalCommand.expanded": "Expanded",
@@ -1469,6 +1621,15 @@ export const dict = {
   "settings.display.codeEdit.description": "選擇程式碼編輯區塊與差異區塊的初始狀態：展開或收合。",
   "settings.display.codeEdit.expanded": "展開",
   "settings.display.codeEdit.collapsed": "收合",
+
+  "settings.display.tokenThroughput.title": "Show Token Throughput",
+  "settings.display.tokenThroughput.description":
+    "Display the text-generation rate (tokens/sec) on the latest assistant message and in the task header. Hidden by default to keep the chat uncluttered.",
+
+  "chat.throughput.tooltip":
+    "Average {{speed}} tokens/s for this turn. Includes output and reasoning tokens; excludes tool execution and waiting time.",
+  "chat.throughput.tooltip.missing": "Throughput metrics unavailable for this turn.",
+
   "settings.providers.defaultModel.title": "預設模型",
   "settings.providers.defaultModel.description": "對話的主要模型",
   "settings.providers.smallModel.title": "小模型",
@@ -1512,6 +1673,9 @@ export const dict = {
   "settings.indexing.providerField.description": "供應商特定的連線設定。",
   "settings.indexing.qdrantApiKey.description": "Qdrant 執行個體的可選 API 金鑰。",
   "settings.indexing.qdrantApiKey.placeholder": "可選 API 金鑰",
+  "settings.indexing.fileExtensions.title": "檔案副檔名",
+  "settings.indexing.fileExtensions.description": "以逗號分隔的允許清單。留空以使用內建預設值。",
+  "settings.indexing.fileExtensions.invalid": "無效的副檔名：{{extension}}",
   "settings.indexing.qdrantApiKey.title": "Qdrant API 金鑰",
   "settings.indexing.qdrantUrl.description": "Qdrant 執行個體的伺服器 URL。",
   "settings.indexing.qdrantUrl.title": "Qdrant URL",
@@ -1654,4 +1818,15 @@ export const dict = {
   "diffViewer.baseBranch.loading": "正在載入分支…",
   "diffViewer.baseBranch.none": "—",
   "plan.exit.ready": "計畫已準備就緒：",
+  "chat.search.placeholder": "搜尋聊天…",
+  "chat.search.toggle": "搜尋聊天",
+  "chat.search.matchCase": "區分大小寫",
+  "chat.search.matchWholeWord": "全字拼寫須相符",
+  "chat.search.useRegex": "使用規則運算式",
+  "chat.search.previousMatch": "上一個相符項",
+  "chat.search.nextMatch": "下一個相符項",
+  "chat.search.close": "關閉搜尋",
+  "chat.search.invalidRegex": "規則運算式無效",
+  "chat.search.noResults": "無結果",
+  "chat.search.searchingHistory": "正在搜尋較早的訊息…",
 } satisfies Partial<Record<Keys, string>>

@@ -15,6 +15,7 @@ import type {
   SkipLegacyMigrationMessage,
   StartMigrationMessage,
 } from "./migration"
+import type { MemoryShowMessage, MemoryOperationMessage, RequestMemoryMessage } from "./memory"
 
 // ============================================
 // Messages FROM webview TO extension
@@ -53,6 +54,12 @@ export interface UnrevertSessionRequest {
   sessionID: string
 }
 
+export interface DeleteMessageRequest {
+  type: "deleteMessage"
+  sessionID: string
+  messageID: string
+}
+
 export interface PermissionResponseRequest {
   type: "permissionResponse"
   permissionId: string
@@ -80,6 +87,12 @@ export interface LoadMessagesRequest {
 
 export interface LoadSessionsRequest {
   type: "loadSessions"
+}
+
+export interface RequestSessionModelUsageMessage {
+  type: "requestSessionModelUsage"
+  sessionID: string
+  requestID: string
 }
 
 export interface RequestCloudSessionsMessage {
@@ -141,6 +154,12 @@ export interface OpenContentRequest {
   type: "openContent"
   content: string
   language?: string
+}
+
+export interface ValidateFilesRequest {
+  type: "validateFiles"
+  id: string
+  paths: string[]
 }
 
 export interface CancelLoginRequest {
@@ -211,6 +230,7 @@ export interface OpenConfigFileRequest {
 
 export interface OpenMarketplacePanelRequest {
   type: "openMarketplacePanel"
+  directory?: string
 }
 
 export interface OpenAgentManagerRequest {
@@ -221,12 +241,24 @@ export interface OpenAdvancedWorktreeRequest {
   type: "openAdvancedWorktree"
 }
 
+export interface OpenKiloClawRequest {
+  type: "openKiloClaw"
+}
+
 export interface RequestAgentsMessage {
   type: "requestAgents"
 }
 
 export interface RequestSkillsMessage {
   type: "requestSkills"
+}
+
+export interface RequestAgentRequirementsMessage {
+  type: "requestAgentRequirements"
+  agent: string
+  directory: string
+  sessionID?: string
+  force?: boolean
 }
 
 export interface RequestCommandsMessage {
@@ -301,6 +333,13 @@ export interface QuestionRejectRequest {
   sessionID?: string
 }
 
+export interface SessionCostAlertResponseRequest {
+  type: "sessionCostAlertResponse"
+  sessionID: string
+  limit: number
+  response: "continue" | "stop"
+}
+
 export interface SuggestionAcceptRequest {
   type: "suggestionAccept"
   requestID: string
@@ -340,6 +379,10 @@ export interface RequestChatCompletionMessage {
   requestId: string
 }
 
+export interface SpeechToTextPrewarmMessage {
+  type: "speechToTextPrewarm"
+}
+
 export interface SpeechToTextStartMessage {
   type: "speechToTextStart"
   requestId: string
@@ -362,6 +405,17 @@ export interface RequestFileSearchMessage {
   query: string
   requestId: string
   sessionID?: string
+}
+
+export interface RequestSessionSearchMessage {
+  type: "requestSessionSearch"
+  requestId: string
+  sessionID?: string
+}
+
+export interface RequestFilePickerMessage {
+  type: "requestFilePicker"
+  requestId: string
 }
 
 export interface RequestTerminalContextMessage {
@@ -389,6 +443,10 @@ export interface UpdateSettingRequest {
 
 export interface RequestTimelineSettingMessage {
   type: "requestTimelineSetting"
+}
+
+export interface RequestThroughputSettingMessage {
+  type: "requestThroughputSetting"
 }
 
 export interface RequestWorkStyleMessage {
@@ -435,8 +493,16 @@ export interface RequestIndexingSettingsMessage {
   type: "requestIndexingSettings"
 }
 
+export interface RequestChatSettingsMessage {
+  type: "requestChatSettings"
+}
+
 export interface RequestKiloEmbeddingModelsMessage {
   type: "requestKiloEmbeddingModels"
+}
+
+export interface RequestImageModelsMessage {
+  type: "requestImageModels"
 }
 
 export interface OpenSettingsTabRequest {
@@ -560,7 +626,7 @@ export interface SidebarForkSessionRequest {
   messageId?: string
 }
 
-// Close (remove) a session from its worktree
+// Stop and remove a Local or worktree session from Agent Manager
 export interface CloseSessionRequest {
   type: "agentManager.closeSession"
   sessionId: string
@@ -570,6 +636,7 @@ export interface CloseSessionRequest {
 export interface PersistSessionRequest {
   type: "agentManager.persistSession"
   sessionId: string
+  draftID?: string
 }
 
 /** Remove a non-worktree session from agent-manager.json. */
@@ -892,6 +959,10 @@ export interface RetryConnectionRequest {
   type: "retryConnection"
 }
 
+export interface ReloadRequest {
+  type: "reload"
+}
+
 // Open a sub-agent session in a read-only editor panel
 export interface OpenSubAgentViewerRequest {
   type: "openSubAgentViewer"
@@ -924,6 +995,17 @@ export interface AgentManagerOpenSessionsMessage {
   sessionIDs: string[]
 }
 
+// Report open local sidebar/editor-tab session IDs without creating new provider connections.
+export interface SidebarOpenSessionsMessage {
+  type: "sidebar.openSessions"
+  sessionIDs: string[]
+}
+
+export interface AgentManagerVisibleSessionMessage {
+  type: "agentManager.visibleSession"
+  sessionID: string | null
+}
+
 export interface RequestAutoApproveStateMessage {
   type: "requestAutoApproveState"
 }
@@ -939,6 +1021,7 @@ export interface RequestSandboxStatusMessage {
 
 export interface RequestSandboxDefaultMessage {
   type: "requestSandboxDefault"
+  requestID?: string
   agentManagerContext?: string
   contextDirectory?: string
 }
@@ -1032,6 +1115,15 @@ export interface PersistRecentsRequest {
 
 export interface RequestRecentsMessage {
   type: "requestRecents"
+}
+
+export interface PersistModelSelectorExpandedRequest {
+  type: "persistModelSelectorExpanded"
+  value: boolean
+}
+
+export interface RequestModelSelectorExpandedMessage {
+  type: "requestModelSelectorExpanded"
 }
 
 export interface ToggleFavoriteRequest {
@@ -1140,11 +1232,13 @@ export type WebviewMessage =
   | AbortRequest
   | RevertSessionRequest
   | UnrevertSessionRequest
+  | DeleteMessageRequest
   | PermissionResponseRequest
   | CreateSessionRequest
   | ClearSessionRequest
   | LoadMessagesRequest
   | LoadSessionsRequest
+  | RequestSessionModelUsageMessage
   | RequestCloudSessionsMessage
   | RequestGitRemoteUrlMessage
   | LoginRequest
@@ -1157,7 +1251,9 @@ export type WebviewMessage =
   | OpenMarketplacePanelRequest
   | OpenAgentManagerRequest
   | OpenAdvancedWorktreeRequest
+  | OpenKiloClawRequest
   | OpenFileRequest
+  | ValidateFilesRequest
   | CancelLoginRequest
   | SetOrganizationRequest
   | WebviewReadyRequest
@@ -1166,6 +1262,7 @@ export type WebviewMessage =
   | CompactRequest
   | RequestAgentsMessage
   | RequestSkillsMessage
+  | RequestAgentRequirementsMessage
   | RequestCommandsMessage
   | SendCommandRequest
   | RemoveSkillMessage
@@ -1178,6 +1275,7 @@ export type WebviewMessage =
   | SetLanguageRequest
   | QuestionReplyRequest
   | QuestionRejectRequest
+  | SessionCostAlertResponseRequest
   | SuggestionAcceptRequest
   | SuggestionDismissRequest
   | DeleteSessionRequest
@@ -1185,15 +1283,19 @@ export type WebviewMessage =
   | ExportSessionTranscriptRequest
   | RequestAutocompleteSettingsMessage
   | RequestChatCompletionMessage
+  | SpeechToTextPrewarmMessage
   | SpeechToTextStartMessage
   | SpeechToTextStopMessage
   | SpeechToTextCancelMessage
   | RequestFileSearchMessage
+  | RequestSessionSearchMessage
+  | RequestFilePickerMessage
   | RequestTerminalContextMessage
   | RequestGitChangesContextMessage
   | ChatCompletionAcceptedMessage
   | UpdateSettingRequest
   | RequestTimelineSettingMessage
+  | RequestThroughputSettingMessage
   | RequestWorkStyleMessage
   | SetWorkStyleMessage
   | ApplyWorkStyleMessage
@@ -1204,6 +1306,7 @@ export type WebviewMessage =
   | RequestGlobalConfigMessage
   | RequestIndexingStatusMessage
   | RequestIndexingSettingsMessage
+  | RequestChatSettingsMessage
   | RequestKiloEmbeddingModelsMessage
   | UpdateConfigMessage
   | OpenSettingsTabRequest
@@ -1286,11 +1389,14 @@ export type WebviewMessage =
   | DiffViewerSetBaseBranchRequest
   | DiffVirtualSetMarkdownRenderRequest
   | RetryConnectionRequest
+  | ReloadRequest
   | OpenSubAgentViewerRequest
   | PreviewImageRequest
   | SaveImageRequest
   | SetDefaultBaseBranchRequest
   | AgentManagerOpenSessionsMessage
+  | SidebarOpenSessionsMessage
+  | AgentManagerVisibleSessionMessage
   | RequestAutoApproveStateMessage
   | ToggleAutoApproveMessage
   | RequestSandboxStatusMessage
@@ -1311,6 +1417,8 @@ export type WebviewMessage =
   | FetchCustomProviderModelsMessage
   | PersistRecentsRequest
   | RequestRecentsMessage
+  | PersistModelSelectorExpandedRequest
+  | RequestModelSelectorExpandedMessage
   | ToggleFavoriteRequest
   | RequestFavoritesMessage
   | PersistModelSelectionRequest
@@ -1320,6 +1428,9 @@ export type WebviewMessage =
   | SetRemoteEnabledMessage
   | RequestRemoteStatusMessage
   | ContinueInWorktreeRequest
+  | RequestMemoryMessage
+  | MemoryShowMessage
+  | MemoryOperationMessage
   | CreateSectionRequest
   | RenameSectionRequest
   | DeleteSectionRequest
@@ -1331,6 +1442,7 @@ export type WebviewMessage =
   | AgentManagerTerminalCreateRequest
   | AgentManagerTerminalCloseRequest
   | AgentManagerTerminalResizeRequest
+  | RequestImageModelsMessage
 
 // ============================================
 // VS Code API type

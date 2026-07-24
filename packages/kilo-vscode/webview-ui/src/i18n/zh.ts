@@ -1,14 +1,59 @@
-import { anacondaDesktopDict, dict as en } from "./en"
+import { dict as en } from "./en"
 
 type Keys = keyof typeof en
 
-export const dict = {
-  ...anacondaDesktopDict,
-  "provider.anaconda.action.checkAgain": "再次检查",
+export const anacondaDesktopDict = {
+  "provider.anaconda.title.connect": "连接 Anaconda Desktop",
+  "provider.anaconda.title.manage": "管理 Anaconda Desktop",
+  "provider.anaconda.status.checking": "正在检查 Anaconda Desktop…",
+  "provider.anaconda.status.opening": "正在打开 Anaconda Desktop…",
+  "provider.anaconda.status.syncing": "正在刷新提供商模型…",
+  "provider.anaconda.status.ready": "准备连接",
+  "provider.anaconda.status.waiting": "正在等待 Desktop",
+  "provider.anaconda.status.attention": "需要处理",
+  "provider.anaconda.status.unavailable": "不可用",
+  "provider.anaconda.state.unsupported": "{{platform}} 不支持 Anaconda Desktop。",
+  "provider.anaconda.state.notInstalled":
+    "请在此设备上安装 Anaconda Desktop，然后返回此处。Kilo 不会为你运行安装程序。",
+  "provider.anaconda.state.notRunning": "请打开 Anaconda Desktop，完成设置并登录，然后选择“再次检查”。",
+  "provider.anaconda.state.invalidConfig":
+    "Anaconda Desktop 设置不完整。请打开 Desktop，完成设置，并在需要时重新启动它。",
+  "provider.anaconda.state.signedOut": "请打开 Anaconda Desktop 并登录，然后再连接 Kilo。",
+  "provider.anaconda.state.unauthorized":
+    "Kilo 无法访问 Anaconda Desktop。请打开 Desktop，重新登录，并在需要时重新启动它。",
+  "provider.anaconda.state.unavailable": "Anaconda Desktop 尚未响应。请打开它并等待应用程序完成启动。",
+  "provider.anaconda.state.noModel":
+    "请在 Anaconda Desktop 中下载一个文本生成模型。请尽可能选择支持工具调用的模型，然后启动其服务器。",
   "provider.anaconda.state.noServer_one":
     "有 1 个已下载的文本生成模型可用。请在 Anaconda Desktop 中启动一个模型服务器。强烈建议使用支持工具调用的模型。",
   "provider.anaconda.state.noServer_other":
     "有 {{count}} 个已下载的文本生成模型可用。请在 Anaconda Desktop 中启动一个模型服务器。强烈建议使用支持工具调用的模型。",
+  "provider.anaconda.state.unhealthy":
+    "当前推理服务器尚不健康。请在 Anaconda Desktop 中检查它，并在需要时重新启动服务器。",
+  "provider.anaconda.state.ready": "Kilo 找到了一个健康的本地文本生成服务器，可以导入其当前的连接设置。",
+  "provider.anaconda.server": "当前推理服务器",
+  "provider.anaconda.context": "上下文窗口",
+  "provider.anaconda.contextValue": "{{count}} 个 token",
+  "provider.anaconda.tools": "工具调用",
+  "provider.anaconda.tools.supported": "支持",
+  "provider.anaconda.tools.unsupported": "未启用",
+  "provider.anaconda.tools.unknown": "未知",
+  "provider.anaconda.warning.title": "工具支持有限",
+  "provider.anaconda.warning.description":
+    "此服务器未确认支持工具调用。编码智能体的操作可能会失败或不可用。仅在你接受这些限制时才继续。",
+  "provider.anaconda.action.download": "下载 Anaconda Desktop",
+  "provider.anaconda.action.open": "打开 Anaconda Desktop",
+  "provider.anaconda.action.checkAgain": "再次检查",
+  "provider.anaconda.action.continue": "仍然继续",
+  "provider.anaconda.action.manage": "管理 / 刷新",
+  "provider.anaconda.toast.refreshed.title": "Anaconda Desktop 已刷新",
+  "provider.anaconda.toast.refreshed.description": "当前本地服务器和模型在 Kilo 中已是最新。",
+  "settings.providers.note.anacondaDesktop": "运行由 Anaconda Desktop 在本地提供的模型。",
+  "settings.providers.tag.local": "本地",
+} as const
+
+export const dict = {
+  ...anacondaDesktopDict,
   "command.category.suggested": "建议",
   "command.category.view": "视图",
   "command.category.project": "项目",
@@ -92,7 +137,11 @@ export const dict = {
   "revert.banner.count_other": "已还原 {{count}} 条消息",
   "revert.banner.redo": "重做",
   "revert.banner.redo.all": "全部重做",
-  "revert.banner.hint": "发送新消息以使此更改永久生效",
+  "revert.banner.hint": "You can redo these changes until you send a new message",
+  "revert.banner.workspace.snapshotsDisabled": "会话已还原。由于快照已禁用，文件更改未恢复。",
+  "revert.banner.workspace.unavailable": "会话已还原。没有可用的文件检查点，因此未恢复工作区更改。",
+  "revert.banner.workspace.legacy": "会话已还原。此次早期还原的工作区恢复状态不可用。",
+  "revert.banner.workspace.enableSnapshots": "启用快照",
   "revert.disabled.agentBusy": "等待智能体完成",
   "command.session.compact": "精简会话",
   "command.session.compact.description": "总结会话以减少上下文大小",
@@ -103,6 +152,30 @@ export const dict = {
   "command.session.unshare": "取消分享会话",
   "command.session.unshare.description": "停止分享此会话",
   "command.session.export": "导出会话记录",
+
+  "agentRequirements.skill.installed": "已安装",
+  "agentRequirements.skill.checkFailed": "技能检查失败",
+  "agentRequirements.skill.missing": "未安装",
+  "agentRequirements.mcp.connected": "已连接",
+  "agentRequirements.mcp.checkFailed": "MCP 检查失败",
+  "agentRequirements.mcp.missing": "未连接",
+  "agentRequirements.extension.installed": "已安装",
+  "agentRequirements.extension.checkFailed": "VS Code 扩展检查失败",
+  "agentRequirements.extension.missing": "未安装",
+  "agentRequirements.extension.description": "在 VS Code 中安装缺少的扩展。",
+  "agentRequirements.group.skills": "技能",
+  "agentRequirements.group.mcps": "MCP",
+  "agentRequirements.group.extensions": "VS Code 扩展",
+  "agentRequirements.blocked.title": "{{agent}} 代理前置要求",
+  "agentRequirements.blocked.description": "此代理需要以下工具后才能运行。",
+  "agentRequirements.prompt.blocked": "请先完成所需检查，然后再使用此代理",
+  "agentRequirements.action.openMarketplace": "打开 Marketplace",
+  "agentRequirements.error.unknownAgent": "找不到所选代理。",
+  "agentRequirements.error.malformedDeclaration": "此代理的要求声明无效。",
+  "agentRequirements.error.discoveryFailed": "Kilo 无法检查可用技能。",
+  "agentRequirements.error.mcpStatusFailed": "Kilo 无法检查 MCP 服务器状态。",
+  "agentRequirements.error.scopeMismatch": "此代理要求检查已不再有效。",
+  "agentRequirements.error.requestFailed": "Kilo 无法检查代理要求。",
 
   "palette.search.placeholder": "搜索文件、命令和会话",
   "palette.empty": "未找到结果",
@@ -277,6 +350,7 @@ export const dict = {
   "prompt.context.includeActiveFile": "包含当前文件",
   "prompt.context.removeActiveFile": "从上下文移除活动文件",
   "prompt.context.removeFile": "从上下文移除文件",
+  "prompt.thinking.tooltip": "推理强度",
   "prompt.action.attachFile": "附加文件",
   "prompt.action.indexing": "索引设置",
   "prompt.action.autoApprove.enable": "启用自动审批",
@@ -310,6 +384,7 @@ export const dict = {
     "点击以限制文件系统写入。根据你的沙盒设置，网络访问仍然允许。",
 
   "speechToText.tooltip.start": "使用 Kilo Gateway 开始语音输入",
+  "speechToText.tooltip.starting": "正在启动麦克风... 请稍后再说。",
   "speechToText.tooltip.stop": "停止捕获音频",
   "speechToText.tooltip.transcribing": "正在转录... 点击取消。",
   "speechToText.tooltip.error": "语音输入失败。点击清除。",
@@ -547,7 +622,7 @@ export const dict = {
   "ui.permission.toolLabel.grepSearch": "Grep搜索",
   "ui.permission.toolLabel.webSearch": "Web搜索",
   "ui.permission.toolLabel.list": "列出",
-  "ui.permission.toolLabel.externalDirectory": "读取外部目录",
+  "ui.permission.toolLabel.externalDirectory": "访问外部目录",
   "ui.permission.toolLabel.webFetch": "Web获取",
   "ui.permission.toolLabel.task": "任务",
   "ui.permission.toolLabel.skill": "技能",
@@ -558,6 +633,16 @@ export const dict = {
   "ui.permission.toolLabel.codeSearch": "代码搜索",
   "ui.permission.toggleWrap": "切换自动换行",
   "ui.permission.copyCommand": "复制",
+  "ui.approval.auto": "已自动批准",
+  "ui.approval.manual": "由你批准",
+  "ui.approval.rule": "匹配 `{{permission}}` 规则 `{{pattern}}`",
+  "ui.approval.source.agent": "由 {{agent}} 代理",
+  "ui.approval.source.agent.default": "由代理",
+  "ui.approval.source.global": "由你的全局配置",
+  "ui.approval.source.project": "由项目配置",
+  "ui.approval.source.yolo": "由自动批准（YOLO）模式",
+  "ui.approval.source.session": "由会话自动批准规则",
+  "ui.approval.source.default": "默认",
   "notification.question.title": "问题",
   "notification.question.description": "{{sessionTitle}}（{{projectName}}）有一个问题",
   "notification.action.goToSession": "前往会话",
@@ -822,6 +907,9 @@ export const dict = {
   "settings.indexing.qdrantApiKey.title": "Qdrant API 密钥",
   "settings.indexing.qdrantApiKey.description": "Qdrant 实例的可选 API 密钥。",
   "settings.indexing.qdrantApiKey.placeholder": "可选 API 密钥",
+  "settings.indexing.fileExtensions.title": "文件扩展名",
+  "settings.indexing.fileExtensions.description": "以逗号分隔的允许列表。留空以使用内置默认值。",
+  "settings.indexing.fileExtensions.invalid": "无效的扩展名：{{extension}}",
   "settings.indexing.dimension.title": "向量维度",
   "settings.indexing.dimension.description": "留空以从模型自动检测嵌入维度。",
   "settings.indexing.dimension.placeholder": "自动",
@@ -894,6 +982,7 @@ export const dict = {
   "provider.custom.models.name.label": "名称",
   "provider.custom.models.name.placeholder": "显示名称",
   "provider.custom.models.reasoning.label": "推理",
+  "provider.custom.models.modalities.image": "图片",
   "provider.custom.models.variants.label": "变体",
   "provider.custom.models.variants.add": "添加变体",
   "provider.custom.models.variants.remove": "移除变体",
@@ -1048,8 +1137,14 @@ export const dict = {
   "session.showHistory": "显示历史",
   "session.search.placeholder": "搜索会话...",
   "session.empty": "暂无会话。点击 + 开始新的对话。",
+  "session.tabs.switcher.open": "显示打开的标签页",
+  "session.tabs.switcher.search": "搜索打开的标签页...",
+  "session.tabs.switcher.current": "当前",
+  "session.tabs.switcher.pending": "新建",
+  "session.tabs.switcher.busy": "工作中",
   "session.tab.local": "本地",
   "session.tab.cloud": "云端",
+  "session.tab.worktree": "工作树",
   "session.cloud.repoOnly": "仅此仓库",
   "session.cloud.import": "从云端导入",
   "feedback.button": "反馈与支持",
@@ -1137,6 +1232,8 @@ export const dict = {
 
   "common.retry": "重试",
   "common.refresh": "刷新",
+  "common.reload": "重新加载",
+  "common.reloadDescription": "重新加载磁盘上的配置、技能、智能体和命令",
 
   "profile.title": "个人资料",
   "profile.notLoggedIn": "未登录",
@@ -1144,6 +1241,10 @@ export const dict = {
   "profile.balance.title": "余额",
   "profile.balance.refresh": "刷新余额",
   "profile.action.dashboard": "控制面板",
+  "profile.action.topUp": "充值",
+  "profile.pass.subscribe": "订阅 Kilo Pass 以添加额度并赚取奖励",
+  "profile.pass.bonus": "奖励",
+  "profile.pass.renews": "续订",
   "profile.action.logout": "退出登录",
 
   "settings.section.configuration": "配置",
@@ -1177,9 +1278,14 @@ export const dict = {
   "session.outcome.unknown": "回合已结束，模型未提供结束原因",
   "session.outcome.filtered": "提供商因为内容过滤器停止了此响应。",
   "session.outcome.unexpected": "响应意外结束，可能不完整。",
+  "session.outcome.generationId": "生成 ID：{{id}}",
   "session.outcome.interrupted": "回合已中断",
   "session.outcome.error": "回合失败",
   "session.outcome.finish": "结束原因：{{reason}}",
+  "session.costAlert.header": "会话费用提醒",
+  "session.costAlert.continue": "继续",
+  "session.costAlert.question": "此会话刚刚超过每会话提醒阈值 {{limit}}，当前费用为 {{cost}}。是否继续？",
+  "session.costAlert.stop": "停止",
 
   "ui.sessionTurn.cancel": "取消",
   "ui.sessionTurn.status.thinking": "思考中...",
@@ -1303,6 +1409,12 @@ export const dict = {
   "settings.experimental.batch.description": "启用多个工具调用的批处理",
   "settings.experimental.codebaseSearch.title": "代码库搜索",
   "settings.experimental.codebaseSearch.description": "启用 AI 驱动的自然语言代码库搜索",
+  "settings.experimental.imageGeneration.title": "图像生成",
+  "settings.experimental.imageGeneration.description": "启用 AI 图像生成",
+  "settings.experimental.imageGenerationModel.title": "图像模型",
+  "settings.experimental.imageGenerationModel.description": "图像生成模型",
+  "settings.experimental.imageGenerationModel.placeholder": "默认 (Auto Router)",
+
   "settings.experimental.speechToText.title": "语音转文本",
   "settings.experimental.speechToText.description": "通过 Kilo Gateway 使用您的 Kilo 帐户在提示词字段中启用语音输入。",
   "settings.models.speechToText.disabledDescription":
@@ -1316,7 +1428,19 @@ export const dict = {
   "settings.sandboxing.title": "沙盒",
   "settings.sandboxing.network.title": "限制网络访问",
   "settings.sandboxing.network.description":
-    "阻止模型发起的命令和 HTTP 工具进行出站网络访问。本地 MCP 服务器和插件钩子不受此限制。提供商和模型推理流量仍然可用。",
+    "阻止由模型发起的命令和 HTTP 工具直接进行出站访问。受限时，本地和远程 MCP 工具均不可用。提供商流量和受信任的插件钩子不受此限制。",
+
+  "settings.sandboxing.allowedHosts.title": "允许的网络目标",
+  "settings.sandboxing.allowedHosts.description":
+    "用于沙盒化 HTTP 和 HTTPS 代理流量的 DNS 主机和端口目标。GitHub CLI 和 HTTPS Git 通常需要 github.com:443 和 api.github.com:443。更改将应用于新会话。",
+  "settings.sandboxing.writablePaths.title": "额外可写路径",
+  "settings.sandboxing.writablePaths.description":
+    "沙盒允许写入的额外文件系统路径（例如 /tmp、/var/log）。沙盒启用后，这些路径会与默认可写路径合并。",
+  "settings.experimental.swePruner.title": "SWE-Pruner",
+  "settings.experimental.swePruner.description":
+    "启用 SWE-Pruner：根据智能体提供的聚焦问题，对读取、搜索和 shell 工具的大型输出进行任务感知裁剪",
+  "settings.experimental.swePrunerModel.title": "SWE-Pruner 模型",
+  "settings.experimental.swePrunerModel.description": "用于裁剪工具输出的模型;默认为已配置的小模型",
   "settings.experimental.mcpTimeout.title": "MCP 超时（毫秒）",
   "settings.experimental.mcpTimeout.description": "MCP 服务器请求的超时时间（毫秒）",
   "settings.experimental.remote.title": "Remote 控制",
@@ -1340,11 +1464,14 @@ export const dict = {
   "settings.agentBehaviour.prompt.title": "自定义提示词",
   "settings.agentBehaviour.prompt.description": "此智能体的附加系统提示词",
   "settings.agentBehaviour.temperature.title": "温度",
-  "settings.agentBehaviour.temperature.description": "采样温度（0-2）",
+  "settings.agentBehaviour.temperature.description":
+    "控制 AI 响应的随机程度（0–2）。较低的值（例如 0.2）会产生更专注、更一致的输出。较高的值（例如 1.0）会产生更多样、更有创意的响应。留空则使用模型默认值。",
   "settings.agentBehaviour.topP.title": "Top P",
-  "settings.agentBehaviour.topP.description": "核采样参数（0-1）",
+  "settings.agentBehaviour.topP.description":
+    "核采样阈值（0–1）。将候选词元限制为累计概率达到 P 的最小集合。较低的值使输出更专注；较高的值允许更多样性。留空则使用模型默认值。",
   "settings.agentBehaviour.maxSteps.title": "最大步数",
-  "settings.agentBehaviour.maxSteps.description": "最大智能体迭代次数",
+  "settings.agentBehaviour.maxSteps.description":
+    "智能体的最大步骤数。达到上限后，智能体会收到指示，停止使用工具并给出最终响应。对于复杂的多步骤任务可提高此值；降低此值可使响应更短且更可预测。",
   "settings.agentBehaviour.hidden.title": "隐藏",
   "settings.agentBehaviour.hidden.description": "在聊天输入的模式切换器中隐藏此智能体",
   "settings.agentBehaviour.disable.title": "已禁用",
@@ -1437,12 +1564,14 @@ export const dict = {
   "settings.agentBehaviour.workflows.empty": "未配置自定义命令。将命令添加到 opencode.json 即可在此处看到。",
   "settings.agentBehaviour.workflows.detail.description": "描述",
   "settings.agentBehaviour.workflows.detail.template": "模板",
-  "settings.experimental.sandbox.title": "沙盒",
-  "settings.experimental.sandbox.description":
+  "settings.sandboxing.enabled.title": "沙盒",
+  "settings.sandboxing.enabled.description":
     "在操作系统级沙盒中运行代理 shell 命令，将写入限制在项目和 Kilo 状态目录内",
 
   "settings.autoApprove.description":
     "定义工具的运行权限。大多数工具默认为「允许」。doom_loop 和 external_directory 默认为「询问」。",
+  "settings.autoApprove.maxCost.title": "会话费用提醒",
+  "settings.autoApprove.maxCost.description": "当会话花费超过此美元金额后，在继续前提醒。请使用整数美元；留空则禁用。",
   "settings.autoApprove.level.allow": "允许",
   "settings.autoApprove.level.ask": "询问",
   "settings.autoApprove.level.deny": "拒绝",
@@ -1471,12 +1600,30 @@ export const dict = {
   "settings.checkpoints.enable.description": "在文件编辑前创建检查点，以便恢复之前的状态",
   "settings.context.autoCompaction.title": "自动压缩",
   "settings.context.autoCompaction.description": "在上下文达到限制前自动压缩",
+  "settings.context.compaction.title": "压缩",
   "settings.context.compactionLimit.title": "自动压缩限制",
   "settings.context.compactionLimit.description": "当上下文达到模型窗口的此百分比时进行压缩。留空则仅使用安全缓冲区。",
   "settings.context.prune.title": "修剪旧输出",
   "settings.context.prune.description": "压缩期间移除旧的工具输出",
   "settings.context.watcherPatterns": "文件监视器忽略模式",
   "settings.context.watcherPatterns.description": "监视器应忽略的文件的 glob 模式",
+
+  "settings.context.memory.title": "记忆",
+  "settings.context.memory.project.title": "项目记忆",
+  "settings.context.memory.autoSave.title": "自动保存项目记忆",
+  "settings.context.memory.autoSave.description": "启用记忆时，自动从已完成轮次保存持久项目事实。",
+  "settings.context.memory.storage.title": "Storage",
+  "settings.context.memory.status.notLoaded": "未加载",
+  "settings.context.memory.status.disabled": "已禁用",
+  "settings.context.memory.status.enabledTokens": "Enabled - ~{{tokens}} stored tokens",
+  "settings.context.memory.storage.path": "{{path}}",
+  "settings.context.memory.storage.enable": "Enable memory to create project memory files.",
+  "settings.context.memory.inspect": "检查",
+  "chat.memory.project.disabled": "项目记忆已禁用",
+  "chat.memory.project.empty": "This project doesn't have any memory yet. It will start showing after you use Kilo.",
+  "chat.memory.command.failed": "记忆命令失败",
+  "chat.memory.updated": "Memory updated",
+  "chat.memory.rebuild": "Memory index rebuilt",
 
   "settings.commitMessage.title": "Commit Message",
   "settings.commitMessage.override.title": "使用自定义 prompt",
@@ -1488,6 +1635,10 @@ export const dict = {
   "settings.commitMessage.prompt.placeholder":
     "例如：按照 conventional commits 格式用西班牙语生成 commit messages。只返回 commit message。",
 
+  "settings.commitMessage.language.sync": "跟随界面语言",
+  "settings.commitMessage.language.title": "语言",
+  "settings.commitMessage.language.description": "选择用于 AI 生成 commit message 的语言：",
+
   "settings.display.username.title": "用户名",
   "settings.display.username.description": "对话中显示的自定义用户名",
   "settings.display.fontSize.title": "字体大小",
@@ -1495,6 +1646,9 @@ export const dict = {
   "settings.display.reasoningAutoCollapse.title": "自动折叠推理",
   "settings.display.reasoningAutoCollapse.description":
     "在智能体写完推理后折叠推理块。保持关闭可让推理保持展开，除非你手动折叠它。",
+  "settings.display.shiftTabCycle.title": "使用 Shift+Tab 切换推理强度",
+  "settings.display.shiftTabCycle.description":
+    "在提示输入框中按 Shift+Tab 可切换到下一个推理强度等级。禁用此选项可将 Shift+Tab 用于键盘焦点导航。",
   "settings.display.terminalCommand.title": "Terminal Command Blocks",
   "settings.display.terminalCommand.description": "Choose whether terminal command blocks start expanded or collapsed.",
   "settings.display.terminalCommand.expanded": "Expanded",
@@ -1503,6 +1657,15 @@ export const dict = {
   "settings.display.codeEdit.description": "选择代码编辑块和差异块的初始状态：展开或折叠。",
   "settings.display.codeEdit.expanded": "展开",
   "settings.display.codeEdit.collapsed": "折叠",
+
+  "settings.display.tokenThroughput.title": "Show Token Throughput",
+  "settings.display.tokenThroughput.description":
+    "Display the text-generation rate (tokens/sec) on the latest assistant message and in the task header. Hidden by default to keep the chat uncluttered.",
+
+  "chat.throughput.tooltip":
+    "Average {{speed}} tokens/s for this turn. Includes output and reasoning tokens; excludes tool execution and waiting time.",
+  "chat.throughput.tooltip.missing": "Throughput metrics unavailable for this turn.",
+
   "settings.providers.defaultModel.title": "默认模型",
   "settings.providers.defaultModel.description": "对话的主要模型",
   "settings.providers.smallModel.title": "小模型",
@@ -1649,4 +1812,15 @@ export const dict = {
   "diffViewer.baseBranch.loading": "正在加载分支…",
   "diffViewer.baseBranch.none": "—",
   "plan.exit.ready": "计划已准备就绪：",
+  "chat.search.placeholder": "搜索聊天…",
+  "chat.search.toggle": "搜索聊天",
+  "chat.search.matchCase": "区分大小写",
+  "chat.search.matchWholeWord": "全字匹配",
+  "chat.search.useRegex": "使用正则表达式",
+  "chat.search.previousMatch": "上一个匹配项",
+  "chat.search.nextMatch": "下一个匹配项",
+  "chat.search.close": "关闭搜索",
+  "chat.search.invalidRegex": "正则表达式无效",
+  "chat.search.noResults": "无结果",
+  "chat.search.searchingHistory": "正在搜索更早的消息…",
 } satisfies Partial<Record<Keys, string>>

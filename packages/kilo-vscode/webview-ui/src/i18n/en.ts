@@ -135,7 +135,14 @@ export const dict = {
   "revert.banner.count_other": "{{count}} messages reverted",
   "revert.banner.redo": "Redo",
   "revert.banner.redo.all": "Redo All",
-  "revert.banner.hint": "Send a new message to make this permanent",
+  "revert.banner.hint": "You can redo these changes until you send a new message",
+  "revert.banner.workspace.snapshotsDisabled":
+    "Conversation reverted. File changes were not restored because snapshots are disabled.",
+  "revert.banner.workspace.unavailable":
+    "Conversation reverted. No file checkpoint was available, so workspace changes were not restored.",
+  "revert.banner.workspace.legacy":
+    "Conversation reverted. Workspace restoration status is unavailable for this earlier revert.",
+  "revert.banner.workspace.enableSnapshots": "Enable snapshots",
   "revert.disabled.agentBusy": "Wait for agent to finish",
   "command.session.compact": "Compact session",
   "command.session.compact.description": "Summarize the session to reduce context size",
@@ -146,6 +153,30 @@ export const dict = {
   "command.session.unshare": "Unshare session",
   "command.session.unshare.description": "Stop sharing this session",
   "command.session.export": "Export session transcript",
+
+  "agentRequirements.skill.installed": "Installed",
+  "agentRequirements.skill.checkFailed": "The skill check failed",
+  "agentRequirements.skill.missing": "Not installed",
+  "agentRequirements.mcp.connected": "Connected",
+  "agentRequirements.mcp.checkFailed": "The MCP check failed",
+  "agentRequirements.mcp.missing": "Not connected",
+  "agentRequirements.extension.installed": "Installed",
+  "agentRequirements.extension.checkFailed": "The VS Code extension check failed",
+  "agentRequirements.extension.missing": "Not installed",
+  "agentRequirements.extension.description": "Install the missing extensions in VS Code.",
+  "agentRequirements.group.skills": "Skills",
+  "agentRequirements.group.mcps": "MCPs",
+  "agentRequirements.group.extensions": "VS Code Extensions",
+  "agentRequirements.blocked.title": "{{agent}} agent prerequisites",
+  "agentRequirements.blocked.description": "This agent needs the following tools before it can run.",
+  "agentRequirements.prompt.blocked": "Complete the required checks to use this agent first",
+  "agentRequirements.action.openMarketplace": "Open Marketplace",
+  "agentRequirements.error.unknownAgent": "The selected agent could not be found.",
+  "agentRequirements.error.malformedDeclaration": "This agent has an invalid requirement declaration.",
+  "agentRequirements.error.discoveryFailed": "Kilo could not check the available skills.",
+  "agentRequirements.error.mcpStatusFailed": "Kilo could not check MCP server status.",
+  "agentRequirements.error.scopeMismatch": "This agent requirement check is no longer active.",
+  "agentRequirements.error.requestFailed": "Kilo could not check the agent requirements.",
 
   "palette.search.placeholder": "Search files, commands, and sessions",
   "palette.empty": "No results found",
@@ -326,6 +357,7 @@ export const dict = {
   "prompt.context.includeActiveFile": "Include active file",
   "prompt.context.removeActiveFile": "Remove active file from context",
   "prompt.context.removeFile": "Remove file from context",
+  "prompt.thinking.tooltip": "Reasoning effort",
   "prompt.action.attachFile": "Attach file",
   "prompt.attachment.remove": "Remove attachment",
   "prompt.action.send": "Send",
@@ -360,7 +392,8 @@ export const dict = {
   "prompt.action.enhanceDescription":
     "The 'Enhance Prompt' button helps improve your prompt by providing additional context, clarification, or rephrasing. Try typing a prompt in here and clicking the button again to see how it works.",
   "speechToText.tooltip.start": "Start voice input with Kilo Gateway",
-  "speechToText.tooltip.stop": "Stop capturing",
+  "speechToText.tooltip.starting": "Starting microphone... Wait to speak.",
+  "speechToText.tooltip.stop": "Recording. Click to stop.",
   "speechToText.tooltip.transcribing": "Transcribing... Click to cancel.",
   "speechToText.tooltip.error": "Speech input failed. Click to clear.",
   "speechToText.error.title": "Speech input failed",
@@ -605,7 +638,7 @@ export const dict = {
   "ui.permission.toolLabel.grepSearch": "Grep Search",
   "ui.permission.toolLabel.webSearch": "Web Search",
   "ui.permission.toolLabel.list": "List",
-  "ui.permission.toolLabel.externalDirectory": "Read External Directory",
+  "ui.permission.toolLabel.externalDirectory": "Access External Directory",
   "ui.permission.toolLabel.webFetch": "Web Fetch",
   "ui.permission.toolLabel.task": "Task",
   "ui.permission.toolLabel.skill": "Skill",
@@ -616,6 +649,16 @@ export const dict = {
   "ui.permission.toolLabel.codeSearch": "Code Search",
   "ui.permission.toggleWrap": "Toggle word wrap",
   "ui.permission.copyCommand": "Copy",
+  "ui.approval.auto": "Auto-approved",
+  "ui.approval.manual": "Approved by you",
+  "ui.approval.rule": "matched `{{permission}}` rule `{{pattern}}`",
+  "ui.approval.source.agent": "by the {{agent}} agent",
+  "ui.approval.source.agent.default": "by the agent",
+  "ui.approval.source.global": "by your global config",
+  "ui.approval.source.project": "by the project config",
+  "ui.approval.source.yolo": "by auto-approve (YOLO) mode",
+  "ui.approval.source.session": "by a session auto-approve rule",
+  "ui.approval.source.default": "by default",
   "notification.question.title": "Question",
   "notification.question.description": "{{sessionTitle}} in {{projectName}} has a question",
   "notification.action.goToSession": "Go to session",
@@ -888,6 +931,7 @@ export const dict = {
   "provider.custom.models.name.label": "Name",
   "provider.custom.models.name.placeholder": "Display Name",
   "provider.custom.models.reasoning.label": "Reasoning",
+  "provider.custom.models.modalities.image": "Image",
   "provider.custom.models.variants.label": "Variants",
   "provider.custom.models.variants.add": "Add variant",
   "provider.custom.models.variants.remove": "Remove variant",
@@ -1043,8 +1087,14 @@ export const dict = {
   "session.history.sources": "History source",
   "session.search.placeholder": "Search sessions...",
   "session.empty": "No sessions yet. Click + to start a new conversation.",
+  "session.tabs.switcher.open": "Show open tabs",
+  "session.tabs.switcher.search": "Search open tabs...",
+  "session.tabs.switcher.current": "Current",
+  "session.tabs.switcher.pending": "New",
+  "session.tabs.switcher.busy": "Working",
   "session.tab.local": "Local",
   "session.tab.cloud": "Cloud",
+  "session.tab.worktree": "Worktree",
   "session.cloud.repoOnly": "Only this repository",
   "session.cloud.import": "Import session",
   "feedback.button": "Feedback & Support",
@@ -1132,6 +1182,8 @@ export const dict = {
 
   "common.retry": "Retry",
   "common.refresh": "Refresh",
+  "common.reload": "Reload",
+  "common.reloadDescription": "Reload config, skills, agents, and commands from disk",
 
   "profile.title": "Profile",
   "profile.notLoggedIn": "Not logged in",
@@ -1139,6 +1191,10 @@ export const dict = {
   "profile.balance.title": "Balance",
   "profile.balance.refresh": "Refresh balance",
   "profile.action.dashboard": "Dashboard",
+  "profile.action.topUp": "Top up",
+  "profile.pass.subscribe": "Get Kilo Pass to add credits and earn bonuses",
+  "profile.pass.bonus": "Bonus",
+  "profile.pass.renews": "Renews",
   "profile.action.logout": "Log Out",
 
   "settings.section.configuration": "Configuration",
@@ -1184,6 +1240,10 @@ export const dict = {
   "settings.indexing.qdrantApiKey.title": "Qdrant API key",
   "settings.indexing.qdrantApiKey.description": "Optional API key for the Qdrant instance.",
   "settings.indexing.qdrantApiKey.placeholder": "Optional API key",
+  "settings.indexing.fileExtensions.title": "File Extensions",
+  "settings.indexing.fileExtensions.description":
+    "Comma-separated allowlist. Leave empty to use the built-in defaults.",
+  "settings.indexing.fileExtensions.invalid": "Invalid extension: {{extension}}",
   "settings.indexing.tuning.description": "Advanced search and batching parameter.",
   "settings.experimental.title": "Experimental",
   "settings.language.title": "Language",
@@ -1205,9 +1265,15 @@ export const dict = {
   "session.outcome.unknown": "Response ended without a finish reason and may be incomplete.",
   "session.outcome.filtered": "The provider stopped this response because of a content filter.",
   "session.outcome.unexpected": "Response ended unexpectedly and may be incomplete.",
+  "session.outcome.generationId": "Generation ID: {{id}}",
   "session.outcome.interrupted": "Turn interrupted.",
   "session.outcome.error": "Turn failed.",
   "session.outcome.finish": "Technical finish reason: {{reason}}",
+  "session.costAlert.header": "Session Cost Alert",
+  "session.costAlert.continue": "Continue",
+  "session.costAlert.question":
+    "This session just went above your {{limit}} per-session alert threshold and cost {{cost}}. Keep going?",
+  "session.costAlert.stop": "Stop",
   "sidebar.session.newSession": "New Session",
   "sidebar.session.newSession.tooltip": "Start a fresh conversation while keeping the current session intact.",
   "sidebar.session.newSession.disabled": "This session is already new. Start chatting or create a worktree instead.",
@@ -1370,6 +1436,12 @@ export const dict = {
   "settings.experimental.batch.description": "Enable batching of multiple tool calls",
   "settings.experimental.codebaseSearch.title": "Codebase Search",
   "settings.experimental.codebaseSearch.description": "Enable AI-powered natural language search across your codebase",
+  "settings.experimental.imageGeneration.title": "Image Generation",
+  "settings.experimental.imageGeneration.description": "Enable AI image generation",
+  "settings.experimental.imageGenerationModel.title": "Image Model",
+  "settings.experimental.imageGenerationModel.description": "Image Generation Model",
+  "settings.experimental.imageGenerationModel.placeholder": "Default (Auto Router)",
+
   "settings.experimental.speechToText.title": "Speech to Text",
   "settings.experimental.speechToText.description":
     "Enable voice input in prompt fields using your Kilo account through Kilo Gateway.",
@@ -1382,13 +1454,25 @@ export const dict = {
     "Enable experimental tools for reading, editing, and executing VS Code notebooks",
   "settings.experimental.continueOnDeny.title": "Continue on Deny",
   "settings.experimental.continueOnDeny.description": "Continue the agent loop when a permission is denied",
-  "settings.experimental.sandbox.title": "Sandbox",
-  "settings.experimental.sandbox.description":
+  "settings.sandboxing.enabled.title": "Sandbox",
+  "settings.sandboxing.enabled.description":
     "Run agent shell commands inside an OS-level sandbox that restricts writes to the project and Kilo state directories",
   "settings.sandboxing.title": "Sandboxing",
   "settings.sandboxing.network.title": "Restrict Network Access",
   "settings.sandboxing.network.description":
-    "Block outbound network access from model-originated commands and HTTP tools. Local MCP servers and plugin hooks run outside this restriction. Provider and model inference traffic remains available.",
+    "Block direct outbound access from model-originated commands and HTTP tools. Local and remote MCP tools are unavailable while restricted. Provider traffic and trusted plugin hooks remain outside this restriction.",
+  "settings.sandboxing.allowedHosts.title": "Allowed Network Destinations",
+  "settings.sandboxing.allowedHosts.description":
+    "DNS host and port destinations for sandboxed HTTP and HTTPS proxy traffic. GitHub CLI and HTTPS Git commonly need github.com:443 and api.github.com:443. Changes apply to new sessions.",
+  "settings.sandboxing.writablePaths.title": "Additional Writable Paths",
+  "settings.sandboxing.writablePaths.description":
+    "Extra filesystem paths the sandbox allows writes to (e.g. /tmp, /var/log). These are merged with the default writable paths when the sandbox is active.",
+  "settings.experimental.swePruner.title": "SWE-Pruner",
+  "settings.experimental.swePruner.description":
+    "Enable SWE-Pruner: task-aware pruning of large read, search, and shell tool outputs, guided by a focus question from the agent",
+  "settings.experimental.swePrunerModel.title": "SWE-Pruner Model",
+  "settings.experimental.swePrunerModel.description":
+    "Model used to skim tool outputs; defaults to the configured small model",
   "settings.experimental.mcpTimeout.title": "MCP Timeout (ms)",
   "settings.experimental.mcpTimeout.description": "Timeout for MCP server requests in milliseconds",
   "settings.experimental.remote.title": "Remote Control",
@@ -1414,11 +1498,14 @@ export const dict = {
   "settings.agentBehaviour.prompt.title": "Custom Prompt",
   "settings.agentBehaviour.prompt.description": "Additional system prompt for this agent",
   "settings.agentBehaviour.temperature.title": "Temperature",
-  "settings.agentBehaviour.temperature.description": "Sampling temperature (0-2)",
+  "settings.agentBehaviour.temperature.description":
+    "Controls how random AI responses are (0–2). Lower values (e.g. 0.2) produce focused, consistent output. Higher values (e.g. 1.0) produce more varied, creative responses. Leave empty to use the model default.",
   "settings.agentBehaviour.topP.title": "Top P",
-  "settings.agentBehaviour.topP.description": "Nucleus sampling parameter (0-1)",
+  "settings.agentBehaviour.topP.description":
+    "Nucleus sampling threshold (0–1). Limits token choices to the smallest set whose cumulative probability reaches P. Lower values make output more focused; higher values allow more diversity. Leave empty to use the model default.",
   "settings.agentBehaviour.maxSteps.title": "Max Steps",
-  "settings.agentBehaviour.maxSteps.description": "Maximum agentic iterations",
+  "settings.agentBehaviour.maxSteps.description":
+    "Maximum number of agent steps. At the limit, the agent is instructed to stop using tools and provide a final response. Increase for complex multi-step tasks; lower to keep responses shorter and more predictable.",
   "settings.agentBehaviour.hidden.title": "Hidden",
   "settings.agentBehaviour.hidden.description": "Hide this agent from the mode switcher in the chat input",
   "settings.agentBehaviour.disable.title": "Disabled",
@@ -1525,6 +1612,9 @@ export const dict = {
 
   "settings.autoApprove.description":
     "Define how tools are allowed to run. Most tools default to Allow. doom_loop and external_directory default to Ask.",
+  "settings.autoApprove.maxCost.title": "Session Cost Alert",
+  "settings.autoApprove.maxCost.description":
+    "Show a non-blocking alert when a session exceeds this USD amount. Use whole dollars; leave empty to disable.",
   "settings.autoApprove.level.allow": "Allow",
   "settings.autoApprove.level.ask": "Ask",
   "settings.autoApprove.level.deny": "Deny",
@@ -1560,6 +1650,7 @@ export const dict = {
 
   "settings.context.autoCompaction.title": "Auto Compaction",
   "settings.context.autoCompaction.description": "Automatically compact context before it reaches the limit",
+  "settings.context.compaction.title": "Compaction",
   "settings.context.compactionLimit.title": "Auto Compaction Limit",
   "settings.context.compactionLimit.description":
     "Compact when context reaches this percentage of the model window. Leave blank to use the safety buffer only.",
@@ -1567,6 +1658,23 @@ export const dict = {
   "settings.context.prune.description": "Remove old tool outputs during compaction",
   "settings.context.watcherPatterns": "File Watcher Ignore Patterns",
   "settings.context.watcherPatterns.description": "Glob patterns for files the watcher should ignore",
+  "settings.context.memory.title": "Memory",
+  "settings.context.memory.project.title": "Project memory",
+  "settings.context.memory.autoSave.title": "Auto-save project memory",
+  "settings.context.memory.autoSave.description":
+    "Automatically save durable project facts from completed turns when memory is enabled.",
+  "settings.context.memory.storage.title": "Storage",
+  "settings.context.memory.status.notLoaded": "Not loaded",
+  "settings.context.memory.status.disabled": "Disabled",
+  "settings.context.memory.status.enabledTokens": "Enabled - ~{{tokens}} stored tokens",
+  "settings.context.memory.storage.path": "{{path}}",
+  "settings.context.memory.storage.enable": "Enable memory to create project memory files.",
+  "settings.context.memory.inspect": "Inspect",
+  "chat.memory.project.disabled": "Project memory disabled",
+  "chat.memory.project.empty": "This project doesn't have any memory yet. It will start showing after you use Kilo.",
+  "chat.memory.command.failed": "Memory command failed",
+  "chat.memory.updated": "Memory updated",
+  "chat.memory.rebuild": "Memory index rebuilt",
 
   "settings.commitMessage.title": "Commit Message",
   "settings.commitMessage.override.title": "Use Custom Prompt",
@@ -1578,6 +1686,10 @@ export const dict = {
   "settings.commitMessage.prompt.placeholder":
     "e.g. Generate commit messages in Spanish following conventional commits format. Return ONLY the commit message.",
 
+  "settings.commitMessage.language.sync": "Sync with UI language",
+  "settings.commitMessage.language.title": "Language",
+  "settings.commitMessage.language.description": "Choose which language to use for AI-generated commit messages:",
+
   "settings.display.username.title": "Username",
   "settings.display.username.description": "Custom username displayed in conversations",
   "settings.display.fontSize.title": "Font Size",
@@ -1585,6 +1697,9 @@ export const dict = {
   "settings.display.reasoningAutoCollapse.title": "Auto-Collapse Reasoning",
   "settings.display.reasoningAutoCollapse.description":
     "Collapse reasoning blocks after the agent finishes writing them. Leave off to keep reasoning expanded unless you collapse it manually.",
+  "settings.display.shiftTabCycle.title": "Cycle Reasoning Effort with Shift+Tab",
+  "settings.display.shiftTabCycle.description":
+    "Press Shift+Tab in a prompt input to switch to the next reasoning effort level. Disable to keep Shift+Tab for keyboard focus navigation.",
   "settings.display.terminalCommand.title": "Terminal Command Blocks",
   "settings.display.terminalCommand.description": "Choose whether terminal command blocks start expanded or collapsed.",
   "settings.display.terminalCommand.expanded": "Expanded",
@@ -1593,6 +1708,13 @@ export const dict = {
   "settings.display.codeEdit.description": "Choose whether code edit and diff blocks start expanded or collapsed.",
   "settings.display.codeEdit.expanded": "Expanded",
   "settings.display.codeEdit.collapsed": "Collapsed",
+  "settings.display.tokenThroughput.title": "Show Token Throughput",
+  "settings.display.tokenThroughput.description":
+    "Display the text-generation rate (tokens/sec) on the latest assistant message and in the task header. Hidden by default to keep the chat uncluttered.",
+
+  "chat.throughput.tooltip":
+    "Average {{speed}} tokens/s for this turn. Includes output and reasoning tokens; excludes tool execution and waiting time.",
+  "chat.throughput.tooltip.missing": "Throughput metrics unavailable for this turn.",
 
   "settings.providers.defaultModel.title": "Default Model",
   "settings.providers.defaultModel.description": "Primary model for conversations",
@@ -1765,4 +1887,15 @@ export const dict = {
   "diffViewer.baseBranch.none": "—",
 
   "plan.exit.ready": "Plan is ready:",
+  "chat.search.placeholder": "Search chat…",
+  "chat.search.toggle": "Search chat",
+  "chat.search.matchCase": "Match Case",
+  "chat.search.matchWholeWord": "Match Whole Word",
+  "chat.search.useRegex": "Use Regular Expression",
+  "chat.search.previousMatch": "Previous match",
+  "chat.search.nextMatch": "Next match",
+  "chat.search.close": "Close search",
+  "chat.search.invalidRegex": "Invalid regular expression",
+  "chat.search.noResults": "No results",
+  "chat.search.searchingHistory": "Searching earlier messages…",
 }

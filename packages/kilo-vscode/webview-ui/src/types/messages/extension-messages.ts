@@ -11,13 +11,14 @@ import type {
   MessageLoadMode,
   SessionCloseReason,
   SessionInfo,
+  SessionModelUsage,
   SessionUpdate,
 } from "./sessions"
 import type { PermissionRequest } from "./permissions"
 import type { AnacondaDesktopExtensionMessage } from "../../../../src/shared/anaconda-desktop-messages"
 import type { QuestionRequest, SuggestionRequest, TodoItem } from "./questions"
 import type { ModelSelection, Provider, ProviderAuthState } from "./providers"
-import type { AgentInfo, SkillInfo, SlashCommandInfo } from "./agents"
+import type { AgentInfo, AgentRequirementResult, SkillInfo, SlashCommandInfo } from "./agents"
 import type { BrowserSettings, Config, FeatureFlags, IndexingStatus, KiloEmbeddingModelCatalog } from "./config"
 import type { WorkStyle, WorkStyleState } from "../../../../src/shared/work-style-presets"
 import type { KilocodeNotification, ProfileData } from "./profile"
@@ -46,6 +47,7 @@ import type {
   MigrationSessionProgressMessage,
   MigrationStateMessage,
 } from "./migration"
+import type { MemoryEventMessage, MemoryLoadedMessage, MemoryOperationResultMessage } from "./memory"
 
 // ============================================
 // Messages FROM extension TO webview
@@ -107,6 +109,11 @@ export interface SendMessageFailedMessage {
   review?: import("../../../../src/shared/review-comments").ReviewMessageData
 }
 
+export interface SessionCommandCompletedMessage {
+  type: "sessionCommandCompleted"
+  messageID: string
+}
+
 // Wire shape lives in src/shared/stream-messages.ts; narrow `part` to the
 // webview's concrete union.
 export type PartUpdatedMessage = PartUpdate<Part>
@@ -161,11 +168,13 @@ export interface SessionCreatedMessage {
   type: "sessionCreated"
   session: SessionInfo
   draftID?: string
+  activate?: boolean
 }
 
 export interface SessionForkedMessage {
   type: "sessionForked"
   sessionID: string
+  forkedFromID: string
 }
 
 export interface SessionUpdatedMessage {
@@ -192,6 +201,18 @@ export interface MessagesLoadedMessage {
   cursor?: string
   hasMore?: boolean
   since?: number
+}
+
+export interface SessionModelUsageLoadedMessage {
+  type: "sessionModelUsageLoaded"
+  sessionID: string
+  requestID: string
+  data?: SessionModelUsage
+}
+
+export interface SessionModelUsageChangedMessage {
+  type: "sessionModelUsageChanged"
+  sessionID: string
 }
 
 export interface MessageCreatedMessage {
@@ -254,6 +275,16 @@ export interface ActionMessage {
 export interface SetChatBoxMessage {
   type: "setChatBoxMessage"
   text: string
+  /**
+   * Exact relative paths of the file attachments carried by the restored
+   * message, if known (e.g. when reverting to a message that had @mentions).
+   * When present, PromptInput seeds these directly instead of re-deriving
+   * candidate mentions from the text via regex, which cannot tell a complete
+   * mention from a truncated prefix when the real path contains a space.
+   */
+  paths?: string[]
+  /** Past chats referenced by the restored message, seeded the same way as paths. */
+  sessions?: SessionSearchItem[]
 }
 
 export interface AppendChatBoxMessage {
@@ -322,9 +353,21 @@ export interface IndexingSettingsLoadedMessage {
   }
 }
 
+export interface ChatSettingsLoadedMessage {
+  type: "chatSettingsLoaded"
+  settings: {
+    shiftTabCyclesVariant: boolean
+  }
+}
+
 export interface KiloEmbeddingModelsLoadedMessage {
   type: "kiloEmbeddingModelsLoaded"
   catalog: KiloEmbeddingModelCatalog
+}
+
+export interface ImageModelsLoadedMessage {
+  type: "imageModelsLoaded"
+  models: Array<{ id: string; name: string; description?: string }>
 }
 
 export interface ProvidersLoadedMessage {
@@ -347,6 +390,15 @@ export interface AgentsLoadedMessage {
 export interface SkillsLoadedMessage {
   type: "skillsLoaded"
   skills: SkillInfo[]
+}
+
+export interface AgentRequirementsLoadedMessage {
+  type: "agentRequirementsLoaded"
+  result: AgentRequirementResult
+}
+
+export interface AgentRequirementsInvalidatedMessage {
+  type: "agentRequirementsInvalidated"
 }
 
 export interface CommandsLoadedMessage {
@@ -409,6 +461,24 @@ export interface FileSearchResultMessage {
   requestId: string
 }
 
+export interface SessionSearchItem {
+  id: string
+  title: string
+  updated: number
+}
+
+export interface SessionSearchResultMessage {
+  type: "sessionSearchResult"
+  sessions: SessionSearchItem[]
+  requestId: string
+}
+
+export interface FilePickerResultMessage {
+  type: "filePickerResult"
+  path: string
+  requestId: string
+}
+
 export interface TerminalContextResultMessage {
   type: "terminalContextResult"
   requestId: string
@@ -450,6 +520,19 @@ export interface QuestionErrorMessage {
   requestID: string
 }
 
+export interface SessionCostAlertMessage {
+  type: "sessionCostAlert"
+  sessionID: string
+  limit: number
+  cost: string
+}
+
+export interface SessionCostAlertResolvedMessage {
+  type: "sessionCostAlertResolved"
+  sessionID: string
+  limit: number
+}
+
 export interface SuggestionRequestMessage {
   type: "suggestionRequest"
   suggestion: SuggestionRequest
@@ -475,11 +558,17 @@ export interface ClaudeCompatSettingLoadedMessage {
   enabled: boolean
 }
 
+export interface ExtensionSettings {
+  maxCost?: number
+  [key: string]: unknown
+}
+
 export interface ConfigLoadedMessage {
   type: "configLoaded"
   config: Config
   globalConfig?: Config
   projectConfig?: Config
+  settings?: ExtensionSettings
   features: FeatureFlags
 }
 
@@ -488,6 +577,7 @@ export interface ConfigUpdatedMessage {
   config: Config
   globalConfig?: Config
   projectConfig?: Config
+  settings?: ExtensionSettings
   features: FeatureFlags
 }
 
@@ -512,6 +602,11 @@ export interface NotificationSettingsLoadedMessage {
 
 export interface TimelineSettingLoadedMessage {
   type: "timelineSettingLoaded"
+  visible: boolean
+}
+
+export interface ThroughputSettingLoadedMessage {
+  type: "throughputSettingLoaded"
   visible: boolean
 }
 
@@ -578,6 +673,11 @@ export interface AgentManagerSessionForkedMessage {
   sessionId: string
   forkedFromId: string
   worktreeId?: string
+}
+
+export interface AgentManagerSessionClosedMessage {
+  type: "agentManager.sessionClosed"
+  sessionId: string
 }
 
 // Full state push from extension to webview
@@ -694,6 +794,12 @@ export interface VariantsLoadedMessage {
 export interface RecentsLoadedMessage {
   type: "recentsLoaded"
   recents: ModelSelection[]
+}
+
+// Persisted model-selector expand/collapse preference (extension → webview)
+export interface ModelSelectorExpandedLoadedMessage {
+  type: "modelSelectorExpandedLoaded"
+  value: boolean
 }
 
 export interface FavoritesLoadedMessage {
@@ -1004,6 +1110,12 @@ export interface RemoteStatusMessage {
   connected: boolean
 }
 
+export interface ValidateFilesResultMessage {
+  type: "validateFilesResult"
+  id: string
+  existing: string[]
+}
+
 export type ExtensionMessage =
   | ReadyMessage
   | FontSizeChangedMessage
@@ -1011,6 +1123,7 @@ export type ExtensionMessage =
   | ConnectionStateMessage
   | ErrorMessage
   | SendMessageFailedMessage
+  | SessionCommandCompletedMessage
   | PartUpdatedMessage
   | PartsUpdatedMessage
   | PartRemovedMessage
@@ -1027,6 +1140,8 @@ export type ExtensionMessage =
   | SessionDeletedMessage
   | MessageRemovedMessage
   | MessagesLoadedMessage
+  | SessionModelUsageLoadedMessage
+  | SessionModelUsageChangedMessage
   | MessageCreatedMessage
   | SessionsLoadedMessage
   | CloudSessionsLoadedMessage
@@ -1040,10 +1155,14 @@ export type ExtensionMessage =
   | NavigateMessage
   | IndexingStatusLoadedMessage
   | IndexingSettingsLoadedMessage
+  | ChatSettingsLoadedMessage
   | KiloEmbeddingModelsLoadedMessage
+  | ImageModelsLoadedMessage
   | ProvidersLoadedMessage
   | AgentsLoadedMessage
   | SkillsLoadedMessage
+  | AgentRequirementsLoadedMessage
+  | AgentRequirementsInvalidatedMessage
   | CommandsLoadedMessage
   | AutocompleteSettingsLoadedMessage
   | ChatCompletionResultMessage
@@ -1052,6 +1171,8 @@ export type ExtensionMessage =
   | SpeechToTextResultMessage
   | SpeechToTextErrorMessage
   | FileSearchResultMessage
+  | SessionSearchResultMessage
+  | FilePickerResultMessage
   | TerminalContextResultMessage
   | TerminalContextErrorMessage
   | GitChangesContextResultMessage
@@ -1059,6 +1180,8 @@ export type ExtensionMessage =
   | QuestionRequestMessage
   | QuestionResolvedMessage
   | QuestionErrorMessage
+  | SessionCostAlertMessage
+  | SessionCostAlertResolvedMessage
   | SuggestionRequestMessage
   | SuggestionResolvedMessage
   | SuggestionErrorMessage
@@ -1070,6 +1193,7 @@ export type ExtensionMessage =
   | GlobalConfigLoadedMessage
   | NotificationSettingsLoadedMessage
   | TimelineSettingLoadedMessage
+  | ThroughputSettingLoadedMessage
   | WorkStyleLoadedMessage
   | WorkStyleAppliedMessage
   | WorkStyleApplyFailedMessage
@@ -1079,6 +1203,7 @@ export type ExtensionMessage =
   | AgentManagerWorktreeSetupMessage
   | AgentManagerSessionAddedMessage
   | AgentManagerSessionForkedMessage
+  | AgentManagerSessionClosedMessage
   | AgentManagerStateMessage
   | AgentManagerRunStatusMessage
   | AgentManagerKeybindingsMessage
@@ -1146,6 +1271,7 @@ export type ExtensionMessage =
   | AnacondaDesktopExtensionMessage
   | CustomProviderModelsFetchedMessage
   | RecentsLoadedMessage
+  | ModelSelectorExpandedLoadedMessage
   | FavoritesLoadedMessage
   | ModelSelectionsLoadedMessage
   | LanguageChangedMessage
@@ -1156,3 +1282,7 @@ export type ExtensionMessage =
   | ExtensionDataReadyMessage
   | TelemetryStateMessage
   | RemoteStatusMessage
+  | ValidateFilesResultMessage
+  | MemoryLoadedMessage
+  | MemoryEventMessage
+  | MemoryOperationResultMessage
