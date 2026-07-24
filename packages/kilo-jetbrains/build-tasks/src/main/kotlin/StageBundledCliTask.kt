@@ -138,7 +138,11 @@ abstract class StageBundledCliTask : DefaultTask() {
         TarArchiveInputStream(GzipCompressorInputStream(file.inputStream().buffered())).use { tar ->
             while (true) {
                 val entry = tar.nextEntry ?: break
-                if (!entry.isDirectory) write(out, platform, entry.name) { tar.copyTo(out) }
+                if (entry.isDirectory) continue
+                if (entry.isSymbolicLink || !entry.isFile) {
+                    throw GradleException("Unsupported CLI tar entry type in ${file.name}: ${entry.name}")
+                }
+                write(out, platform, entry.name) { tar.copyTo(out) }
             }
         }
     }

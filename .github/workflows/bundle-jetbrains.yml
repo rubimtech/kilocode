@@ -18,36 +18,67 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  actions: read
-  contents: write
-  id-token: write
-  pages: write
-  pull-requests: read
+  contents: read
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  bundle:
+  validate:
     if: github.repository == 'Kilo-Org/kilocode'
-    runs-on: blacksmith-8vcpu-ubuntu-2404
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      version: ${{ steps.release.outputs.version }}
+      kind: ${{ steps.release.outputs.kind }}
+      tag: ${{ steps.release.outputs.tag }}
+      channel: ${{ steps.release.outputs.marketplace_channel }}
     steps:
-      - name: Checkout merged release PR
+      - name: Checkout trusted validation scripts
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
-          ref: ${{ inputs.merge_commit }}
+          ref: main
 
       - name: Setup Bun for validation
         uses: ./.github/actions/setup-bun
 
+      - name: Checkout merged release PR for validation
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          path: release
+          persist-credentials: false
+          ref: ${{ inputs.merge_commit }}
+
       - name: Validate release PR and tag
         id: release
-        run: bun script/jetbrains-release-validate.ts --pr "$PR_NUMBER"
+        working-directory: release
+        run: bun ../script/jetbrains-release-validate.ts --pr "$PR_NUMBER"
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
           PR_NUMBER: ${{ inputs.pr }}
+
+  bundle:
+    needs: validate
+    if: github.repository == 'Kilo-Org/kilocode'
+    runs-on: blacksmith-8vcpu-ubuntu-2404
+    permissions:
+      actions: read
+      contents: write
+    outputs:
+      version: ${{ needs.validate.outputs.version }}
+      kind: ${{ needs.validate.outputs.kind }}
+    steps:
+      - name: Checkout merged release PR metadata
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ inputs.merge_commit }}
 
       - name: Save reviewed release metadata
         run: |
@@ -58,7 +89,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
-          ref: ${{ steps.release.outputs.tag }}
+          ref: ${{ needs.validate.outputs.tag }}
 
       - name: Restore reviewed release metadata
         run: |
@@ -122,8 +153,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GITHUB_TOKEN: ${{ github.token }}
-          VERSION: ${{ steps.release.outputs.version }}
-          CHANNEL: ${{ steps.release.outputs.marketplace_channel }}
+          VERSION: ${{ needs.validate.outputs.version }}
+          CHANNEL: ${{ needs.validate.outputs.channel }}
           JETBRAINS_CERTIFICATE_CHAIN: ${{ secrets.JETBRAINS_CERTIFICATE_CHAIN }}
           JETBRAINS_PRIVATE_KEY: ${{ secrets.JETBRAINS_PRIVATE_KEY }}
           JETBRAINS_PRIVATE_KEY_PASSWORD: ${{ secrets.JETBRAINS_PRIVATE_KEY_PASSWORD }}
@@ -144,13 +175,13 @@ jobs:
           echo "asset=$asset" >> "$GITHUB_OUTPUT"
           echo "path=$dest" >> "$GITHUB_OUTPUT"
         env:
-          VERSION: ${{ steps.release.outputs.version }}
+          VERSION: ${{ needs.validate.outputs.version }}
 
       - name: Upload bundled ZIP to GitHub Release
         run: gh release upload "$TAG" "$ARCHIVE" --clobber --repo "$GITHUB_REPOSITORY"
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG: ${{ steps.release.outputs.tag }}
+          TAG: ${{ needs.validate.outputs.tag }}
           ARCHIVE: ${{ steps.archive.outputs.path }}
 
       - name: Resolve bundled asset URL
@@ -167,11 +198,11 @@ jobs:
           )"
           echo "url=$url" >> "$GITHUB_OUTPUT"
         env:
-          TAG: ${{ steps.release.outputs.tag }}
+          TAG: ${{ needs.validate.outputs.tag }}
           ASSET: ${{ steps.archive.outputs.asset }}
 
       - name: Generate stable plugin repository XML
-        if: steps.release.outputs.kind == 'stable'
+        if: needs.validate.outputs.kind == 'stable'
         run: |
           mkdir -p pages/jetbrains
           python3 <<'PY'
@@ -242,29 +273,52 @@ jobs:
         env:
           ARCHIVE: ${{ steps.archive.outputs.path }}
           ASSET_URL: ${{ steps.asset.outputs.url }}
-          VERSION: ${{ steps.release.outputs.version }}
+          VERSION: ${{ needs.validate.outputs.version }}
 
-      - name: Configure Pages
-        if: steps.release.outputs.kind == 'stable'
-        uses: actions/configure-pages@v5
-
-      - name: Upload Pages artifact
-        if: steps.release.outputs.kind == 'stable'
-        uses: actions/upload-pages-artifact@v4
+      - name: Upload stable Pages source
+        if: needs.validate.outputs.kind == 'stable'
+        uses: actions/upload-artifact@v4
         with:
+          name: jetbrains-pages-${{ needs.validate.outputs.version }}
           path: pages
-
-      - name: Deploy Pages
-        if: steps.release.outputs.kind == 'stable'
-        id: deployment
-        uses: actions/deploy-pages@v4
+          if-no-files-found: error
 
       - name: Upload workflow artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: kilo-jetbrains-bundled-${{ steps.release.outputs.version }}
+          name: kilo-jetbrains-bundled-${{ needs.validate.outputs.version }}
           path: |
             packages/kilo-jetbrains/build/release/*.zip
             pages/jetbrains/updatePlugins.xml
           if-no-files-found: ignore
+
+  pages:
+    needs: bundle
+    if: needs.bundle.outputs.kind == 'stable'
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    permissions:
+      actions: read
+      id-token: write
+      pages: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download stable Pages source
+        uses: actions/download-artifact@v4
+        with:
+          name: jetbrains-pages-${{ needs.bundle.outputs.version }}
+          path: pages
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: pages
+
+      - name: Deploy Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
